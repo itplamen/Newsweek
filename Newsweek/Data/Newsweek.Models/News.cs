@@ -21,5 +21,9 @@
         public string RemoteUrl { get; set; }
 
         public string RemoteUrlImage { get; set; }
+
+        public int SourceId { get; set; }
+
+        public Source Source { get; set; }
     }
 }
