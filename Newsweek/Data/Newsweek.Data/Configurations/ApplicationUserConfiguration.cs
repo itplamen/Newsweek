@@ -5,7 +5,7 @@
     
     using Newsweek.Models;
 
-    public class ApplicationUserConfigurations : IEntityTypeConfiguration<ApplicationUser>
+    public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> appUser)
         {
