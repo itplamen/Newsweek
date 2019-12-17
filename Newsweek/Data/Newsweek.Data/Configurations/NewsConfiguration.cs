@@ -9,8 +9,7 @@
     {
         public void Configure(EntityTypeBuilder<News> news)
         {
-            news
-                .HasOne(x => x.Source)
+            news.HasOne(x => x.Source)
                 .WithMany(x => x.News)
                 .HasForeignKey(x => x.SourceId)
                 .IsRequired()

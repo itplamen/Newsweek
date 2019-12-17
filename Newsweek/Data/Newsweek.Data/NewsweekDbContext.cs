@@ -1,11 +1,17 @@
 ﻿namespace Newsweek.Data
 {
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     
     using Newsweek.Models;
 
-    public class NewsweekDbContext : DbContext
+    public class NewsweekDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
+        public NewsweekDbContext(DbContextOptions<NewsweekDbContext> options)
+            : base(options)
+        {
+        }
+
         public DbSet<Source> Sources { get; set; }
 
         public DbSet<News> News { get; set; }
