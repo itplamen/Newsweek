@@ -5,9 +5,13 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{878B4B2A-2588-47DA-94D2-390E3F42AD0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsweek.Data", "Data\Newsweek.Data\Newsweek.Data.csproj", "{703798BC-AB64-4386-8EFE-CB55F899E050}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Data", "Data\Newsweek.Data\Newsweek.Data.csproj", "{703798BC-AB64-4386-8EFE-CB55F899E050}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsweek.Models", "Data\Newsweek.Models\Newsweek.Models.csproj", "{154CC980-8AF2-4D95-8545-6F3021EC855E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Models", "Data\Newsweek.Models\Newsweek.Models.csproj", "{154CC980-8AF2-4D95-8545-6F3021EC855E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{9F692309-8859-42A3-A88A-5FC0A14DA71C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsweek.Web", "Web\Newsweek.Web\Newsweek.Web.csproj", "{660D1E0B-BF1A-4F78-A88B-FD71B0271DE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +27,10 @@ Global
 		{154CC980-8AF2-4D95-8545-6F3021EC855E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{154CC980-8AF2-4D95-8545-6F3021EC855E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{154CC980-8AF2-4D95-8545-6F3021EC855E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{660D1E0B-BF1A-4F78-A88B-FD71B0271DE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{660D1E0B-BF1A-4F78-A88B-FD71B0271DE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{660D1E0B-BF1A-4F78-A88B-FD71B0271DE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{660D1E0B-BF1A-4F78-A88B-FD71B0271DE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{703798BC-AB64-4386-8EFE-CB55F899E050} = {878B4B2A-2588-47DA-94D2-390E3F42AD0F}
 		{154CC980-8AF2-4D95-8545-6F3021EC855E} = {878B4B2A-2588-47DA-94D2-390E3F42AD0F}
+		{660D1E0B-BF1A-4F78-A88B-FD71B0271DE5} = {9F692309-8859-42A3-A88A-5FC0A14DA71C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B736D035-665E-4F9C-9C04-AEC89AAB9AF6}
