@@ -1,4 +1,4 @@
-﻿namespace Newsweek.Models.Base
+﻿namespace Newsweek.Data.Models.Base
 {
     using System;
     using System.ComponentModel.DataAnnotations;

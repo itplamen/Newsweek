@@ -1,9 +1,9 @@
-﻿namespace Newsweek.Models
+﻿namespace Newsweek.Data.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using Newsweek.Models.Base;
+    using Newsweek.Data.Models.Base;
 
     public class Source : BaseModel<int>
     {

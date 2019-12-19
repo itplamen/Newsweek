@@ -1,10 +1,10 @@
-﻿namespace Newsweek.Models
+﻿namespace Newsweek.Data.Models
 {
     using System;
 
     using Microsoft.AspNetCore.Identity;
 
-    using Newsweek.Models.Base;
+    using Newsweek.Data.Models.Base;
 
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {

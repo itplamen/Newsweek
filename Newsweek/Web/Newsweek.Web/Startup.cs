@@ -8,7 +8,7 @@ namespace Newsweek.Web
     using Microsoft.Extensions.Hosting;
 
     using Newsweek.Data;
-    using Newsweek.Models;
+    using Newsweek.Data.Models;
 
     public class Startup
     {

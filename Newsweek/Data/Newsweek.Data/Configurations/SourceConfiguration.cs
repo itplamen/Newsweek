@@ -3,7 +3,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     
-    using Newsweek.Models;
+    using Newsweek.Data.Models;
 
     public class SourceConfiguration : IEntityTypeConfiguration<Source>
     {

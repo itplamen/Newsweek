@@ -3,7 +3,7 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     
-    using Newsweek.Models;
+    using Newsweek.Data.Models;
 
     public class NewsweekDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
