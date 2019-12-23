@@ -8,8 +8,4 @@
     <PackageReference Include="AngleSharp" Version="0.13.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Providers\" />
-  </ItemGroup>
-
 </Project>
