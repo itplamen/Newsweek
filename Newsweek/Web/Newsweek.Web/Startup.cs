@@ -9,6 +9,8 @@ namespace Newsweek.Web
 
     using Newsweek.Data;
     using Newsweek.Data.Models;
+    using Newsweek.Worker.Core.Api;
+    using Newsweek.Worker.Core.Contracts;
 
     public class Startup
     {
@@ -26,6 +28,8 @@ namespace Newsweek.Web
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddEntityFrameworkStores<NewsweekDbContext>();
+
+            services.AddSingleton<INewsApi, NewsApi>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
