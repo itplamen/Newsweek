@@ -24,9 +24,7 @@
         [Required]
         public string RemoteUrl { get; set; }
 
-        public string RemoteUrlImage { get; set; }
-
-        public string Author { get; set; }
+        public string MainImageUrl { get; set; }
 
         public int SourceId { get; set; }
 
