@@ -1,7 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\Newsweek.Data.Models\Newsweek.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\Newsweek.Data\Newsweek.Data.csproj" />
+  </ItemGroup>
 
 </Project>
