@@ -10,17 +10,19 @@
     {
         public void Seed(NewsweekDbContext dbContext)
         {
-            IEnumerable<Category> categories = new List<Category>();
+            IEnumerable<Category> categories = new List<Category>()
             {
                 new Category()
                 {
                     Name = "Europe",
                     CreatedOn = DateTime.UtcNow
-                };
+                }
             };
 
-            dbContext.Categories.AddRange(categories);
-            dbContext.SaveChanges();
+            foreach (var category in categories)
+            {
+                dbContext.Categories.Add(category);
+            }
         }
     }
 }

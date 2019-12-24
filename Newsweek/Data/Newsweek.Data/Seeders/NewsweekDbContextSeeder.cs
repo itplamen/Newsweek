@@ -17,6 +17,8 @@
             {
                 seeder.Seed(dbContext);
             }
+
+            dbContext.SaveChanges();
         }
     }
 }
