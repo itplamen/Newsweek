@@ -4,4 +4,13 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Newsweek.Common.Infrastructure\Newsweek.Common.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Data\Newsweek.Data\Newsweek.Data.csproj" />
+  </ItemGroup>
+
 </Project>
