@@ -10,7 +10,8 @@
         {
             IEnumerable<ISeeder> seeders = new List<ISeeder>()
             {
-                new CategoriesSeeder()
+                new SourcesSeeder(),
+                new CategoriesSeeder(),
             };
 
             foreach (var seeder in seeders)

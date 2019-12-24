@@ -15,7 +15,8 @@
         [Required]
         public string Name { get; set; }
 
-        public string RemoteId { get; set; }
+        [Required]
+        public string Url { get; set; }
 
         public ICollection<News> News { get; set; }
     }
