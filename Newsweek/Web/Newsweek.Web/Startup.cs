@@ -9,6 +9,7 @@ namespace Newsweek.Web
 
     using Newsweek.Data;
     using Newsweek.Data.Models;
+    using Newsweek.Data.Seeders;
 
     public class Startup
     {
@@ -39,6 +40,8 @@ namespace Newsweek.Web
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<NewsweekDbContext>();
                 dbContext.Database.Migrate();
+
+                NewsweekDbContextSeeder.Seed(dbContext);
             }
 
             if (env.IsDevelopment())
