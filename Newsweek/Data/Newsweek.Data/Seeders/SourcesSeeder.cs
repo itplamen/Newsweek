@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Newsweek.Data.Contracts;
     using Newsweek.Data.Models;
@@ -26,9 +27,12 @@
 
             foreach (var source in sources)
             {
-                source.CreatedOn = DateTime.UtcNow;
+                if (!dbContext.Sources.Any(x => x.Name == source.Name))
+                {
+                    source.CreatedOn = DateTime.UtcNow;
 
-                dbContext.Add(source);
+                    dbContext.Sources.Add(source);
+                }
             }
         }
     }

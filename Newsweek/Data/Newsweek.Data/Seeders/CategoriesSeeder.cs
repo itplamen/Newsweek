@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Newsweek.Data.Contracts;
     using Newsweek.Data.Models;
@@ -12,18 +13,21 @@
         {
             IEnumerable<string> categoryNames = new List<string>()
             {
-               "Europe", "Worl", "Sport"
+               "Europe", "World", "Sport"
             };
 
             foreach (var name in categoryNames)
             {
-                Category category = new Category()
+                if (!dbContext.Categories.Any(x => x.Name == name))
                 {
-                    Name = name,
-                    CreatedOn = DateTime.UtcNow
-                };
+                    Category category = new Category()
+                    {
+                        Name = name,
+                        CreatedOn = DateTime.UtcNow
+                    };
 
-                dbContext.Categories.Add(category);
+                    dbContext.Categories.Add(category);
+                }
             }
         }
     }
