@@ -10,22 +10,19 @@
     {
         public void Seed(NewsweekDbContext dbContext)
         {
-            IEnumerable<Category> categories = new List<Category>()
+            IEnumerable<string> categoryNames = new List<string>()
             {
-                new Category()
-                {
-                    Name = "Europe",
-                    CreatedOn = DateTime.UtcNow
-                },
-                new Category()
-                {
-                    Name = "Worl",
-                    CreatedOn = DateTime.UtcNow
-                }
+               "Europe", "Worl", "Sport"
             };
 
-            foreach (var category in categories)
+            foreach (var name in categoryNames)
             {
+                Category category = new Category()
+                {
+                    Name = name,
+                    CreatedOn = DateTime.UtcNow
+                };
+
                 dbContext.Categories.Add(category);
             }
         }
