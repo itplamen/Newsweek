@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Newsweek.Worker.Core.Contracts
+﻿namespace Newsweek.Worker.Core.Contracts
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Newsweek.Handlers.Commands.News;
+
     public interface INewsProvider
     {
-        Task Get();
+        Task<IEnumerable<CreateNewsCommand>> Get();
     }
 }

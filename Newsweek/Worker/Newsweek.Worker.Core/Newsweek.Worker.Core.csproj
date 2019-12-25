@@ -8,4 +8,9 @@
     <PackageReference Include="AngleSharp" Version="0.13.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Handlers\Newsweek.Handlers.Commands\Newsweek.Handlers.Commands.csproj" />
+    <ProjectReference Include="..\..\Handlers\Newsweek.Handlers.Queries\Newsweek.Handlers.Queries.csproj" />
+  </ItemGroup>
+
 </Project>
