@@ -15,13 +15,19 @@
                 new Source()
                 {
                     Name = "Euronews",
-                    Url = "https://www.euronews.com/",
-                    CreatedOn = DateTime.UtcNow
+                    Url = "https://www.euronews.com/"
+                },
+                new Source()
+                {
+                    Name = "Sky Sports",
+                    Url = "https://www.skysports.com/"
                 }
             };
 
             foreach (var source in sources)
             {
+                source.CreatedOn = DateTime.UtcNow;
+
                 dbContext.Add(source);
             }
         }
