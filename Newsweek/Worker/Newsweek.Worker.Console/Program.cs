@@ -63,7 +63,8 @@
             services.AddSingleton<IHtmlParser, HtmlParser>();
 
             services.AddSingleton<INewsApi, NewsApi>();
-            services.AddTransient<INewsProvider, EuroNewsProvider>();
+            services.AddTransient<INewsProvider, EuropeNewsProvider>();
+            services.AddTransient<INewsProvider, WorldNewsProvider>();
             services.AddScoped<IQueryHandler<SourceByNameQuery, Source>, SourceByNameQueryHandler>();
             services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
 

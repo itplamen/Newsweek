@@ -16,6 +16,11 @@
                 {
                     Name = "Europe",
                     CreatedOn = DateTime.UtcNow
+                },
+                new Category()
+                {
+                    Name = "Worl",
+                    CreatedOn = DateTime.UtcNow
                 }
             };
 

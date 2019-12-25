@@ -1,23 +1,23 @@
-﻿namespace Newsweek.Worker.Core.Providers
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+﻿using AngleSharp.Dom;
+using Newsweek.Data.Models;
+using Newsweek.Handlers.Commands.News;
+using Newsweek.Handlers.Queries.Contracts;
+using Newsweek.Handlers.Queries.Sources;
+using Newsweek.Worker.Core.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-    using AngleSharp.Dom;
-    
-    using Newsweek.Data.Models;
-    using Newsweek.Handlers.Commands.News;
-    using Newsweek.Handlers.Queries.Contracts;
-    using Newsweek.Handlers.Queries.Sources;
-    using Newsweek.Worker.Core.Contracts;
-    
-    public class EuroNewsProvider : INewsProvider
+namespace Newsweek.Worker.Core.Providers
+{
+    public class WorldNewsProvider : INewsProvider
     {
         private readonly INewsApi newsApi;
         private readonly IQueryHandler<SourceByNameQuery, Source> sourceQuery;
 
-        public EuroNewsProvider(INewsApi newsApi, IQueryHandler<SourceByNameQuery, Source> sourceQuery)
+        public WorldNewsProvider(INewsApi newsApi, IQueryHandler<SourceByNameQuery, Source> sourceQuery)
         {
             this.newsApi = newsApi;
             this.sourceQuery = sourceQuery;
@@ -28,9 +28,9 @@
             SourceByNameQuery query = new SourceByNameQuery("Euronews");
             Source source = sourceQuery.Handle(query);
 
-            IDocument document = await newsApi.Get($"{source.Url}/news/europe");
+            IDocument document = await newsApi.Get($"{source.Url}/tag/world-news");
 
-            IDictionary<string, string> articles = document.QuerySelectorAll(".m-object--demi")
+            IDictionary<string, string> articles = document.QuerySelectorAll("#c-search-articles .m-object--demi")
                 .ToDictionary(x => SelectNewsUrl(x, source.Url), y => SelectDescription(y));
 
             ICollection<CreateNewsCommand> news = new List<CreateNewsCommand>();
