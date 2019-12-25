@@ -23,7 +23,8 @@
     using Newsweek.Worker.Core.Api;
     using Newsweek.Worker.Core.Contracts;
     using Newsweek.Worker.Core.Providers;
-    
+    using Newsweek.Worker.Core.Tasks;
+
     public class Program
     {
         private const string MAPPING_ASSEMBLY = "Newsweek.Handlers.Commands";
@@ -63,9 +64,20 @@
             services.AddSingleton<IHtmlParser, HtmlParser>();
 
             services.AddSingleton<INewsApi, NewsApi>();
-            services.AddTransient<INewsProvider, EuropeNewsProvider>();
-            services.AddTransient<INewsProvider, WorldNewsProvider>();
-            services.AddTransient<INewsProvider, SportNewsProvider>();
+            
+            services.AddTransient<EuropeNewsProvider>();
+            services.AddTransient<WorldNewsProvider>();
+            services.AddTransient<SportNewsProvider>();
+            services.AddTransient<ITask, NewsTask>(x => 
+                new NewsTask(
+                    new INewsProvider[] 
+                    {
+                        x.GetRequiredService<EuropeNewsProvider>(),
+                        x.GetRequiredService<WorldNewsProvider>(),
+                        x.GetRequiredService<SportNewsProvider>()
+                    },
+                    x.GetRequiredService<ICommandHandler<CreateNewsCommand>>()));
+
             services.AddScoped<IQueryHandler<SourceByNameQuery, Source>, SourceByNameQueryHandler>();
             services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
 
