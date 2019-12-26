@@ -20,6 +20,11 @@
                 },
                 new Source()
                 {
+                    Name = "Reuters",
+                    Url = "https://www.reuters.com/"
+                },
+                new Source()
+                {
                     Name = "Sky Sports",
                     Url = "https://www.skysports.com/"
                 }
