@@ -38,12 +38,15 @@
             foreach (var article in articles)
             {
                 IDocument newsDocument = await newsApi.Get(article.Key);
-                string title = newsDocument.QuerySelector(".c-article-title")?.InnerHtml;
+                string title = newsDocument.QuerySelector(".c-article-title, .media__body__link")?.InnerHtml?.Trim();
                 string content = newsDocument.QuerySelector(".c-article-content, .js-article-content, .article__content, .selectionShareable")?.InnerHtml;
                 string imageUrl = GetMainImageUrl(newsDocument);
 
-                CreateNewsCommand command = new CreateNewsCommand(title, article.Value, content, article.Key, imageUrl, source.Id);
-                news.Add(command);
+                if (!string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(content))
+                {
+                    CreateNewsCommand command = new CreateNewsCommand(title, article.Value, content, article.Key, imageUrl, source.Id);
+                    news.Add(command);
+                }
             }
 
             return news;
