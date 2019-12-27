@@ -1,19 +1,21 @@
-﻿using AngleSharp.Dom;
-using Newsweek.Data.Models;
-using Newsweek.Handlers.Commands.News;
-using Newsweek.Handlers.Queries.Contracts;
-using Newsweek.Handlers.Queries.Sources;
-using Newsweek.Worker.Core.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Newsweek.Worker.Core.Providers
+﻿namespace Newsweek.Worker.Core.Providers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using AngleSharp.Dom;
+
+    using Newsweek.Data.Models;
+    using Newsweek.Handlers.Commands.News;
+    using Newsweek.Handlers.Queries.Contracts;
+    using Newsweek.Handlers.Queries.Sources;
+    using Newsweek.Worker.Core.Contracts;
+    
     public class SportNewsProvider : INewsProvider
     {
+        private readonly IEnumerable<string> newsUrls;
+
         private readonly INewsApi newsApi;
         private readonly IQueryHandler<SourceByNameQuery, Source> sourceQuery;
 
@@ -21,64 +23,69 @@ namespace Newsweek.Worker.Core.Providers
         {
             this.newsApi = newsApi;
             this.sourceQuery = sourceQuery;
+            this.newsUrls = new List<string>()
+            {
+                "/football",
+                "/sport/boxing",
+                "/sport/tennis"
+            };
         }
 
         public async Task<IEnumerable<CreateNewsCommand>> Get()
         {
-            SourceByNameQuery query = new SourceByNameQuery("Sky Sports");
+            SourceByNameQuery query = new SourceByNameQuery("talkSPORT");
             Source source = sourceQuery.Handle(query);
 
-            IDocument document = await newsApi.Get($"{source.Url}/news-wire");
+            var tasks = new List<Task<IEnumerable<CreateNewsCommand>>>();
 
-            IEnumerable<KeyValuePair<string, string>> articles = document.QuerySelectorAll(".news-list__item--show-thumb-bp30")
-                .ToDictionary(x => SelectNewsUrl(x, source.Url), y => SelectDescription(y))
-                .Where(x => !string.IsNullOrEmpty(x.Key) && !string.IsNullOrEmpty(x.Value));
+            foreach (var url in newsUrls)
+            {
+                tasks.Add(GetNews(source, url));
+            }
+
+            var newsCommands = await Task.WhenAll(tasks);
+
+            return newsCommands.SelectMany(news => news);
+        }
+
+        private async Task<IEnumerable<CreateNewsCommand>> GetNews(Source source, string url)
+        {
+            IDocument document = await newsApi.Get($"{source.Url}/{url}");
+
+            IEnumerable<string> articleUrls = document.QuerySelectorAll("div.sun-row.teaser div.teaser__copy-container a.text-anchor-wrap")?
+                .Select(x => x.Attributes["href"]?.Value);
 
             ICollection<CreateNewsCommand> news = new List<CreateNewsCommand>();
 
-            foreach (var article in articles)
+            foreach (var articleUrl in articleUrls)
             {
-                IDocument newsDocument = await newsApi.Get(article.Key);
-                string title = newsDocument.QuerySelector(".sdc-article-header__long-title, .article__long-title")?.InnerHtml;
-                string content = newsDocument.QuerySelector(".sdc-article-body--lead, .article__body--lead")?.InnerHtml;
+                IDocument newsDocument = await newsApi.Get(articleUrl);
+                string title = newsDocument.QuerySelector("h1.article__headline")?.InnerHtml?.Trim();
+                string description = newsDocument.QuerySelector("p.article__content.article__content--intro")?.InnerHtml?.Trim();
+                string content = newsDocument.QuerySelector("div.article__content")?.InnerHtml;
                 string imageUrl = GetMainImageUrl(newsDocument);
 
-                CreateNewsCommand command = new CreateNewsCommand(title, article.Value, content, article.Key, imageUrl, source.Id);
-                news.Add(command);
+                if (!string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(content))
+                {
+                    CreateNewsCommand command = new CreateNewsCommand(title, description, content, articleUrl, imageUrl, source.Id);
+                    news.Add(command);
+                }
             }
 
             return news;
         }
 
-        private string SelectNewsUrl(IElement newsElement, string baseUrl)
+        private string GetMainImageUrl(IDocument newsDocument)
         {
-            IElement imgElement = newsElement.QuerySelector(".news-list__headline-link");
-            string newsUrl = imgElement.Attributes["href"].Value;
+            IElement element = newsDocument.QuerySelector("div.article__media-img-container.open-gallery a p img");
+            string src = element?.Attributes["src"]?.Value;
 
-            if (newsUrl.Contains(baseUrl))
+            if (!string.IsNullOrEmpty(src))
             {
-                return newsUrl;
+                return src.Substring(0, src.LastIndexOf("?"));
             }
 
             return string.Empty;
-        }
-
-        private string SelectDescription(IElement newsElement)
-        {
-            return newsElement.QuerySelector(".news-list__snippet")?.InnerHtml;
-        }
-
-        private string GetMainImageUrl(IDocument newsDocument)
-        {
-            IElement element = newsDocument.QuerySelector(".sdc-article-image__item");
-            string url = element?.Attributes["src"]?.Value;
-
-            if (string.IsNullOrEmpty(url))
-            {
-                url = element?.Attributes["data-src"]?.Value;
-            }
-
-            return url;
         }
     }
 }

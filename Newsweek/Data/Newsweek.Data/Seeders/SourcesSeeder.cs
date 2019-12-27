@@ -25,8 +25,8 @@
                 },
                 new Source()
                 {
-                    Name = "Sky Sports",
-                    Url = "https://www.skysports.com/"
+                    Name = "talkSPORT",
+                    Url = "https://talksport.com/"
                 }
             };
 
