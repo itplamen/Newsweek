@@ -1,7 +1,9 @@
-﻿namespace Newsweek.Data.Models.Base
+﻿namespace Newsweek.Data.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+
+    using Newsweek.Data.Models.Contracts;
 
     public abstract class BaseModel<TKey> : IAuditInfo, IDeletableEntity
     {

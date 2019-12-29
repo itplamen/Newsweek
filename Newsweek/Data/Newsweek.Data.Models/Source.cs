@@ -3,8 +3,6 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using Newsweek.Data.Models.Base;
-
     public class Source : BaseModel<int>
     {
         public Source()

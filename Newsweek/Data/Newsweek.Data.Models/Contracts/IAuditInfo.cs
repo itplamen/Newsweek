@@ -1,4 +1,4 @@
-﻿namespace Newsweek.Data.Models.Base
+﻿namespace Newsweek.Data.Models.Contracts
 {
     using System;
 

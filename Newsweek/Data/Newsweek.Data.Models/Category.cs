@@ -2,8 +2,6 @@
 {
     using System.Collections.Generic;
 
-    using Newsweek.Data.Models.Base;
-
     public class Category : BaseModel<int>
     {
         public Category()

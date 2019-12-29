@@ -4,7 +4,7 @@
 
     using Microsoft.AspNetCore.Identity;
 
-    using Newsweek.Data.Models.Base;
+    using Newsweek.Data.Models.Contracts;
 
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {
