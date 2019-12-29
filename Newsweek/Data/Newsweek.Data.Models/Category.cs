@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
 
-    public class Category : BaseModel<int>
+    using Newsweek.Data.Models.Contracts;
+
+    public class Category : BaseModel<int>, INameSearchableEntity
     {
         public Category()
         {

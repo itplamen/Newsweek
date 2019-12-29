@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Source : BaseModel<int>
+    using Newsweek.Data.Models.Contracts;
+
+    public class Source : BaseModel<int>, INameSearchableEntity
     {
         public Source()
         {
