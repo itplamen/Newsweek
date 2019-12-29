@@ -27,6 +27,11 @@
                 {
                     Name = "talkSPORT",
                     Url = "https://talksport.com/"
+                },
+                new Source()
+                {
+                    Name = "ITworld",
+                    Url = "https://www.itworld.com/"
                 }
             };
 

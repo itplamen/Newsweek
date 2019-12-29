@@ -68,15 +68,17 @@
             services.AddTransient<EuropeNewsProvider>();
             services.AddTransient<WorldNewsProvider>();
             services.AddTransient<SportNewsProvider>();
-            services.AddTransient<ITask, NewsTask>(x => 
+            services.AddTransient<ITNewsProvider>();
+            services.AddTransient<ITask, NewsTask>(x =>
                 new NewsTask(
-                    new INewsProvider[] 
+                    new INewsProvider[]
                     {
                         x.GetRequiredService<EuropeNewsProvider>(),
                         x.GetRequiredService<WorldNewsProvider>(),
-                        x.GetRequiredService<SportNewsProvider>()
+                        x.GetRequiredService<SportNewsProvider>(),
+                        x.GetRequiredService<ITNewsProvider>()
                     },
-                    x.GetRequiredService<ICommandHandler<CreateNewsCommand>>()));
+                    x.GetRequiredService<ICommandHandler<CreateNewsCommand>>())); ;
 
             services.AddScoped<IQueryHandler<SourceByNameQuery, Source>, SourceByNameQueryHandler>();
             services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();

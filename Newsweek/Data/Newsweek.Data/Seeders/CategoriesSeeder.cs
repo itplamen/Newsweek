@@ -13,7 +13,7 @@
         {
             IEnumerable<string> categoryNames = new List<string>()
             {
-               "Europe", "World", "Sport"
+               "Europe", "World", "Sport", "IT"
             };
 
             foreach (var name in categoryNames)
