@@ -2,75 +2,47 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     using AngleSharp.Dom;
 
     using Newsweek.Data.Models;
-    using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Worker.Core.Contracts;
     
-    public class ITNewsProvider : INewsProvider
+    public class ITNewsProvider : BaseNewsProvider
     {
-        private readonly INewsApi newsApi;
-        private readonly IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery;
-
         public ITNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery)
+            : base(newsApi, sourceQuery)
         {
-            this.newsApi = newsApi;
-            this.sourceQuery = sourceQuery;
+            Source = "ITworld";
+            CategoryUrls = new string[] { "news" };
         }
 
-        public async Task<IEnumerable<CreateNewsCommand>> Get()
+        protected override IEnumerable<string> GetArticleUrls(IDocument document)
         {
-            Source source = sourceQuery.Handle(new EntityByNameQuery<Source, int>("ITworld"));
-
-            IDocument document = await newsApi.Get($"{source.Url}/news");
-
-            IEnumerable<string> articleUrls = document.QuerySelectorAll("div.river-well.article div.post-cont h3 a")?
+            return document.QuerySelectorAll("div.river-well.article div.post-cont h3 a")?
                 .Select(x => x.Attributes["href"]?.Value);
-
-            ICollection<CreateNewsCommand> news = new List<CreateNewsCommand>();
-
-            foreach (var articleUrl in articleUrls)
-            {
-                IDocument newsDocument = await newsApi.Get($"{source.Url}/{articleUrl}");
-                string title = newsDocument.QuerySelector("h1[itemprop=headline]")?.InnerHtml?.Trim();
-                string description = newsDocument.QuerySelector("h3[itemprop=description]")?.InnerHtml?.Trim();
-                string content = newsDocument.QuerySelector("div#drr-container")?.InnerHtml;
-                string imageUrl = GetMainImageUrl(newsDocument);
-
-                if (!string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(content))
-                {
-                    CreateNewsCommand command = new CreateNewsCommand(title, description, content, articleUrl, imageUrl, source.Id);
-                    news.Add(command);
-                }
-            }
-
-            return news;
         }
 
-        private string SelectNewsUrl(IElement newsElement, string baseUrl)
+        protected override string GetTitle(IDocument document)
         {
-            IElement imgElement = newsElement.QuerySelector(".m-object__img .media__img__link");
-            string newsUrl = $"{baseUrl}{imgElement.Attributes["href"].Value}";
-
-            return newsUrl;
+            return document.QuerySelector("h1[itemprop=headline]")?.InnerHtml?.Trim();
         }
 
-        private string SelectDescription(IElement newsElement)
+        protected override string GetDescription(IDocument document)
         {
-            return newsElement.QuerySelector(".m-object__description__link p")?.InnerHtml;
+            return document.QuerySelector("h3[itemprop=description]")?.InnerHtml?.Trim();
         }
 
-        private string GetMainImageUrl(IDocument newsDocument)
+        protected override string GetContent(IDocument document)
         {
-            IElement element = newsDocument.QuerySelector("div.lede-container figure[itemprop=image] img");
-            string url = element?.Attributes["data-original"]?.Value;
+            return document.QuerySelector("div#drr-container")?.InnerHtml;
+        }
 
-            return url;
+        protected override string GetMainImageUrl(IDocument document)
+        {
+            return document.QuerySelector("div.lede-container figure[itemprop=image] img")?.Attributes["data-original"]?.Value;
         }
     }
 }

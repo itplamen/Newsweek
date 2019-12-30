@@ -5,92 +5,52 @@
     using System.Threading.Tasks;
 
     using AngleSharp.Dom;
-
+     
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Worker.Core.Contracts;
     
-    public class WorldNewsProvider : INewsProvider
+    public class WorldNewsProvider : BaseNewsProvider
     {
-        private readonly IEnumerable<string> newsUrls;
-
-        private readonly INewsApi newsApi;
-        private readonly IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery;
-
         public WorldNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery)
+            : base(newsApi, sourceQuery)
         {
-            this.newsApi = newsApi;
-            this.sourceQuery = sourceQuery;
-            this.newsUrls = new List<string>()
-            {
-                "/news/us",
-                "/places/china",
-                "/subjects/middle-east"
-            };
+            Source = "Reuters";
+            CategoryUrls = new string[] { "/news/us", "/places/china", "/subjects/middle-east" };
         }
 
-        public async Task<IEnumerable<CreateNewsCommand>> Get()
+        protected override IEnumerable<string> GetArticleUrls(IDocument document)
         {
-            Source source = sourceQuery.Handle(new EntityByNameQuery<Source, int>("Reuters"));
-
-            var tasks = new List<Task<IEnumerable<CreateNewsCommand>>>();
-
-            foreach (var url in newsUrls)
-            {
-                tasks.Add(GetNews(source, url));
-            }
-
-            var newsCommands = await Task.WhenAll(tasks);
-
-            return newsCommands.SelectMany(news => news);
+            return document.QuerySelectorAll(".ImageStoryTemplate_image-story-container")?
+                .Take(10)?
+                .Select(x => x.QuerySelector(".FeedItemHeadline_headline, .FeedItemHeadline_full")?
+                    .FirstElementChild?
+                    .Attributes["href"]?
+                    .Value);
         }
 
-        private async Task<IEnumerable<CreateNewsCommand>> GetNews(Source source, string url)
+        protected override string GetTitle(IDocument document)
         {
-            IDocument document = await newsApi.Get($"{source.Url}/{url}");
-
-            IDictionary<string, string> articles = document.QuerySelectorAll(".ImageStoryTemplate_image-story-container")
-                .Take(10)
-                .ToDictionary(x => SelectNewsUrl(x), y => SelectDescription(y));
-
-            ICollection<CreateNewsCommand> news = new List<CreateNewsCommand>();
-
-            foreach (var article in articles)
-            {
-                IDocument newsDocument = await newsApi.Get(article.Key);
-                string title = newsDocument.QuerySelector(".ArticleHeader_headline")?.InnerHtml?.Trim();
-                IEnumerable<string> contents = newsDocument.QuerySelectorAll(".StandardArticleBody_body p")?.Select(x => x.OuterHtml);
-                string content = string.Join(" ", contents);
-                string imageUrl = GetMainImageUrl(newsDocument);
-
-                if (!string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(content))
-                {
-                    CreateNewsCommand command = new CreateNewsCommand(title, article.Value, content, article.Key, imageUrl, source.Id);
-                    news.Add(command);
-                }
-            }
-
-            return news;
+            return document.QuerySelector(".ArticleHeader_headline")?.InnerHtml?.Trim();
         }
 
-        private string SelectNewsUrl(IElement newsElement)
+        protected override string GetDescription(IDocument document)
         {
-            return newsElement.QuerySelector(".FeedItemHeadline_headline, .FeedItemHeadline_full")?
-                .FirstElementChild?
-                .Attributes["href"]?
-                .Value;
+            throw new System.NotImplementedException();
         }
 
-        private string SelectDescription(IElement newsElement)
+        protected override string GetContent(IDocument document)
         {
-            return newsElement.QuerySelector(".FeedItemLede_lede")?.InnerHtml;
+            IEnumerable<string> content = document.QuerySelectorAll(".StandardArticleBody_body p")?.Select(x => x.OuterHtml);
+            
+            return string.Join(" ", content);
         }
 
-        private string GetMainImageUrl(IDocument newsDocument)
+        protected override string GetMainImageUrl(IDocument document)
         {
-            IElement element = newsDocument.QuerySelector(".LazyImage_container");
+            IElement element = document.QuerySelector(".LazyImage_container");
             string src = element?.FirstElementChild?.Attributes["src"]?.Value;
 
             if (!string.IsNullOrEmpty(src))

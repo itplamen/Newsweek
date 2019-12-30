@@ -2,71 +2,47 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     using AngleSharp.Dom;
     
     using Newsweek.Data.Models;
-    using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Worker.Core.Contracts;
     
-    public class EuropeNewsProvider : INewsProvider
+    public class EuropeNewsProvider : BaseNewsProvider
     {
-        private readonly INewsApi newsApi;
-        private readonly IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery;
-
         public EuropeNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery)
+            : base(newsApi, sourceQuery)
         {
-            this.newsApi = newsApi;
-            this.sourceQuery = sourceQuery;
+            Source = "Euronews";
+            CategoryUrls = new string[] { "news/europe" };
         }
 
-        public async Task<IEnumerable<CreateNewsCommand>> Get()
+        protected override IEnumerable<string> GetArticleUrls(IDocument document)
         {
-            Source source = sourceQuery.Handle(new EntityByNameQuery<Source, int>("Euronews"));
-
-            IDocument document = await newsApi.Get($"{source.Url}/news/europe");
-
-            IDictionary<string, string> articles = document.QuerySelectorAll(".m-object--demi")
-                .ToDictionary(x => SelectNewsUrl(x, source.Url), y => SelectDescription(y));
-
-            ICollection<CreateNewsCommand> news = new List<CreateNewsCommand>();
-
-            foreach (var article in articles)
-            {
-                IDocument newsDocument = await newsApi.Get(article.Key);
-                string title = newsDocument.QuerySelector(".c-article-title, .media__body__link")?.InnerHtml?.Trim();
-                string content = newsDocument.QuerySelector(".c-article-content, .js-article-content, .article__content, .selectionShareable")?.InnerHtml;
-                string imageUrl = GetMainImageUrl(newsDocument);
-
-                if (!string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(content))
-                {
-                    CreateNewsCommand command = new CreateNewsCommand(title, article.Value, content, article.Key, imageUrl, source.Id);
-                    news.Add(command);
-                }
-            }
-
-            return news;
+            return document.QuerySelectorAll("article.m-object--demi")?
+                .Select(x => x.QuerySelector("div.m-object__img figure a.media__img__link")?.Attributes["href"]?.Value);
         }
 
-        private string SelectNewsUrl(IElement newsElement, string baseUrl)
+        protected override string GetTitle(IDocument document)
         {
-            IElement imgElement = newsElement.QuerySelector(".m-object__img .media__img__link");
-            string newsUrl = $"{baseUrl}{imgElement.Attributes["href"].Value}";
-
-            return newsUrl;
+            return document.QuerySelector(".c-article-title, .media__body__link")?.InnerHtml?.Trim();
         }
 
-        private string SelectDescription(IElement newsElement)
+        protected override string GetDescription(IDocument document)
         {
-            return newsElement.QuerySelector(".m-object__description__link p")?.InnerHtml;
+            throw new System.NotImplementedException();
         }
 
-        private string GetMainImageUrl(IDocument newsDocument)
+        protected override string GetContent(IDocument document)
         {
-            IElement element = newsDocument.QuerySelector(".media__img__obj, .media-object__img");
+            return document.QuerySelector("div.c-article-content.js-article-content.article__content.selectionShareable")?.InnerHtml;
+        }
+
+        protected override string GetMainImageUrl(IDocument document)
+        {
+            IElement element = document.QuerySelector("img.media__img__obj");
             string url = element?.Attributes["src"]?.Value;
 
             if (string.IsNullOrEmpty(url))
