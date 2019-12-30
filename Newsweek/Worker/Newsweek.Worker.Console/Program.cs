@@ -18,8 +18,8 @@
     using Newsweek.Data.Seeders;
     using Newsweek.Handlers.Commands.Contracts;
     using Newsweek.Handlers.Commands.News;
+    using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
-    using Newsweek.Handlers.Queries.Sources;
     using Newsweek.Worker.Core.Api;
     using Newsweek.Worker.Core.Contracts;
     using Newsweek.Worker.Core.Providers;
@@ -80,7 +80,7 @@
                     },
                     x.GetRequiredService<ICommandHandler<CreateNewsCommand>>())); ;
 
-            services.AddScoped<IQueryHandler<SourceByNameQuery, Source>, SourceByNameQueryHandler>();
+            services.AddScoped<IQueryHandler<EntityByNameQuery<Source, int>, Source>, EntityByNameQueryHandler<Source, int>>();
             services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
 
             services.AddHostedService<TasksExecutor>();

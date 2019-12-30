@@ -8,16 +8,16 @@
 
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.News;
+    using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
-    using Newsweek.Handlers.Queries.Sources;
     using Newsweek.Worker.Core.Contracts;
     
     public class ITNewsProvider : INewsProvider
     {
         private readonly INewsApi newsApi;
-        private readonly IQueryHandler<SourceByNameQuery, Source> sourceQuery;
+        private readonly IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery;
 
-        public ITNewsProvider(INewsApi newsApi, IQueryHandler<SourceByNameQuery, Source> sourceQuery)
+        public ITNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery)
         {
             this.newsApi = newsApi;
             this.sourceQuery = sourceQuery;
@@ -25,8 +25,7 @@
 
         public async Task<IEnumerable<CreateNewsCommand>> Get()
         {
-            SourceByNameQuery query = new SourceByNameQuery("ITworld");
-            Source source = sourceQuery.Handle(query);
+            Source source = sourceQuery.Handle(new EntityByNameQuery<Source, int>("ITworld"));
 
             IDocument document = await newsApi.Get($"{source.Url}/news");
 
