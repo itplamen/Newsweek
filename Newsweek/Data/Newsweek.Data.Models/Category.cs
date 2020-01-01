@@ -1,6 +1,7 @@
 ﻿namespace Newsweek.Data.Models
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using Newsweek.Data.Models.Contracts;
 
@@ -11,6 +12,7 @@
             News = new HashSet<NewsCategory>();
         }
 
+        [Required]
         public string Name { get; set; }
 
         public ICollection<NewsCategory> News { get; set; }

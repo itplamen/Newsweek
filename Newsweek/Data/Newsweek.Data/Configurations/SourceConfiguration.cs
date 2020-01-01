@@ -9,6 +9,9 @@
     {
         public void Configure(EntityTypeBuilder<Source> source)
         {
+            source.HasIndex(x => x.Name)
+                .IsUnique();
+
             source.HasMany(x => x.News)
                 .WithOne(x => x.Source)
                 .HasForeignKey(x => x.SourceId)
