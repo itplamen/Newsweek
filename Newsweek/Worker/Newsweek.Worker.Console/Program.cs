@@ -60,9 +60,8 @@
 
             AutoMapperConfig.RegisterMappings(Assembly.Load(MAPPING_ASSEMBLY));
 
-            services.AddSingleton<HttpClient>();
+            services.AddHttpClient();
             services.AddSingleton<IHtmlParser, HtmlParser>();
-
             services.AddSingleton<INewsApi, NewsApi>();
             
             services.AddTransient<EuropeNewsProvider>();

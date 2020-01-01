@@ -14,9 +14,9 @@
         private readonly HttpClient httpClient;
         private readonly IHtmlParser htmlParser;
 
-        public NewsApi(HttpClient httpClient, IHtmlParser htmlParser)
+        public NewsApi(IHttpClientFactory httpClientFactory, IHtmlParser htmlParser)
         {
-            this.httpClient = httpClient;
+            this.httpClient = httpClientFactory.CreateClient();
             this.htmlParser = htmlParser;
         }
 
