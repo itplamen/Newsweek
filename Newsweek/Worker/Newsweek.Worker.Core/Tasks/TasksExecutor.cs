@@ -1,6 +1,5 @@
 ﻿namespace Newsweek.Worker.Core.Tasks
 {
-    using System;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -8,8 +7,10 @@
     
     using Newsweek.Worker.Core.Contracts;
 
-    public class TasksExecutor : IHostedService
+    public class TasksExecutor : BackgroundService
     {
+        private const int FIVE_MINUTES_DELAY = 1000 * 60 * 5;
+
         private readonly ITask newsTask;
 
         public TasksExecutor(ITask newsTask)
@@ -17,14 +18,14 @@
             this.newsTask = newsTask;
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await newsTask.DoWork();
-        }
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await newsTask.DoWork();
 
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
+                await Task.Delay(FIVE_MINUTES_DELAY, stoppingToken);
+            }
         }
     }
 }
