@@ -40,7 +40,8 @@
 
             var newsCommands = await Task.WhenAll(tasks);
 
-            return newsCommands.SelectMany(news => news);
+            return newsCommands.SelectMany(news => news)
+                .Where(x => x != null);
         }
 
         private async Task<IEnumerable<CreateNewsCommand>> GetNews(Source source, string categoryUrl)
