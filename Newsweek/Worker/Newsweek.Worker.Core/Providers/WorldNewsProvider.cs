@@ -2,12 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     using AngleSharp.Dom;
      
     using Newsweek.Data.Models;
-    using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Worker.Core.Contracts;
@@ -23,9 +21,9 @@
 
         protected override IEnumerable<string> GetArticleUrls(IDocument document)
         {
-            return document.QuerySelectorAll(".ImageStoryTemplate_image-story-container")?
+            return document.QuerySelectorAll("div.ImageStoryTemplate_image-story-container")?
                 .Take(10)?
-                .Select(x => x.QuerySelector(".FeedItemHeadline_headline, .FeedItemHeadline_full")?
+                .Select(x => x.QuerySelector("h2.FeedItemHeadline_headline.FeedItemHeadline_full")?
                     .FirstElementChild?
                     .Attributes["href"]?
                     .Value);
@@ -33,24 +31,24 @@
 
         protected override string GetTitle(IDocument document)
         {
-            return document.QuerySelector(".ArticleHeader_headline")?.InnerHtml?.Trim();
+            return document.QuerySelector("h1.ArticleHeader_headline")?.InnerHtml?.Trim();
         }
 
         protected override string GetDescription(IDocument document)
         {
-            throw new System.NotImplementedException();
+            return document.QuerySelector("div.StandardArticleBody_body p")?.InnerHtml;
         }
 
         protected override string GetContent(IDocument document)
         {
-            IEnumerable<string> content = document.QuerySelectorAll(".StandardArticleBody_body p")?.Select(x => x.OuterHtml);
+            IEnumerable<string> content = document.QuerySelectorAll("div.StandardArticleBody_body p")?.Select(x => x.OuterHtml);
             
             return string.Join(" ", content);
         }
 
         protected override string GetMainImageUrl(IDocument document)
         {
-            IElement element = document.QuerySelector(".LazyImage_container");
+            IElement element = document.QuerySelector("div.LazyImage_container");
             string src = element?.FirstElementChild?.Attributes["src"]?.Value;
 
             if (!string.IsNullOrEmpty(src))

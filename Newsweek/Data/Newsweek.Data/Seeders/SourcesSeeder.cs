@@ -16,22 +16,22 @@
                 new Source()
                 {
                     Name = "Euronews",
-                    Url = "https://www.euronews.com/"
+                    Url = "https://www.euronews.com"
                 },
                 new Source()
                 {
                     Name = "Reuters",
-                    Url = "https://www.reuters.com/"
+                    Url = "https://www.reuters.com"
                 },
                 new Source()
                 {
                     Name = "talkSPORT",
-                    Url = "https://talksport.com/"
+                    Url = "https://talksport.com"
                 },
                 new Source()
                 {
                     Name = "ITworld",
-                    Url = "https://www.itworld.com/"
+                    Url = "https://www.itworld.com"
                 }
             };
 

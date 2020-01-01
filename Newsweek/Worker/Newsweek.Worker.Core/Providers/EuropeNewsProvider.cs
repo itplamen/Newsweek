@@ -12,6 +12,7 @@
     
     public class EuropeNewsProvider : BaseNewsProvider
     {
+
         public EuropeNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery)
             : base(newsApi, sourceQuery)
         {
@@ -27,17 +28,17 @@
 
         protected override string GetTitle(IDocument document)
         {
-            return document.QuerySelector(".c-article-title, .media__body__link")?.InnerHtml?.Trim();
+            return document.QuerySelector("h1.c-article-title, h1.c-article-title--h1 span.media__body__link")?.InnerHtml?.Trim();
         }
 
         protected override string GetDescription(IDocument document)
         {
-            throw new System.NotImplementedException();
+            return document.QuerySelector("div.c-article-content.js-article-content p")?.InnerHtml;
         }
 
         protected override string GetContent(IDocument document)
         {
-            return document.QuerySelector("div.c-article-content.js-article-content.article__content.selectionShareable")?.InnerHtml;
+            return document.QuerySelector("div.c-article-content.js-article-content")?.InnerHtml;
         }
 
         protected override string GetMainImageUrl(IDocument document)

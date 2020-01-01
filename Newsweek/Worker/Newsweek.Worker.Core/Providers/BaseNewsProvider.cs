@@ -46,7 +46,7 @@
         private async Task<IEnumerable<CreateNewsCommand>> GetNews(Source source, string categoryUrl)
         {
             IDocument categoryDocument = await newsApi.Get($"{source.Url}/{categoryUrl}");
-            IEnumerable<string> articleUrls = GetArticleUrls(categoryDocument);
+            IEnumerable<string> articleUrls = GetArticleUrls(categoryDocument).Select(x => SelectArticleUrl(x, source.Url));
 
             var tasks = new List<Task<CreateNewsCommand>>();
 
@@ -69,13 +69,30 @@
                 string content = GetContent(document);
                 string imageUrl = GetMainImageUrl(document);
 
-                if (!string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(content))
+                if (IsArticleValid(title, description, content))
                 {
                     return new CreateNewsCommand(title, description, content, url, imageUrl, sourceId);
                 }
             }
 
             return null;
+        }
+
+        private string SelectArticleUrl(string articleUrl, string sourceUrl)
+        {
+            if (!articleUrl.Contains(sourceUrl))
+            {
+                return $"{sourceUrl}/{articleUrl}";
+            }
+
+            return articleUrl;
+        }
+
+        private bool IsArticleValid(string title, string description, string content)
+        {
+            return !string.IsNullOrEmpty(title) &&
+                    !string.IsNullOrEmpty(content) &&
+                    !string.IsNullOrEmpty(description);
         }
 
         protected abstract IEnumerable<string> GetArticleUrls(IDocument document);

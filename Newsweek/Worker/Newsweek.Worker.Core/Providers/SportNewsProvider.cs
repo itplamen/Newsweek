@@ -32,7 +32,7 @@
 
         protected override string GetDescription(IDocument document)
         {
-            return document.QuerySelector("p.article__content.article__content--intro")?.InnerHtml?.Trim();
+            return document.QuerySelector("p.article__content.article__content--intro")?.TextContent;
         }
 
         protected override string GetContent(IDocument document)
