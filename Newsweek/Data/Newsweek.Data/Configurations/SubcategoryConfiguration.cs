@@ -2,18 +2,18 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    
+
     using Newsweek.Data.Models;
 
-    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    public class SubcategoryConfiguration : IEntityTypeConfiguration<Subcategory>
     {
-        public void Configure(EntityTypeBuilder<Category> category)
+        public void Configure(EntityTypeBuilder<Subcategory> subcategory)
         {
-            category.HasIndex(x => x.Name)
+            subcategory.HasIndex(x => x.Name)
                 .IsUnique();
 
-            category.HasMany(x => x.Subcategories)
-                .WithOne(x => x.Category)
+            subcategory.HasOne(x => x.Category)
+                .WithMany(x => x.Subcategories)
                 .HasForeignKey(x => x.CategoryId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);

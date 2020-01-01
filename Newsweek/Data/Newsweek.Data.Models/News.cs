@@ -7,7 +7,7 @@
     {
         public News()
         {
-            Caregories = new HashSet<NewsCategory>();
+            Subcategories = new HashSet<NewsSubcategory>();
         }
 
         [Required]
@@ -28,6 +28,6 @@
 
         public Source Source { get; set; }
 
-        public ICollection<NewsCategory> Caregories { get; set; }
+        public ICollection<NewsSubcategory> Subcategories { get; set; }
     }
 }

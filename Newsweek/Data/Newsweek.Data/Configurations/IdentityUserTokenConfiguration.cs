@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Newsweek.Data.Configurations
+﻿namespace Newsweek.Data.Configurations
 {
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
     public class IdentityUserTokenConfiguration : IEntityTypeConfiguration<IdentityUserToken<string>>
     {
         public void Configure(EntityTypeBuilder<IdentityUserToken<string>> identityUserToken)

@@ -18,7 +18,7 @@
 
         public DbSet<News> News { get; set; }
 
-        public DbSet<NewsCategory> NewsCategory { get; set; }
+        public DbSet<NewsSubcategory> NewsCategory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder) =>
             builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);

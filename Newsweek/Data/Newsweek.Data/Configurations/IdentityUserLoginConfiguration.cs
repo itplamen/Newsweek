@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Newsweek.Data.Configurations
+﻿namespace Newsweek.Data.Configurations
 {
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    
     public class IdentityUserLoginConfiguration : IEntityTypeConfiguration<IdentityUserLogin<string>>
     {
         public void Configure(EntityTypeBuilder<IdentityUserLogin<string>> identityUserLogin)
@@ -24,8 +21,6 @@ namespace Newsweek.Data.Configurations
             identityUserLogin.HasIndex("UserId");
 
             identityUserLogin.ToTable("AspNetUserLogins");
-
-            
         }
     }
 }

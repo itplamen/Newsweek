@@ -9,12 +9,12 @@
     {
         public Category()
         {
-            News = new HashSet<NewsCategory>();
+            Subcategories = new HashSet<Subcategory>();
         }
 
         [Required]
         public string Name { get; set; }
 
-        public ICollection<NewsCategory> News { get; set; }
+        public ICollection<Subcategory> Subcategories { get; set; }
     }
 }
