@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Subcategory : BaseModel<int>
+    using Newsweek.Data.Models.Contracts;
+
+    public class Subcategory : BaseModel<int>, INameSearchableEntity
     {
         public Subcategory()
         {
