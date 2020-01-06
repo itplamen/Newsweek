@@ -12,17 +12,20 @@
     
     public class EuropeNewsProvider : BaseNewsProvider
     {
+        private readonly IEnumerable<string> excludedCategories; 
 
         public EuropeNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery)
             : base(newsApi, sourceQuery)
         {
             Source = "Euronews";
             CategoryUrls = new string[] { "news/europe" };
+            excludedCategories = new string[] { "no comment", "world", "sport", "world news", "musica", "outdoor", "view" };
         }
 
         protected override IEnumerable<string> GetArticleUrls(IDocument document)
         {
             return document.QuerySelectorAll("article.m-object--demi")?
+                .Where(x => !excludedCategories.Contains(x.QuerySelector("span.program-name")?.InnerHtml))?
                 .Select(x => x.QuerySelector("div.m-object__img figure a.media__img__link")?.Attributes["href"]?.Value);
         }
 
