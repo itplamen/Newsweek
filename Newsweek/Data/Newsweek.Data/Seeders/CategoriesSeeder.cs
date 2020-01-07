@@ -11,20 +11,42 @@
     {
         public void Seed(NewsweekDbContext dbContext)
         {
-            IEnumerable<string> categoryNames = new List<string>()
+            IEnumerable<Category> categories = new List<Category>()
             {
-               "Europe", "World", "Sport", "IT"
+                new Category() { Name = "Europe" },
+                new Category() { Name = "IT" },
+                new Category()
+                {
+                    Name = "Sport",
+                    Subcategories = new List<Subcategory>()
+                    {
+                        new Subcategory() { Name = "Football" },
+                        new Subcategory() { Name = "Boxing" },
+                        new Subcategory() { Name = "Tennis" }
+                    }
+                },
+                new Category()
+                {
+                    Name = "World",
+                    Subcategories = new List<Subcategory>()
+                    {
+                        new Subcategory() { Name = "USA" },
+                        new Subcategory() { Name = "China" },
+                        new Subcategory() { Name = "Middle East" }
+                    }
+                }
             };
 
-            foreach (var name in categoryNames)
+            foreach (var category in categories)
             {
-                if (!dbContext.Categories.Any(x => x.Name == name))
+                if (!dbContext.Categories.Any(x => x.Name == category.Name))
                 {
-                    Category category = new Category()
+                    category.CreatedOn = DateTime.UtcNow;
+
+                    foreach (var subcategory in category.Subcategories)
                     {
-                        Name = name,
-                        CreatedOn = DateTime.UtcNow
-                    };
+                        subcategory.CreatedOn = DateTime.UtcNow;
+                    }
 
                     dbContext.Categories.Add(category);
                 }
