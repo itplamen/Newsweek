@@ -16,6 +16,8 @@
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Subcategory> Subcategories { get; set; }
+
         public DbSet<News> News { get; set; }
 
         public DbSet<NewsSubcategory> NewsCategory { get; set; }
