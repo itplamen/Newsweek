@@ -9,6 +9,9 @@
     {
         public void Configure(EntityTypeBuilder<News> news)
         {
+            news.HasIndex(x => x.RemoteUrl)
+                .IsUnique();
+
             news.HasOne(x => x.Source)
                 .WithMany(x => x.News)
                 .HasForeignKey(x => x.SourceId)
