@@ -13,8 +13,8 @@
     
     public class SportNewsProvider : BaseNewsProvider
     {
-        public SportNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery)
-            : base(newsApi, sourceQuery)
+        public SportNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceHandler)
+            : base(newsApi, sourceHandler)
         {
             Source = "talkSPORT";
             CategoryUrls = new string[] { "/football", "/sport/boxing", "/sport/tennis" };

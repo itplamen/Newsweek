@@ -15,8 +15,8 @@
     {
         private readonly IEnumerable<string> excludedCategories; 
 
-        public EuropeNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery)
-            : base(newsApi, sourceQuery)
+        public EuropeNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceHandler)
+            : base(newsApi, sourceHandler)
         {
             Source = "Euronews";
             CategoryUrls = new string[] { "news/europe" };

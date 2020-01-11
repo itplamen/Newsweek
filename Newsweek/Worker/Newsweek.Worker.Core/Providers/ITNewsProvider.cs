@@ -12,8 +12,8 @@
     
     public class ITNewsProvider : BaseNewsProvider
     {
-        public ITNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery)
-            : base(newsApi, sourceQuery)
+        public ITNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceHandler)
+            : base(newsApi, sourceHandler)
         {
             Source = "ITworld";
             CategoryUrls = new string[] { "news" };

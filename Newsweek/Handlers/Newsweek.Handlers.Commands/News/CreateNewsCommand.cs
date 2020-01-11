@@ -11,7 +11,8 @@
             string description, 
             string content, 
             string remoteUrl, 
-            string mainImageUrl, 
+            string mainImageUrl,
+            string subcategory,
             int sourceId)
         {
             Title = title;
@@ -19,6 +20,7 @@
             Content = content;
             RemoteUrl = remoteUrl;
             MainImageUrl = mainImageUrl;
+            Subcategory = subcategory;
             SourceId = sourceId;
         }
 
@@ -31,6 +33,8 @@
         public string RemoteUrl { get; set; }
 
         public string MainImageUrl { get; set; }
+
+        public string Subcategory { get; set; }
 
         public int SourceId { get; set; }
     }

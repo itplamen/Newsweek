@@ -12,8 +12,8 @@
     
     public class WorldNewsProvider : BaseNewsProvider
     {
-        public WorldNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery)
-            : base(newsApi, sourceQuery)
+        public WorldNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceHandler)
+            : base(newsApi, sourceHandler)
         {
             Source = "Reuters";
             CategoryUrls = new string[] { "/news/us", "/places/china", "/subjects/middle-east" };

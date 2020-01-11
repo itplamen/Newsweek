@@ -15,12 +15,12 @@
     public abstract class BaseNewsProvider : INewsProvider
     {
         private readonly INewsApi newsApi;
-        private readonly IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery;
+        private readonly IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceHandler;
 
-        public BaseNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceQuery)
+        public BaseNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceHandler)
         {
             this.newsApi = newsApi;
-            this.sourceQuery = sourceQuery;
+            this.sourceHandler = sourceHandler;
         }
 
         protected string Source { get; set; }
@@ -29,7 +29,7 @@
 
         public async Task<IEnumerable<CreateNewsCommand>> Get()
         {
-            Source source = sourceQuery.Handle(new EntityByNameQuery<Source, int>(Source));
+            Source source = sourceHandler.Handle(new EntityByNameQuery<Source, int>(Source));
 
             var tasks = new List<Task<IEnumerable<CreateNewsCommand>>>();
 
@@ -73,7 +73,7 @@
 
                 if (IsArticleValid(title, description, content))
                 {
-                    return new CreateNewsCommand(title, description, content, url, imageUrl, sourceId);
+                    return new CreateNewsCommand(title, description, content, url, imageUrl, subcategory, sourceId);
                 }
             }
 
