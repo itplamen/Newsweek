@@ -1,7 +1,6 @@
 ﻿namespace Newsweek.Worker.Console
 {
     using System.IO;
-    using System.Net.Http;
     using System.Reflection;
     using System.Threading.Tasks;
 
@@ -20,6 +19,7 @@
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
+    using Newsweek.Handlers.Queries.News;
     using Newsweek.Worker.Core.Api;
     using Newsweek.Worker.Core.Contracts;
     using Newsweek.Worker.Core.Providers;
@@ -80,6 +80,7 @@
                     x.GetRequiredService<ICommandHandler<CreateNewsCommand>>())); ;
 
             services.AddScoped<IQueryHandler<EntityByNameQuery<Source, int>, Source>, EntityByNameQueryHandler<Source, int>>();
+            services.AddScoped<IQueryHandler<NewsByRemoteUrlQuery, News>, NewsByRemoteUrlQueryHandler>();
             services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
 
             services.AddHostedService<TasksExecutor>();
