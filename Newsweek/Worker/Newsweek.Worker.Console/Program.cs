@@ -81,7 +81,7 @@
                     x.GetRequiredService<ICommandHandler<CreateNewsCommand>>(),
                     x.GetRequiredService<IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>>>()));
 
-            services.AddScoped<IQueryHandler<EntityByNameQuery<Source, int>, Source>, EntityByNameQueryHandler<Source, int>>();
+            services.AddScoped<IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>>, EntitiesByNameQueryHandler<Source, int>>();
             services.AddScoped<IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>>, NewsByRemoteUrlQueryHandler>();
             services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
 

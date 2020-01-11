@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using AngleSharp.Dom;
 
@@ -12,7 +13,7 @@
     
     public class ITNewsProvider : BaseNewsProvider
     {
-        public ITNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceHandler)
+        public ITNewsProvider(INewsApi newsApi, IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler)
             : base(newsApi, sourceHandler)
         {
             Source = "ITworld";

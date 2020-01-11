@@ -15,9 +15,9 @@
     public abstract class BaseNewsProvider : INewsProvider
     {
         private readonly INewsApi newsApi;
-        private readonly IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceHandler;
+        private readonly IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler;
 
-        public BaseNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceHandler)
+        public BaseNewsProvider(INewsApi newsApi, IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler)
         {
             this.newsApi = newsApi;
             this.sourceHandler = sourceHandler;
@@ -29,13 +29,12 @@
 
         public async Task<IEnumerable<CreateNewsCommand>> Get()
         {
-            Source source = sourceHandler.Handle(new EntityByNameQuery<Source, int>(Source));
-
             var tasks = new List<Task<IEnumerable<CreateNewsCommand>>>();
-
+            var sources = await sourceHandler.Handle(new EntitiesByNameQuery<Source, int>(Enumerable.Repeat(Source, 1)));
+            
             foreach (var categoryUrl in CategoryUrls)
             {
-                tasks.Add(GetNews(source, categoryUrl));
+                tasks.Add(GetNews(sources.First(), categoryUrl));
             }
 
             var newsCommands = await Task.WhenAll(tasks);

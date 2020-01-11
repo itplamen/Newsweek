@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using AngleSharp.Dom;
     
@@ -15,7 +16,7 @@
     {
         private readonly IEnumerable<string> excludedCategories; 
 
-        public EuropeNewsProvider(INewsApi newsApi, IQueryHandler<EntityByNameQuery<Source, int>, Source> sourceHandler)
+        public EuropeNewsProvider(INewsApi newsApi, IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler)
             : base(newsApi, sourceHandler)
         {
             Source = "Euronews";
