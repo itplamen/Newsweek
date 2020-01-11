@@ -1,6 +1,7 @@
 ﻿namespace Newsweek.Worker.Core.Providers
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
 
     using AngleSharp.Dom;
@@ -25,7 +26,7 @@
         protected override IEnumerable<string> GetArticleUrls(IDocument document)
         {
             return document.QuerySelectorAll("article.m-object--demi")?
-                .Where(x => !excludedCategories.Contains(x.QuerySelector("span.program-name")?.InnerHtml))?
+                .Where(x => !excludedCategories.Contains(x.QuerySelector("span.program-name")?.InnerHtml?.ToLower()))?
                 .Select(x => x.QuerySelector("div.m-object__img figure a.media__img__link")?.Attributes["href"]?.Value);
         }
 
@@ -55,6 +56,18 @@
             }
 
             return url;
+        }
+
+        protected override string GetSubcategory(IDocument document)
+        {
+            string subcategory = document.QuerySelector("a.media__body__cat")?.InnerHtml;
+
+            if (!string.IsNullOrEmpty(subcategory))
+            {
+                return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(subcategory.ToLower());
+            }
+
+            return string.Empty;
         }
     }
 }

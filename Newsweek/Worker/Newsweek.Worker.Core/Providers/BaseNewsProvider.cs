@@ -69,6 +69,7 @@
                 string description = GetDescription(document);
                 string content = GetContent(document);
                 string imageUrl = GetMainImageUrl(document);
+                string subcategory = GetSubcategory(document);
 
                 if (IsArticleValid(title, description, content))
                 {
@@ -105,5 +106,7 @@
         protected abstract string GetContent(IDocument document);
 
         protected abstract string GetMainImageUrl(IDocument document);
+
+        protected abstract string GetSubcategory(IDocument document);
     }
 }

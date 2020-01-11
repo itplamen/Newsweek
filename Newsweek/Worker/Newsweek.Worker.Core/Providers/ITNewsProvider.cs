@@ -44,5 +44,10 @@
         {
             return document.QuerySelector("div.lede-container figure[itemprop=image] img")?.Attributes["data-original"]?.Value;
         }
+
+        protected override string GetSubcategory(IDocument document)
+        {
+            return document.QuerySelector("nav.breadcrumbs.horiz ul li:nth-child(2) a.edition-link-url span")?.InnerHtml;
+        }
     }
 }

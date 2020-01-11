@@ -58,5 +58,27 @@
 
             return string.Empty;
         }
+
+        protected override string GetSubcategory(IDocument document)
+        {
+            string keywords = document.QuerySelector("meta[name=keywords]")?.Attributes["content"]?.Value?.ToLower();
+
+            if (string.IsNullOrEmpty(keywords))
+            {
+                return string.Empty;
+            }
+
+            if (keywords.Contains("china"))
+            {
+                return "China";
+            }
+
+            if (keywords.Contains("middle east"))
+            {
+                return "Middle East";
+            }
+
+            return "USA";
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Newsweek.Worker.Core.Providers
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
 
     using AngleSharp.Dom;
@@ -49,6 +50,24 @@
             {
                 return src.Substring(0, src.LastIndexOf("?"));
             }
+
+            return string.Empty;
+        }
+
+        protected override string GetSubcategory(IDocument document)
+        {
+            string url = document.QuerySelector("link[rel=canonical]")?.Attributes["href"]?.Value?.ToLower();
+
+            foreach (var categoryUrl in CategoryUrls)
+            {
+                if (url.Contains(categoryUrl))
+                {
+                    string subcategory = categoryUrl.Split("/").Last();
+
+                    return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(subcategory);
+                }
+            }
+
 
             return string.Empty;
         }
