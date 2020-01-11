@@ -1,5 +1,6 @@
 ﻿namespace Newsweek.Worker.Console
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
     using System.Threading.Tasks;
@@ -77,10 +78,11 @@
                         x.GetRequiredService<SportNewsProvider>(),
                         x.GetRequiredService<ITNewsProvider>()
                     },
-                    x.GetRequiredService<ICommandHandler<CreateNewsCommand>>())); ;
+                    x.GetRequiredService<ICommandHandler<CreateNewsCommand>>(),
+                    x.GetRequiredService<IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>>>()));
 
             services.AddScoped<IQueryHandler<EntityByNameQuery<Source, int>, Source>, EntityByNameQueryHandler<Source, int>>();
-            services.AddScoped<IQueryHandler<NewsByRemoteUrlQuery, News>, NewsByRemoteUrlQueryHandler>();
+            services.AddScoped<IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>>, NewsByRemoteUrlQueryHandler>();
             services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
 
             services.AddHostedService<TasksExecutor>();
