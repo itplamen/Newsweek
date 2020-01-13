@@ -2,6 +2,7 @@
 {
     using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Handlers.Commands.Contracts;
+    using Newsweek.Handlers.Commands.Subcategories;
     using NewsData = Newsweek.Data.Models.News;
 
     public class CreateNewsCommand : ICommand, IMapTo<NewsData>
@@ -12,7 +13,7 @@
             string content, 
             string remoteUrl, 
             string mainImageUrl,
-            string subcategory,
+            SubcategoryCreateCommand subcategory,
             int sourceId)
         {
             Title = title;
@@ -34,7 +35,7 @@
 
         public string MainImageUrl { get; set; }
 
-        public string Subcategory { get; set; }
+        public SubcategoryCreateCommand Subcategory { get; set; }
 
         public int SourceId { get; set; }
     }

@@ -8,6 +8,7 @@
 
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.News;
+    using Newsweek.Handlers.Commands.Subcategories;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Worker.Core.Contracts;
@@ -16,25 +17,33 @@
     {
         private readonly INewsApi newsApi;
         private readonly IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler;
+        private readonly IQueryHandler<EntitiesByNameQuery<Category, int>, Task<IEnumerable<Category>>> categoryHandler;
 
-        public BaseNewsProvider(INewsApi newsApi, IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler)
+        public BaseNewsProvider(
+            INewsApi newsApi, 
+            IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler,
+            IQueryHandler<EntitiesByNameQuery<Category, int>, Task<IEnumerable<Category>>> categoryHandler)
         {
             this.newsApi = newsApi;
             this.sourceHandler = sourceHandler;
+            this.categoryHandler = categoryHandler;
         }
 
         protected string Source { get; set; }
 
-        protected IEnumerable<string> CategoryUrls { get; set; }
+        protected string Category { get; set; }
+
+        protected IEnumerable<string> SubcategoryUrls { get; set; }
 
         public async Task<IEnumerable<CreateNewsCommand>> Get()
         {
             var tasks = new List<Task<IEnumerable<CreateNewsCommand>>>();
             var sources = await sourceHandler.Handle(new EntitiesByNameQuery<Source, int>(Enumerable.Repeat(Source, 1)));
+            var categories = await categoryHandler.Handle(new EntitiesByNameQuery<Category, int>(Enumerable.Repeat(Category, 1)));
             
-            foreach (var categoryUrl in CategoryUrls)
+            foreach (var subcategoryUrl in SubcategoryUrls)
             {
-                tasks.Add(GetNews(sources.First(), categoryUrl));
+                tasks.Add(GetNews(sources.First(), categories.First(), subcategoryUrl));
             }
 
             var newsCommands = await Task.WhenAll(tasks);
@@ -43,22 +52,22 @@
                 .Where(x => x != null);
         }
 
-        private async Task<IEnumerable<CreateNewsCommand>> GetNews(Source source, string categoryUrl)
+        private async Task<IEnumerable<CreateNewsCommand>> GetNews(Source source, Category category, string subcategoryUrl)
         {
-            IDocument categoryDocument = await newsApi.Get($"{source.Url}/{categoryUrl}");
-            IEnumerable<string> articleUrls = GetArticleUrls(categoryDocument).Select(x => SelectArticleUrl(x, source.Url));
+            IDocument subcategoryDocument = await newsApi.Get($"{source.Url}/{subcategoryUrl}");
+            IEnumerable<string> articleUrls = GetArticleUrls(subcategoryDocument).Select(x => SelectArticleUrl(x, source.Url));
 
             var tasks = new List<Task<CreateNewsCommand>>();
 
             foreach (var url in articleUrls)
             {
-                tasks.Add(BuildArticle(url, source.Id));
+                tasks.Add(BuildArticle(url, source.Id, category.Id));
             }
             
             return await Task.WhenAll(tasks);
         }
 
-        private async Task<CreateNewsCommand> BuildArticle(string url, int sourceId)
+        private async Task<CreateNewsCommand> BuildArticle(string url, int sourceId, int categoryId)
         {
             IDocument document = await newsApi.Get(url);
 
@@ -69,10 +78,12 @@
                 string content = GetContent(document);
                 string imageUrl = GetMainImageUrl(document);
                 string subcategory = GetSubcategory(document);
-
+ 
                 if (IsArticleValid(title, description, content))
                 {
-                    return new CreateNewsCommand(title, description, content, url, imageUrl, subcategory, sourceId);
+                    var subcategoryCommand = new SubcategoryCreateCommand(subcategory, categoryId);
+
+                    return new CreateNewsCommand(title, description, content, url, imageUrl, subcategoryCommand, sourceId);
                 }
             }
 

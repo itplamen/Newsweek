@@ -14,20 +14,24 @@
     
     public class EuropeNewsProvider : BaseNewsProvider
     {
-        private readonly IEnumerable<string> excludedCategories; 
+        private readonly IEnumerable<string> excludedSubcategories; 
 
-        public EuropeNewsProvider(INewsApi newsApi, IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler)
-            : base(newsApi, sourceHandler)
+        public EuropeNewsProvider(
+            INewsApi newsApi, 
+            IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler,
+            IQueryHandler<EntitiesByNameQuery<Category, int>, Task<IEnumerable<Category>>> categoryHandler)
+            : base(newsApi, sourceHandler, categoryHandler)
         {
             Source = "Euronews";
-            CategoryUrls = new string[] { "news/europe" };
-            excludedCategories = new string[] { "no comment", "world", "sport", "world news", "musica", "outdoor", "view" };
+            Category = "Europe";
+            SubcategoryUrls = new string[] { "news/europe" };
+            excludedSubcategories = new string[] { "no comment", "world", "sport", "world news", "musica", "outdoor", "view" };
         }
 
         protected override IEnumerable<string> GetArticleUrls(IDocument document)
         {
             return document.QuerySelectorAll("article.m-object--demi")?
-                .Where(x => !excludedCategories.Contains(x.QuerySelector("span.program-name")?.InnerHtml?.ToLower()))?
+                .Where(x => !excludedSubcategories.Contains(x.QuerySelector("span.program-name")?.InnerHtml?.ToLower()))?
                 .Select(x => x.QuerySelector("div.m-object__img figure a.media__img__link")?.Attributes["href"]?.Value);
         }
 

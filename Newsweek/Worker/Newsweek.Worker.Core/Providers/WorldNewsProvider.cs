@@ -13,11 +13,15 @@
     
     public class WorldNewsProvider : BaseNewsProvider
     {
-        public WorldNewsProvider(INewsApi newsApi, IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler)
-            : base(newsApi, sourceHandler)
+        public WorldNewsProvider(
+            INewsApi newsApi, 
+            IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler,
+            IQueryHandler<EntitiesByNameQuery<Category, int>, Task<IEnumerable<Category>>> categoryHandler)
+            : base(newsApi, sourceHandler, categoryHandler)
         {
             Source = "Reuters";
-            CategoryUrls = new string[] { "/news/us", "/places/china", "/subjects/middle-east" };
+            Category = "World";
+            SubcategoryUrls = new string[] { "/news/us", "/places/china", "/subjects/middle-east" };
         }
 
         protected override IEnumerable<string> GetArticleUrls(IDocument document)

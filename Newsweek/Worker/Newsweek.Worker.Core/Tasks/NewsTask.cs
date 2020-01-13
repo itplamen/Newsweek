@@ -8,6 +8,7 @@
     using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Commands.Contracts;
     using Newsweek.Handlers.Commands.News;
+    using Newsweek.Handlers.Commands.Subcategories;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Handlers.Queries.News;
@@ -40,8 +41,8 @@
             IEnumerable<CreateNewsCommand>[] providedNewsCommands = await Task.WhenAll(newsProviders.Select(x => x.Get()));
             IEnumerable<CreateNewsCommand> newsCommands = providedNewsCommands.SelectMany(x => x);
 
-            IEnumerable<string> subcategoryNames = newsCommands.Select(x => x.Subcategory).Distinct();
-            await CreateSubcategories(subcategoryNames);
+            IEnumerable<SubcategoryCreateCommand> subcategories = newsCommands.Select(x => x.Subcategory);
+            await CreateSubcategories(subcategories);
 
             IEnumerable<string> urls = newsCommands.Select(x => x.RemoteUrl);
             IEnumerable<News> news = await newsGetHandler.Handle(new NewsByRemoteUrlQuery(urls));
@@ -55,11 +56,13 @@
             }
         }
 
-        private async Task CreateSubcategories(IEnumerable<string> names)
+        private async Task CreateSubcategories(IEnumerable<SubcategoryCreateCommand> subcategories)
         {
-            IEnumerable<Subcategory> subcategories = await subcategoriesGetHandler.Handle(new EntitiesByNameQuery<Subcategory, int>(names));
-            IEnumerable<NameEntityCommand<Subcategory, int>> subcategoriesToCreate = subcategories.Where(x => !names.Contains(x.Name))
-                .Select(x => new NameEntityCommand<Subcategory, int>(x.Name));
+            IEnumerable<string> subcategoryNames = subcategories.Select(x => x.Name).Distinct();
+            IEnumerable<Subcategory> existingSubcategories = await subcategoriesGetHandler.Handle(new EntitiesByNameQuery<Subcategory, int>(subcategoryNames));
+            IEnumerable<string> existingSubcategoryNames = existingSubcategories.Select(x => x.Name).Distinct();
+
+            IEnumerable<SubcategoryCreateCommand> subcategoriesToCreate = subcategories.Where(x => !existingSubcategoryNames.Contains(x.Name));
 
             await subcategoriesCreateHandler.Handle(new CreateEntitiesCommand<Subcategory, int>(subcategoriesToCreate));
         }

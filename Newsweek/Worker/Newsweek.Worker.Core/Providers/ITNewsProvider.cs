@@ -13,11 +13,15 @@
     
     public class ITNewsProvider : BaseNewsProvider
     {
-        public ITNewsProvider(INewsApi newsApi, IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler)
-            : base(newsApi, sourceHandler)
+        public ITNewsProvider(
+            INewsApi newsApi, 
+            IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler,
+            IQueryHandler<EntitiesByNameQuery<Category, int>, Task<IEnumerable<Category>>> categoryHandler)
+            : base(newsApi, sourceHandler, categoryHandler)
         {
             Source = "ITworld";
-            CategoryUrls = new string[] { "news" };
+            Category = "IT";
+            SubcategoryUrls = new string[] { "news" };
         }
 
         protected override IEnumerable<string> GetArticleUrls(IDocument document)

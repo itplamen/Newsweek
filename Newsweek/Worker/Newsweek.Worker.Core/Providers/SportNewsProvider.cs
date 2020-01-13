@@ -14,11 +14,15 @@
     
     public class SportNewsProvider : BaseNewsProvider
     {
-        public SportNewsProvider(INewsApi newsApi, IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler)
-            : base(newsApi, sourceHandler)
+        public SportNewsProvider(
+            INewsApi newsApi, 
+            IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler,
+            IQueryHandler<EntitiesByNameQuery<Category, int>, Task<IEnumerable<Category>>> categoryHandler)
+            : base(newsApi, sourceHandler, categoryHandler)
         {
             Source = "talkSPORT";
-            CategoryUrls = new string[] { "/football", "/sport/boxing", "/sport/tennis" };
+            Category = "Sport";
+            SubcategoryUrls = new string[] { "/football", "/sport/boxing", "/sport/tennis" };
         }
 
         protected override IEnumerable<string> GetArticleUrls(IDocument document)
@@ -59,7 +63,7 @@
         {
             string url = document.QuerySelector("link[rel=canonical]")?.Attributes["href"]?.Value?.ToLower();
 
-            foreach (var categoryUrl in CategoryUrls)
+            foreach (var categoryUrl in SubcategoryUrls)
             {
                 if (url.Contains(categoryUrl))
                 {
