@@ -80,10 +80,14 @@
                         x.GetRequiredService<ITNewsProvider>()
                     },
                     x.GetRequiredService<ICommandHandler<CreateNewsCommand>>(),
-                    x.GetRequiredService<IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>>>()));
+                    x.GetRequiredService<IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>>>(),
+                    x.GetRequiredService<ICommandHandler<CreateEntitiesCommand<Subcategory, int>>>(),
+                    x.GetRequiredService<IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>>>()));
 
+            services.AddScoped<IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>>, EntitiesByNameQueryHandler<Subcategory, int>>();
             services.AddScoped<IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>>, EntitiesByNameQueryHandler<Source, int>>();
             services.AddScoped<IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>>, NewsByRemoteUrlQueryHandler>();
+            services.AddScoped<ICommandHandler<CreateEntitiesCommand<Subcategory, int>>, CreateEntitiesCommandHandler<Subcategory, int>>();
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<News, int>>, CreateEntitiesCommandHandler<News, int>>();
             services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
 
