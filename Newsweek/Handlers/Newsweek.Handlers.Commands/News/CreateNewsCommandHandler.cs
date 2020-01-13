@@ -1,7 +1,7 @@
 ﻿namespace Newsweek.Handlers.Commands.News
 {
     using System;
-
+    using System.Threading.Tasks;
     using AutoMapper;
 
     using Newsweek.Data;
@@ -17,13 +17,13 @@
             this.dbContext = dbContext;
         }
 
-        public void Handle(CreateNewsCommand command)
+        public async Task Handle(CreateNewsCommand command)
         {
             NewsData news = Mapper.Map<NewsData>(command);
             news.CreatedOn = DateTime.UtcNow;
 
-            dbContext.Add(news);
-            dbContext.SaveChanges();
+            await dbContext.AddAsync(news);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

@@ -16,6 +16,7 @@
     using Newsweek.Data;
     using Newsweek.Data.Models;
     using Newsweek.Data.Seeders;
+    using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Commands.Contracts;
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Queries.Common;
@@ -83,6 +84,7 @@
 
             services.AddScoped<IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>>, EntitiesByNameQueryHandler<Source, int>>();
             services.AddScoped<IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>>, NewsByRemoteUrlQueryHandler>();
+            services.AddScoped<ICommandHandler<CreateEntitiesCommand<News, int>>, CreateEntitiesCommandHandler<News, int>>();
             services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
 
             services.AddHostedService<TasksExecutor>();

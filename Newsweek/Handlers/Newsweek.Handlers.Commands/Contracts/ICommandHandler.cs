@@ -1,8 +1,10 @@
 ﻿namespace Newsweek.Handlers.Commands.Contracts
 {
+    using System.Threading.Tasks;
+
     public interface ICommandHandler<TCommand>
         where TCommand : ICommand
     {
-        void Handle(TCommand command);
+        Task Handle(TCommand command);
     }
 }
