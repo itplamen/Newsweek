@@ -86,6 +86,7 @@
 
             services.AddScoped<IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>>, EntitiesByNameQueryHandler<Subcategory, int>>();
             services.AddScoped<IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>>, EntitiesByNameQueryHandler<Source, int>>();
+            services.AddScoped<IQueryHandler<EntitiesByNameQuery<Category, int>, Task<IEnumerable<Category>>>, EntitiesByNameQueryHandler<Category, int>>();
             services.AddScoped<IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>>, NewsByRemoteUrlQueryHandler>();
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<Subcategory, int>>, CreateEntitiesCommandHandler<Subcategory, int>>();
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<News, int>>, CreateEntitiesCommandHandler<News, int>>();
