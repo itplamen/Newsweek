@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     
     using AutoMapper;
@@ -22,16 +23,19 @@
 
         public async Task Handle(CreateEntitiesCommand<TEntity, TKey> command)
         {
-            IEnumerable<TEntity> entities = Mapper.Map<IEnumerable<TEntity>>(command.Entities);
-
-            foreach (var entity in entities)
+            if (command.Entities.Any())
             {
-                entity.CreatedOn = DateTime.UtcNow;
-                
-                await dbContext.AddAsync(entity);
-            }
+                IEnumerable<TEntity> entities = Mapper.Map<IEnumerable<TEntity>>(command.Entities);
 
-            await dbContext.SaveChangesAsync();
+                foreach (var entity in entities)
+                {
+                    entity.CreatedOn = DateTime.UtcNow;
+
+                    await dbContext.AddAsync(entity);
+                }
+
+                await dbContext.SaveChangesAsync();
+            }
         }
     }
 }

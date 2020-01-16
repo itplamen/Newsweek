@@ -38,10 +38,18 @@
 
         public async Task DoWork()
         {
-            IEnumerable<CreateNewsCommand>[] providedNewsCommands = await Task.WhenAll(newsProviders.Select(x => x.Get()));
-            IEnumerable<CreateNewsCommand> newsCommands = providedNewsCommands.SelectMany(x => x);
+            List<CreateNewsCommand> newsCommands = new List<CreateNewsCommand>();
 
-            IEnumerable<SubcategoryCreateCommand> subcategories = newsCommands.Select(x => x.Subcategory);
+            foreach (var newsProvider in newsProviders)
+            {
+                IEnumerable<CreateNewsCommand> commands = await newsProvider.Get();
+                newsCommands.AddRange(commands);
+            }
+
+            IEnumerable<SubcategoryCreateCommand> subcategories = newsCommands.Select(x => x.Subcategory)
+                .GroupBy(x => x.Name)
+                .Select(x => x.First());
+
             await CreateSubcategories(subcategories);
 
             IEnumerable<string> urls = newsCommands.Select(x => x.RemoteUrl);
@@ -58,9 +66,9 @@
 
         private async Task CreateSubcategories(IEnumerable<SubcategoryCreateCommand> subcategories)
         {
-            IEnumerable<string> subcategoryNames = subcategories.Select(x => x.Name).Distinct();
+            IEnumerable<string> subcategoryNames = subcategories.Select(x => x.Name);
             IEnumerable<Subcategory> existingSubcategories = await subcategoriesGetHandler.Handle(new EntitiesByNameQuery<Subcategory, int>(subcategoryNames));
-            IEnumerable<string> existingSubcategoryNames = existingSubcategories.Select(x => x.Name).Distinct();
+            IEnumerable<string> existingSubcategoryNames = existingSubcategories.Select(x => x.Name);
 
             IEnumerable<SubcategoryCreateCommand> subcategoriesToCreate = subcategories.Where(x => !existingSubcategoryNames.Contains(x.Name));
 
