@@ -1,6 +1,6 @@
 ﻿namespace Newsweek.Data.Models
 {
-    public class NewsSubcategory
+    public class NewsSubcategory : BaseModel<int>
     {
         public int NewsId { get; set; }
 
