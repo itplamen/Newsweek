@@ -81,7 +81,7 @@
  
                 if (IsArticleValid(title, description, content))
                 {
-                    var subcategoryCommand = new SubcategoryCreateCommand(subcategory, categoryId);
+                    var subcategoryCommand = new CreateSubcategoryCommand(subcategory, categoryId);
 
                     return new CreateNewsCommand(title, description, content, url, imageUrl, subcategoryCommand, sourceId);
                 }

@@ -4,9 +4,9 @@
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Contracts;
 
-    public class SubcategoryCreateCommand : ICommand, IMapTo<Subcategory>
+    public class CreateSubcategoryCommand : ICommand, IMapTo<Subcategory>
     {
-        public SubcategoryCreateCommand(string name, int categoryId)
+        public CreateSubcategoryCommand(string name, int categoryId)
         {
             Name = name;
             CategoryId = categoryId;
