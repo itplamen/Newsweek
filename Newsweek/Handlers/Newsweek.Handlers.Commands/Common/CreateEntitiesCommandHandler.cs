@@ -11,7 +11,7 @@
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Contracts;
 
-    public class CreateEntitiesCommandHandler<TEntity, TKey> : ICommandHandler<CreateEntitiesCommand<TEntity, TKey>>
+    public class CreateEntitiesCommandHandler<TEntity, TKey> : ICommandHandler<CreateEntitiesCommand<TEntity, TKey>, Task<IEnumerable<TEntity>>>
         where TEntity : BaseModel<TKey>
     {
         private readonly NewsweekDbContext dbContext;
@@ -21,7 +21,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task Handle(CreateEntitiesCommand<TEntity, TKey> command)
+        public async Task<IEnumerable<TEntity>> Handle(CreateEntitiesCommand<TEntity, TKey> command)
         {
             if (command.Entities.Any())
             {
@@ -35,7 +35,11 @@
                 }
 
                 await dbContext.SaveChangesAsync();
+
+                return entities;
             }
+
+            return await Task.FromResult<IEnumerable<TEntity>>(null);
         }
     }
 }

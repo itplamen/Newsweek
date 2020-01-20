@@ -79,18 +79,19 @@
                         x.GetRequiredService<SportNewsProvider>(),
                         x.GetRequiredService<ITNewsProvider>()
                     },
-                    x.GetRequiredService<ICommandHandler<CreateNewsCommand>>(),
                     x.GetRequiredService<IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>>>(),
-                    x.GetRequiredService<ICommandHandler<CreateEntitiesCommand<Subcategory, int>>>(),
-                    x.GetRequiredService<IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>>>()));
+                    x.GetRequiredService<ICommandHandler<CreateEntitiesCommand<News, int>, Task<IEnumerable<News>>>>(),
+                    x.GetRequiredService<ICommandHandler<CreateEntitiesCommand<Subcategory, int>, Task<IEnumerable<Subcategory>>>>(),
+                    x.GetRequiredService<IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>>>(),
+                    x.GetRequiredService<ICommandHandler<CreateEntitiesCommand<NewsSubcategory, int>, Task<IEnumerable<NewsSubcategory>>>>()));
 
             services.AddScoped<IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>>, EntitiesByNameQueryHandler<Subcategory, int>>();
             services.AddScoped<IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>>, EntitiesByNameQueryHandler<Source, int>>();
             services.AddScoped<IQueryHandler<EntitiesByNameQuery<Category, int>, Task<IEnumerable<Category>>>, EntitiesByNameQueryHandler<Category, int>>();
             services.AddScoped<IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>>, NewsByRemoteUrlQueryHandler>();
-            services.AddScoped<ICommandHandler<CreateEntitiesCommand<Subcategory, int>>, CreateEntitiesCommandHandler<Subcategory, int>>();
-            services.AddScoped<ICommandHandler<CreateEntitiesCommand<News, int>>, CreateEntitiesCommandHandler<News, int>>();
-            services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateEntitiesCommand<Subcategory, int>, Task<IEnumerable<Subcategory>>>, CreateEntitiesCommandHandler<Subcategory, int>>();
+            services.AddScoped<ICommandHandler<CreateEntitiesCommand<News, int>, Task<IEnumerable<News>>>, CreateEntitiesCommandHandler<News, int>>();
+            services.AddScoped<ICommandHandler<CreateEntitiesCommand<NewsSubcategory, int>, Task<IEnumerable<NewsSubcategory>>>, CreateEntitiesCommandHandler<NewsSubcategory, int>>();
 
             services.AddHostedService<TasksExecutor>();
         }

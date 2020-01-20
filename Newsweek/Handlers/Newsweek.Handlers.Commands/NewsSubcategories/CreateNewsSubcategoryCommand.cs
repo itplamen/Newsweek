@@ -6,6 +6,12 @@
 
     public class CreateNewsSubcategoryCommand : ICommand, IMapTo<NewsSubcategory>
     {
+        public CreateNewsSubcategoryCommand(int newsId, int subcategoryId)
+        {
+            NewsId = newsId;
+            SubcategoryId = subcategoryId;
+        }
+
         public int NewsId { get; set; }
 
         public int SubcategoryId { get; set; }
