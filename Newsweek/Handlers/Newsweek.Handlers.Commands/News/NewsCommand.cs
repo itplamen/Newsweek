@@ -5,9 +5,9 @@
     using Newsweek.Handlers.Commands.Subcategories;
     using NewsData = Newsweek.Data.Models.News;
 
-    public class CreateNewsCommand : ICommand, IMapTo<NewsData>
+    public class NewsCommand : ICommand, IMapTo<NewsData>
     {
-        public CreateNewsCommand(
+        public NewsCommand(
             string title, 
             string description, 
             string content, 

@@ -7,6 +7,6 @@
 
     public interface INewsProvider
     {
-        Task<IEnumerable<CreateNewsCommand>> Get();
+        Task<IEnumerable<NewsCommand>> Get();
     }
 }

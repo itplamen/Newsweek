@@ -38,11 +38,11 @@
 
         public async Task DoWork()
         {
-            List<CreateNewsCommand> newsCommands = new List<CreateNewsCommand>();
+            List<NewsCommand> newsCommands = new List<NewsCommand>();
 
             foreach (var newsProvider in newsProviders)
             {
-                IEnumerable<CreateNewsCommand> commands = await newsProvider.Get();
+                IEnumerable<NewsCommand> commands = await newsProvider.Get();
                 newsCommands.AddRange(commands);
             }
 
@@ -56,9 +56,9 @@
             await CreateNewsSubcategories(newsCommands, news, subcategories);
         }
 
-        private async Task<IEnumerable<News>> CreateNews(IEnumerable<CreateNewsCommand> newsCommands)
+        private async Task<IEnumerable<News>> CreateNews(IEnumerable<NewsCommand> newsCommands)
         {
-            ICollection<CreateNewsCommand> newsCommandsToCreate = new List<CreateNewsCommand>();
+            ICollection<NewsCommand> newsCommandsToCreate = new List<NewsCommand>();
 
             IEnumerable<string> urls = newsCommands.Select(x => x.RemoteUrl);
             IEnumerable<News> news = await newsGetHandler.Handle(new NewsByRemoteUrlQuery(urls));
@@ -74,13 +74,13 @@
             return await newsCreateHandler.Handle(new CreateEntitiesCommand<News, int>(newsCommandsToCreate));
         }
 
-        private async Task CreateNewsSubcategories(IEnumerable<CreateNewsCommand> newsCommands, IEnumerable<News> news, IEnumerable<Subcategory> subcategories)
+        private async Task CreateNewsSubcategories(IEnumerable<NewsCommand> newsCommands, IEnumerable<News> news, IEnumerable<Subcategory> subcategories)
         {
             var newsSubcategoriesCommands = new List<CreateNewsSubcategoryCommand>();
 
             foreach (var article in news)
             {
-                CreateNewsCommand newsCommand = newsCommands.FirstOrDefault(x => x.RemoteUrl == article.RemoteUrl);
+                NewsCommand newsCommand = newsCommands.FirstOrDefault(x => x.RemoteUrl == article.RemoteUrl);
 
                 if (newsCommand != null)
                 {

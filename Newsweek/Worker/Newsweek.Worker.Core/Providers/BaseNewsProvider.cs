@@ -35,9 +35,9 @@
 
         protected IEnumerable<string> SubcategoryUrls { get; set; }
 
-        public async Task<IEnumerable<CreateNewsCommand>> Get()
+        public async Task<IEnumerable<NewsCommand>> Get()
         {
-            var tasks = new List<Task<IEnumerable<CreateNewsCommand>>>();
+            var tasks = new List<Task<IEnumerable<NewsCommand>>>();
             var sources = await sourceHandler.Handle(new EntitiesByNameQuery<Source, int>(Enumerable.Repeat(Source, 1)));
             var categories = await categoryHandler.Handle(new EntitiesByNameQuery<Category, int>(Enumerable.Repeat(Category, 1)));
             
@@ -52,12 +52,12 @@
                 .Where(x => x != null);
         }
 
-        private async Task<IEnumerable<CreateNewsCommand>> GetNews(Source source, Category category, string subcategoryUrl)
+        private async Task<IEnumerable<NewsCommand>> GetNews(Source source, Category category, string subcategoryUrl)
         {
             IDocument subcategoryDocument = await newsApi.Get($"{source.Url}/{subcategoryUrl}");
             IEnumerable<string> articleUrls = GetArticleUrls(subcategoryDocument).Select(x => SelectArticleUrl(x, source.Url));
 
-            var tasks = new List<Task<CreateNewsCommand>>();
+            var tasks = new List<Task<NewsCommand>>();
 
             foreach (var url in articleUrls)
             {
@@ -67,7 +67,7 @@
             return await Task.WhenAll(tasks);
         }
 
-        private async Task<CreateNewsCommand> BuildArticle(string url, int sourceId, int categoryId)
+        private async Task<NewsCommand> BuildArticle(string url, int sourceId, int categoryId)
         {
             IDocument document = await newsApi.Get(url);
 
@@ -83,7 +83,7 @@
                 {
                     var subcategoryCommand = new SubcategoryCommand(subcategory, categoryId);
 
-                    return new CreateNewsCommand(title, description, content, url, imageUrl, subcategoryCommand, sourceId);
+                    return new NewsCommand(title, description, content, url, imageUrl, subcategoryCommand, sourceId);
                 }
             }
 
