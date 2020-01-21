@@ -18,6 +18,7 @@
     using Newsweek.Data.Seeders;
     using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Commands.Contracts;
+    using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Commands.Subcategories;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
@@ -79,8 +80,7 @@
                         x.GetRequiredService<SportNewsProvider>(),
                         x.GetRequiredService<ITNewsProvider>()
                     },
-                    x.GetRequiredService<IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>>>(),
-                    x.GetRequiredService<ICommandHandler<CreateEntitiesCommand<News, int>, Task<IEnumerable<News>>>>(),
+                    x.GetRequiredService<ICommandHandler<CreateNewsCommand, Task<IEnumerable<News>>>>(),
                     x.GetRequiredService<ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>>>(),
                     x.GetRequiredService<ICommandHandler<CreateEntitiesCommand<NewsSubcategory, int>, Task<IEnumerable<NewsSubcategory>>>>()));
 
@@ -92,6 +92,7 @@
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<News, int>, Task<IEnumerable<News>>>, CreateEntitiesCommandHandler<News, int>>();
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<NewsSubcategory, int>, Task<IEnumerable<NewsSubcategory>>>, CreateEntitiesCommandHandler<NewsSubcategory, int>>();
             services.AddScoped<ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>>, CreateSubcategoriesCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateNewsCommand, Task<IEnumerable<News>>>, CreateNewsCommandHandler>();
 
             services.AddHostedService<TasksExecutor>();
         }
