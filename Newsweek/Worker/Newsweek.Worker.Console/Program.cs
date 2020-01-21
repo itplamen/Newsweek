@@ -18,7 +18,7 @@
     using Newsweek.Data.Seeders;
     using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Commands.Contracts;
-    using Newsweek.Handlers.Commands.News;
+    using Newsweek.Handlers.Commands.Subcategories;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Handlers.Queries.News;
@@ -81,8 +81,7 @@
                     },
                     x.GetRequiredService<IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>>>(),
                     x.GetRequiredService<ICommandHandler<CreateEntitiesCommand<News, int>, Task<IEnumerable<News>>>>(),
-                    x.GetRequiredService<ICommandHandler<CreateEntitiesCommand<Subcategory, int>, Task<IEnumerable<Subcategory>>>>(),
-                    x.GetRequiredService<IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>>>(),
+                    x.GetRequiredService<ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>>>(),
                     x.GetRequiredService<ICommandHandler<CreateEntitiesCommand<NewsSubcategory, int>, Task<IEnumerable<NewsSubcategory>>>>()));
 
             services.AddScoped<IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>>, EntitiesByNameQueryHandler<Subcategory, int>>();
@@ -92,6 +91,7 @@
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<Subcategory, int>, Task<IEnumerable<Subcategory>>>, CreateEntitiesCommandHandler<Subcategory, int>>();
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<News, int>, Task<IEnumerable<News>>>, CreateEntitiesCommandHandler<News, int>>();
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<NewsSubcategory, int>, Task<IEnumerable<NewsSubcategory>>>, CreateEntitiesCommandHandler<NewsSubcategory, int>>();
+            services.AddScoped<ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>>, CreateSubcategoriesCommandHandler>();
 
             services.AddHostedService<TasksExecutor>();
         }

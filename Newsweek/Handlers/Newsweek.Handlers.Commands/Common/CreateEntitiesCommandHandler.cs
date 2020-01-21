@@ -39,7 +39,7 @@
                 return entities;
             }
 
-            return await Task.FromResult<IEnumerable<TEntity>>(null);
+            return await Task.FromResult(Enumerable.Empty<TEntity>());
         }
     }
 }

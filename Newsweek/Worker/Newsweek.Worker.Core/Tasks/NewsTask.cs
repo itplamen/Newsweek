@@ -10,7 +10,6 @@
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Commands.NewsSubcategories;
     using Newsweek.Handlers.Commands.Subcategories;
-    using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Handlers.Queries.News;
     using Newsweek.Worker.Core.Contracts;
@@ -20,23 +19,20 @@
         private readonly IEnumerable<INewsProvider> newsProviders;
         private readonly IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>> newsGetHandler;
         private readonly ICommandHandler<CreateEntitiesCommand<News, int>, Task<IEnumerable<News>>> newsCreateHandler;
-        private readonly ICommandHandler<CreateEntitiesCommand<Subcategory, int>, Task<IEnumerable<Subcategory>>> subcategoriesCreateHandler;
-        private readonly IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>> subcategoriesGetHandler;
+        private readonly ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>> subcategoriesCreateHandler;
         private readonly ICommandHandler<CreateEntitiesCommand<NewsSubcategory, int>, Task<IEnumerable<NewsSubcategory>>> newsSubcategoriesCreateHandler;
 
         public NewsTask(
             IEnumerable<INewsProvider> newsProviders,
             IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>> newsGetHandler,
             ICommandHandler<CreateEntitiesCommand<News, int>, Task<IEnumerable<News>>> newsCreateHandler,
-            ICommandHandler<CreateEntitiesCommand<Subcategory, int>, Task<IEnumerable<Subcategory>>> subcategoriesCreateHandler,
-            IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>> subcategoriesGetHandler,
+            ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>> subcategoriesCreateHandler,
             ICommandHandler<CreateEntitiesCommand<NewsSubcategory, int>, Task<IEnumerable<NewsSubcategory>>> newsSubcategoriesCreateHandler)
         {
             this.newsProviders = newsProviders;
             this.newsGetHandler = newsGetHandler;
             this.newsCreateHandler = newsCreateHandler;
             this.subcategoriesCreateHandler = subcategoriesCreateHandler;
-            this.subcategoriesGetHandler = subcategoriesGetHandler;
             this.newsSubcategoriesCreateHandler = newsSubcategoriesCreateHandler;
         }
 
@@ -54,26 +50,10 @@
                 .GroupBy(x => x.Name)
                 .Select(x => x.First());
 
-            IEnumerable<Subcategory> subcategories = await CreateSubcategories(commandSubcategories);
+            IEnumerable<Subcategory> subcategories = await subcategoriesCreateHandler.Handle(new CreateSubcategoriesCommand(commandSubcategories));
             IEnumerable<News> news = await CreateNews(newsCommands);
 
             await CreateNewsSubcategories(newsCommands, news, subcategories);
-        }
-
-        private async Task<IEnumerable<Subcategory>> CreateSubcategories(IEnumerable<CreateSubcategoryCommand> subcategories)
-        {
-            IEnumerable<string> subcategoryNames = subcategories.Select(x => x.Name);
-            IEnumerable<Subcategory> existingSubcategories = await subcategoriesGetHandler.Handle(new EntitiesByNameQuery<Subcategory, int>(subcategoryNames));
-            IEnumerable<string> existingSubcategoryNames = existingSubcategories.Select(x => x.Name);
-
-            IEnumerable<CreateSubcategoryCommand> subcategoriesToCreate = subcategories.Where(x => !existingSubcategoryNames.Contains(x.Name));
-            IEnumerable<Subcategory> createdSubcategories = await subcategoriesCreateHandler.Handle(new CreateEntitiesCommand<Subcategory, int>(subcategoriesToCreate));
-
-            List<Subcategory> newsSubcategories = new List<Subcategory>();
-            newsSubcategories.AddRange(existingSubcategories);
-            newsSubcategories.AddRange(createdSubcategories);
-
-            return await Task.FromResult<IEnumerable<Subcategory>>(newsSubcategories);
         }
 
         private async Task<IEnumerable<News>> CreateNews(IEnumerable<CreateNewsCommand> newsCommands)
