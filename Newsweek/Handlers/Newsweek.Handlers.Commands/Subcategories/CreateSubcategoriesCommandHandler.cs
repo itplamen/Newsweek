@@ -30,7 +30,7 @@
             IEnumerable<Subcategory> existingSubcategories = await getHandler.Handle(new EntitiesByNameQuery<Subcategory, int>(subcategoryNames));
             IEnumerable<string> existingSubcategoryNames = existingSubcategories.Select(x => x.Name);
 
-            IEnumerable<CreateSubcategoryCommand> subcategoriesToCreate = command.Subcategories.Where(x => !existingSubcategoryNames.Contains(x.Name));
+            IEnumerable<SubcategoryCommand> subcategoriesToCreate = command.Subcategories.Where(x => !existingSubcategoryNames.Contains(x.Name));
             IEnumerable<Subcategory> createdSubcategories = await createHandler.Handle(new CreateEntitiesCommand<Subcategory, int>(subcategoriesToCreate));
 
             List<Subcategory> newsSubcategories = new List<Subcategory>();

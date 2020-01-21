@@ -13,7 +13,7 @@
             string content, 
             string remoteUrl, 
             string mainImageUrl,
-            CreateSubcategoryCommand subcategory,
+            SubcategoryCommand subcategory,
             int sourceId)
         {
             Title = title;
@@ -35,7 +35,7 @@
 
         public string MainImageUrl { get; set; }
 
-        public CreateSubcategoryCommand Subcategory { get; set; }
+        public SubcategoryCommand Subcategory { get; set; }
 
         public int SourceId { get; set; }
     }
