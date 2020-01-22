@@ -1,19 +1,25 @@
 ﻿namespace Newsweek.Handlers.Commands.NewsSubcategories
 {
-    using Newsweek.Common.Infrastructure.Mapping;
+    using System.Collections.Generic;
+
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Contracts;
+    using Newsweek.Handlers.Commands.News;
+    using DataNews = Data.Models.News;
 
-    public class CreateNewsSubcategoryCommand : ICommand, IMapTo<NewsSubcategory>
+    public class CreateNewsSubcategoryCommand : ICommand
     {
-        public CreateNewsSubcategoryCommand(int newsId, int subcategoryId)
+        public CreateNewsSubcategoryCommand(IEnumerable<DataNews> news, IEnumerable<NewsCommand> newsCommands, IEnumerable<Subcategory> subcategories)
         {
-            NewsId = newsId;
-            SubcategoryId = subcategoryId;
+            News = news;
+            NewsCommands = newsCommands;
+            Subcategories = subcategories;
         }
 
-        public int NewsId { get; set; }
+        public IEnumerable<DataNews> News { get; set; }
 
-        public int SubcategoryId { get; set; }
+        public IEnumerable<NewsCommand> NewsCommands { get; set; }
+
+        public IEnumerable<Subcategory> Subcategories { get; set; }
     }
 }

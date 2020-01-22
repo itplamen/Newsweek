@@ -5,7 +5,6 @@
     using System.Threading.Tasks;
 
     using Newsweek.Data.Models;
-    using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Commands.Contracts;
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Commands.NewsSubcategories;
@@ -15,15 +14,15 @@
     public class NewsTask : ITask
     {
         private readonly IEnumerable<INewsProvider> newsProviders;
+        private readonly ICommandHandler<CreateNewsSubcategoryCommand> newsSubcategoriesCreateHandler;
         private readonly ICommandHandler<CreateNewsCommand, Task<IEnumerable<News>>> newsCreateHandler;
         private readonly ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>> subcategoriesCreateHandler;
-        private readonly ICommandHandler<CreateEntitiesCommand<NewsSubcategory, int>, Task<IEnumerable<NewsSubcategory>>> newsSubcategoriesCreateHandler;
 
         public NewsTask(
             IEnumerable<INewsProvider> newsProviders,
+            ICommandHandler<CreateNewsSubcategoryCommand> newsSubcategoriesCreateHandler,
             ICommandHandler<CreateNewsCommand, Task<IEnumerable<News>>> newsCreateHandler,
-            ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>> subcategoriesCreateHandler,
-            ICommandHandler<CreateEntitiesCommand<NewsSubcategory, int>, Task<IEnumerable<NewsSubcategory>>> newsSubcategoriesCreateHandler)
+            ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>> subcategoriesCreateHandler)
         {
             this.newsProviders = newsProviders;
             this.newsCreateHandler = newsCreateHandler;
@@ -53,29 +52,7 @@
             IEnumerable<Subcategory> subcategories = await subcategoriesCreateHandler.Handle(new CreateSubcategoriesCommand(commandSubcategories));
             IEnumerable<News> news = await newsCreateHandler.Handle(new CreateNewsCommand(newsCommands));
 
-            await CreateNewsSubcategories(newsCommands, news, subcategories);
-        }
-
-        private async Task CreateNewsSubcategories(IEnumerable<NewsCommand> newsCommands, IEnumerable<News> news, IEnumerable<Subcategory> subcategories)
-        {
-            var newsSubcategoriesCommands = new List<CreateNewsSubcategoryCommand>();
-
-            foreach (var article in news)
-            {
-                NewsCommand newsCommand = newsCommands.FirstOrDefault(x => x.RemoteUrl == article.RemoteUrl);
-
-                if (newsCommand != null)
-                {
-                    Subcategory subcategory = subcategories.FirstOrDefault(x => x.Name == newsCommand.Subcategory.Name);
-
-                    if (subcategory != null)
-                    {
-                        newsSubcategoriesCommands.Add(new CreateNewsSubcategoryCommand(article.Id, subcategory.Id));
-                    }
-                }
-            }
-
-            await newsSubcategoriesCreateHandler.Handle(new CreateEntitiesCommand<NewsSubcategory, int>(newsSubcategoriesCommands));
+            await newsSubcategoriesCreateHandler.Handle(new CreateNewsSubcategoryCommand(news, newsCommands, subcategories));
         }
     }
 }
