@@ -17,6 +17,12 @@
                 .HasForeignKey(x => x.CategoryId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            subcategory.HasMany(x => x.News)
+                .WithOne(x => x.Subcategory)
+                .HasForeignKey(x => x.SubcategoryId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

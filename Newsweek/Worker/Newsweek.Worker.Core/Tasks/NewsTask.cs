@@ -7,27 +7,23 @@
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Contracts;
     using Newsweek.Handlers.Commands.News;
-    using Newsweek.Handlers.Commands.NewsSubcategories;
     using Newsweek.Handlers.Commands.Subcategories;
     using Newsweek.Worker.Core.Contracts;
 
     public class NewsTask : ITask
     {
         private readonly IEnumerable<INewsProvider> newsProviders;
-        private readonly ICommandHandler<CreateNewsSubcategoryCommand> newsSubcategoriesCreateHandler;
         private readonly ICommandHandler<CreateNewsCommand, Task<IEnumerable<News>>> newsCreateHandler;
         private readonly ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>> subcategoriesCreateHandler;
 
         public NewsTask(
             IEnumerable<INewsProvider> newsProviders,
-            ICommandHandler<CreateNewsSubcategoryCommand> newsSubcategoriesCreateHandler,
             ICommandHandler<CreateNewsCommand, Task<IEnumerable<News>>> newsCreateHandler,
             ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>> subcategoriesCreateHandler)
         {
             this.newsProviders = newsProviders;
             this.newsCreateHandler = newsCreateHandler;
             this.subcategoriesCreateHandler = subcategoriesCreateHandler;
-            this.newsSubcategoriesCreateHandler = newsSubcategoriesCreateHandler;
         }
 
         public async Task DoWork()
@@ -51,8 +47,6 @@
 
             IEnumerable<Subcategory> subcategories = await subcategoriesCreateHandler.Handle(new CreateSubcategoriesCommand(commandSubcategories));
             IEnumerable<News> news = await newsCreateHandler.Handle(new CreateNewsCommand(newsCommands));
-
-            await newsSubcategoriesCreateHandler.Handle(new CreateNewsSubcategoryCommand(news, newsCommands, subcategories));
         }
     }
 }

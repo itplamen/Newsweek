@@ -1,15 +1,9 @@
 ﻿namespace Newsweek.Data.Models
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class News : BaseModel<int>
     {
-        public News()
-        {
-            Subcategories = new HashSet<NewsSubcategory>();
-        }
-
         [Required]
         public string Title { get; set; }
 
@@ -28,6 +22,8 @@
 
         public Source Source { get; set; }
 
-        public ICollection<NewsSubcategory> Subcategories { get; set; }
+        public int SubcategoryId { get; set; }
+
+        public Subcategory Subcategory { get; set; }
     }
 }

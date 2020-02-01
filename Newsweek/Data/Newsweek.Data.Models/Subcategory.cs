@@ -9,7 +9,7 @@
     {
         public Subcategory()
         {
-            News = new HashSet<NewsSubcategory>();
+            News = new HashSet<News>();
         }
 
         [Required]
@@ -19,6 +19,6 @@
 
         public Category Category { get; set; }
 
-        public ICollection<NewsSubcategory> News { get; set; }
+        public ICollection<News> News { get; set; }
     }
 }
