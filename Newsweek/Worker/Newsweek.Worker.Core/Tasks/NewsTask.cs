@@ -13,12 +13,12 @@
     public class NewsTask : ITask
     {
         private readonly IEnumerable<INewsProvider> newsProviders;
-        private readonly ICommandHandler<CreateNewsCommand, Task<IEnumerable<News>>> newsCreateHandler;
+        private readonly ICommandHandler<CreateNewsCommand> newsCreateHandler;
         private readonly ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>> subcategoriesCreateHandler;
 
         public NewsTask(
             IEnumerable<INewsProvider> newsProviders,
-            ICommandHandler<CreateNewsCommand, Task<IEnumerable<News>>> newsCreateHandler,
+            ICommandHandler<CreateNewsCommand> newsCreateHandler,
             ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>> subcategoriesCreateHandler)
         {
             this.newsProviders = newsProviders;
@@ -41,12 +41,23 @@
                 .SelectMany(x => x)
                 .ToList();
 
-            var commandSubcategories = newsCommands.Select(x => x.Subcategory)
+            IEnumerable<SubcategoryCommand> subcategoryCommands = newsCommands.Select(x => x.Subcategory)
                 .GroupBy(x => x.Name)
                 .Select(x => x.First());
 
-            IEnumerable<Subcategory> subcategories = await subcategoriesCreateHandler.Handle(new CreateSubcategoriesCommand(commandSubcategories));
-            IEnumerable<News> news = await newsCreateHandler.Handle(new CreateNewsCommand(newsCommands));
+            IEnumerable<Subcategory> subcategories = await subcategoriesCreateHandler.Handle(new CreateSubcategoriesCommand(subcategoryCommands));
+
+            foreach (var subcategory in subcategories)
+            {
+                IEnumerable<NewsCommand> newsCommandsToSet = newsCommands.Where(x => x.Subcategory.Name == subcategory.Name);
+
+                foreach (var command in newsCommandsToSet)
+                {
+                    command.SubcategoryId = subcategory.Id;
+                }
+            }
+
+            await newsCreateHandler.Handle(new CreateNewsCommand(newsCommands));
         }
     }
 }

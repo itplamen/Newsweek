@@ -76,14 +76,23 @@
                 string title = GetTitle(document);
                 string description = GetDescription(document);
                 string content = GetContent(document);
-                string imageUrl = GetMainImageUrl(document);
+                string mainImageUrl = GetMainImageUrl(document);
                 string subcategory = GetSubcategory(document);
  
                 if (IsArticleValid(title, description, content))
                 {
                     var subcategoryCommand = new SubcategoryCommand(subcategory, categoryId);
 
-                    return new NewsCommand(title, description, content, url, imageUrl, subcategoryCommand, sourceId);
+                    return new NewsCommand()
+                    {
+                        Title = title, 
+                        Description = description, 
+                        Content = content, 
+                        RemoteUrl = url, 
+                        MainImageUrl = mainImageUrl, 
+                        SourceId = sourceId,
+                        Subcategory = subcategoryCommand
+                    };
                 }
             }
 

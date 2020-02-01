@@ -80,7 +80,7 @@
                         x.GetRequiredService<SportNewsProvider>(),
                         x.GetRequiredService<ITNewsProvider>()
                     },
-                    x.GetRequiredService<ICommandHandler<CreateNewsCommand, Task<IEnumerable<News>>>>(),
+                    x.GetRequiredService<ICommandHandler<CreateNewsCommand>>(),
                     x.GetRequiredService<ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>>>()));
 
             services.AddScoped<IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>>, EntitiesByNameQueryHandler<Subcategory, int>>();
@@ -90,7 +90,7 @@
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<Subcategory, int>, Task<IEnumerable<Subcategory>>>, CreateEntitiesCommandHandler<Subcategory, int>>();
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<News, int>, Task<IEnumerable<News>>>, CreateEntitiesCommandHandler<News, int>>();
             services.AddScoped<ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>>, CreateSubcategoriesCommandHandler>();
-            services.AddScoped<ICommandHandler<CreateNewsCommand, Task<IEnumerable<News>>>, CreateNewsCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
 
             services.AddHostedService<TasksExecutor>();
         }

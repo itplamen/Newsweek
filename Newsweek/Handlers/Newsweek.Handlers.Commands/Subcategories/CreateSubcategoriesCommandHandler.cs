@@ -37,7 +37,7 @@
             newsSubcategories.AddRange(existingSubcategories);
             newsSubcategories.AddRange(createdSubcategories);
 
-            return await Task.FromResult<IEnumerable<Subcategory>>(newsSubcategories);
+            return newsSubcategories;
         }
     }
 }
