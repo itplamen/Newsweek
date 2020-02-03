@@ -16,10 +16,12 @@
     using Newsweek.Data;
     using Newsweek.Data.Models;
     using Newsweek.Data.Seeders;
+    using Newsweek.Handlers.Commands;
     using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Commands.Contracts;
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Commands.Subcategories;
+    using Newsweek.Handlers.Queries;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Handlers.Queries.News;
@@ -91,6 +93,9 @@
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<News, int>, Task<IEnumerable<News>>>, CreateEntitiesCommandHandler<News, int>>();
             services.AddScoped<ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>>, CreateSubcategoriesCommandHandler>();
             services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
+
+            services.AddScoped<IQueryDispatcher, QueryDispatcher>();
+            services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 
             services.AddHostedService<TasksExecutor>();
         }
