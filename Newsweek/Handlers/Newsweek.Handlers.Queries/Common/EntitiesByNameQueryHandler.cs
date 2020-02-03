@@ -11,7 +11,7 @@
     using Newsweek.Data.Models.Contracts;
     using Newsweek.Handlers.Queries.Contracts;
 
-    public class EntitiesByNameQueryHandler<TEntity, TKey> : IQueryHandler<EntitiesByNameQuery<TEntity, TKey>, Task<IEnumerable<TEntity>>>
+    public class EntitiesByNameQueryHandler<TEntity, TKey> : IQueryHandler<EntitiesByNameQuery<TEntity, TKey>, IEnumerable<TEntity>>
         where TEntity : BaseModel<TKey>, INameSearchableEntity
     {
         private readonly NewsweekDbContext dbContext;

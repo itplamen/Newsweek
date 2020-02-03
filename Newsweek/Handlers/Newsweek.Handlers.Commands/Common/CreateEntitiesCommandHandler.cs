@@ -11,7 +11,7 @@
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Contracts;
 
-    public class CreateEntitiesCommandHandler<TEntity, TKey> : ICommandHandler<CreateEntitiesCommand<TEntity, TKey>, Task<IEnumerable<TEntity>>>
+    public class CreateEntitiesCommandHandler<TEntity, TKey> : ICommandHandler<CreateEntitiesCommand<TEntity, TKey>, IEnumerable<TEntity>>
         where TEntity : BaseModel<TKey>
     {
         private readonly NewsweekDbContext dbContext;

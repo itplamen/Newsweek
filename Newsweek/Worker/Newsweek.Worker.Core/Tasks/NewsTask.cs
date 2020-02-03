@@ -40,7 +40,7 @@
                 .GroupBy(x => x.Name)
                 .Select(x => x.First());
 
-            IEnumerable<Subcategory> subcategories = await commandDispatcher.Dispatch<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>>(
+            IEnumerable<Subcategory> subcategories = await commandDispatcher.Dispatch<CreateSubcategoriesCommand, IEnumerable<Subcategory>>(
                 new CreateSubcategoriesCommand(subcategoryCommands));
 
             foreach (var subcategory in subcategories)

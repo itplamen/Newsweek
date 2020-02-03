@@ -53,7 +53,7 @@
             where TEntity : BaseModel<int>, INameSearchableEntity
         {
             var query = new EntitiesByNameQuery<TEntity, int>(Enumerable.Repeat(element, 1));
-            var entities = await queryDispatcher.Dispatch<EntitiesByNameQuery<TEntity, int>, Task<IEnumerable<TEntity>>>(query);
+            var entities = await queryDispatcher.Dispatch<EntitiesByNameQuery<TEntity, int>, IEnumerable<TEntity>>(query);
 
             return entities;
         }

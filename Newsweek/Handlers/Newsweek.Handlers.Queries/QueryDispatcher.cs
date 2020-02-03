@@ -1,6 +1,7 @@
 ﻿namespace Newsweek.Handlers.Queries
 {
     using System;
+    using System.Threading.Tasks;
 
     using Microsoft.Extensions.DependencyInjection;
 
@@ -15,19 +16,19 @@
             this.serviceProvider = serviceProvider;
         }
 
-        public TResult Dispatch<TResult>()
+        public async Task<TResult> Dispatch<TResult>()
         {
             IQueryHandler<TResult> handler = serviceProvider.GetRequiredService<IQueryHandler<TResult>>();
 
-            return handler.Handle();
+            return await handler.Handle();
         }
 
-        public TResult Dispatch<TQuery, TResult>(TQuery query)
+        public async Task<TResult> Dispatch<TQuery, TResult>(TQuery query)
             where TQuery : IQuery<TResult>
         {
             IQueryHandler<TQuery, TResult> handler = serviceProvider.GetRequiredService<IQueryHandler<TQuery, TResult>>();
 
-            return handler.Handle(query);
+            return await handler.Handle(query);
         }
     }
 }

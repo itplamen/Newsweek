@@ -11,14 +11,14 @@
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
 
-    public class CreateSubcategoriesCommandHandler : ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>>
+    public class CreateSubcategoriesCommandHandler : ICommandHandler<CreateSubcategoriesCommand, IEnumerable<Subcategory>>
     {
-        private readonly IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>> getHandler;
-        private readonly ICommandHandler<CreateEntitiesCommand<Subcategory, int>, Task<IEnumerable<Subcategory>>> createHandler;
+        private readonly IQueryHandler<EntitiesByNameQuery<Subcategory, int>, IEnumerable<Subcategory>> getHandler;
+        private readonly ICommandHandler<CreateEntitiesCommand<Subcategory, int>, IEnumerable<Subcategory>> createHandler;
 
         public CreateSubcategoriesCommandHandler(
-            IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>> getHandler, 
-            ICommandHandler<CreateEntitiesCommand<Subcategory, int>, Task<IEnumerable<Subcategory>>> createHandler)
+            IQueryHandler<EntitiesByNameQuery<Subcategory, int>, IEnumerable<Subcategory>> getHandler, 
+            ICommandHandler<CreateEntitiesCommand<Subcategory, int>, IEnumerable<Subcategory>> createHandler)
         {
             this.getHandler = getHandler;
             this.createHandler = createHandler;

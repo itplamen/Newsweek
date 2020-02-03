@@ -24,12 +24,12 @@
             await handler.Handle(command);
         }
 
-        public TResult Dispatch<TCommand, TResult>(TCommand command)
+        public async Task<TResult> Dispatch<TCommand, TResult>(TCommand command)
             where TCommand : ICommand
         {
             ICommandHandler<TCommand, TResult> handler = serviceProvider.GetRequiredService<ICommandHandler<TCommand, TResult>>();
 
-            return handler.Handle(command);
+            return await handler.Handle(command);
         }
     }
 }

@@ -12,12 +12,12 @@
 
     public class CreateNewsCommandHandler : ICommandHandler<CreateNewsCommand>
     {
-        private readonly IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>> newsGetHandler;
-        private readonly ICommandHandler<CreateEntitiesCommand<News, int>, Task<IEnumerable<News>>> newsCreateHandler;
+        private readonly IQueryHandler<NewsByRemoteUrlQuery, IEnumerable<News>> newsGetHandler;
+        private readonly ICommandHandler<CreateEntitiesCommand<News, int>, IEnumerable<News>> newsCreateHandler;
 
         public CreateNewsCommandHandler(
-            IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<News>>> newsGetHandler, 
-            ICommandHandler<CreateEntitiesCommand<News, int>, Task<IEnumerable<News>>> newsCreateHandler)
+            IQueryHandler<NewsByRemoteUrlQuery, IEnumerable<News>> newsGetHandler, 
+            ICommandHandler<CreateEntitiesCommand<News, int>, IEnumerable<News>> newsCreateHandler)
         {
             this.newsGetHandler = newsGetHandler;
             this.newsCreateHandler = newsCreateHandler;

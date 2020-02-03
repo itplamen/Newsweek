@@ -1,10 +1,12 @@
 ﻿namespace Newsweek.Handlers.Queries.Contracts
 {
+    using System.Threading.Tasks;
+
     public interface IQueryDispatcher
     {
-        TResult Dispatch<TResult>();
+        Task<TResult> Dispatch<TResult>();
 
-        TResult Dispatch<TQuery, TResult>(TQuery query)
+        Task<TResult> Dispatch<TQuery, TResult>(TQuery query)
             where TQuery : IQuery<TResult>;
     }
 }

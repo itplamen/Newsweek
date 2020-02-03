@@ -10,7 +10,7 @@
     using Newsweek.Handlers.Queries.Contracts;
     using DataNews = Data.Models.News;
 
-    public class NewsByRemoteUrlQueryHandler : IQueryHandler<NewsByRemoteUrlQuery, Task<IEnumerable<DataNews>>>
+    public class NewsByRemoteUrlQueryHandler : IQueryHandler<NewsByRemoteUrlQuery, IEnumerable<DataNews>>
     {
         private readonly NewsweekDbContext dbContext;
 
