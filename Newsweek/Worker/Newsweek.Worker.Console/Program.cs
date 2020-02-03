@@ -75,15 +75,14 @@
             services.AddTransient<ITNewsProvider>();
             services.AddTransient<ITask, NewsTask>(x =>
                 new NewsTask(
+                    x.GetRequiredService<ICommandDispatcher>(),
                     new INewsProvider[]
                     {
                         x.GetRequiredService<EuropeNewsProvider>(),
                         x.GetRequiredService<WorldNewsProvider>(),
                         x.GetRequiredService<SportNewsProvider>(),
                         x.GetRequiredService<ITNewsProvider>()
-                    },
-                    x.GetRequiredService<ICommandHandler<CreateNewsCommand>>(),
-                    x.GetRequiredService<ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>>>()));
+                    }));
 
             services.AddScoped<IQueryHandler<EntitiesByNameQuery<Subcategory, int>, Task<IEnumerable<Subcategory>>>, EntitiesByNameQueryHandler<Subcategory, int>>();
             services.AddScoped<IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>>, EntitiesByNameQueryHandler<Source, int>>();

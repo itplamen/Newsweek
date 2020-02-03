@@ -3,12 +3,9 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Threading.Tasks;
 
     using AngleSharp.Dom;
     
-    using Newsweek.Data.Models;
-    using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Worker.Core.Contracts;
     
@@ -16,11 +13,8 @@
     {
         private readonly IEnumerable<string> excludedSubcategories; 
 
-        public EuropeNewsProvider(
-            INewsApi newsApi, 
-            IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler,
-            IQueryHandler<EntitiesByNameQuery<Category, int>, Task<IEnumerable<Category>>> categoryHandler)
-            : base(newsApi, sourceHandler, categoryHandler)
+        public EuropeNewsProvider(INewsApi newsApi, IQueryDispatcher queryDispatcher)
+            : base(newsApi, queryDispatcher)
         {
             Source = "Euronews";
             Category = "Europe";

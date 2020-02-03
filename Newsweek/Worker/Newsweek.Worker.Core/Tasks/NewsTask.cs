@@ -12,18 +12,13 @@
 
     public class NewsTask : ITask
     {
+        private readonly ICommandDispatcher commandDispatcher;
         private readonly IEnumerable<INewsProvider> newsProviders;
-        private readonly ICommandHandler<CreateNewsCommand> newsCreateHandler;
-        private readonly ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>> subcategoriesCreateHandler;
-
-        public NewsTask(
-            IEnumerable<INewsProvider> newsProviders,
-            ICommandHandler<CreateNewsCommand> newsCreateHandler,
-            ICommandHandler<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>> subcategoriesCreateHandler)
+        
+        public NewsTask(ICommandDispatcher commandDispatcher, IEnumerable<INewsProvider> newsProviders)
         {
             this.newsProviders = newsProviders;
-            this.newsCreateHandler = newsCreateHandler;
-            this.subcategoriesCreateHandler = subcategoriesCreateHandler;
+            this.commandDispatcher = commandDispatcher;
         }
 
         public async Task DoWork()
@@ -45,7 +40,8 @@
                 .GroupBy(x => x.Name)
                 .Select(x => x.First());
 
-            IEnumerable<Subcategory> subcategories = await subcategoriesCreateHandler.Handle(new CreateSubcategoriesCommand(subcategoryCommands));
+            IEnumerable<Subcategory> subcategories = await commandDispatcher.Dispatch<CreateSubcategoriesCommand, Task<IEnumerable<Subcategory>>>(
+                new CreateSubcategoriesCommand(subcategoryCommands));
 
             foreach (var subcategory in subcategories)
             {
@@ -57,7 +53,7 @@
                 }
             }
 
-            await newsCreateHandler.Handle(new CreateNewsCommand(newsCommands));
+            await commandDispatcher.Dispatch(new CreateNewsCommand(newsCommands));
         }
     }
 }

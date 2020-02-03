@@ -7,6 +7,7 @@
     using AngleSharp.Dom;
 
     using Newsweek.Data.Models;
+    using Newsweek.Data.Models.Contracts;
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Commands.Subcategories;
     using Newsweek.Handlers.Queries.Common;
@@ -16,17 +17,12 @@
     public abstract class BaseNewsProvider : INewsProvider
     {
         private readonly INewsApi newsApi;
-        private readonly IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler;
-        private readonly IQueryHandler<EntitiesByNameQuery<Category, int>, Task<IEnumerable<Category>>> categoryHandler;
+        private readonly IQueryDispatcher queryDispatcher;
 
-        public BaseNewsProvider(
-            INewsApi newsApi, 
-            IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler,
-            IQueryHandler<EntitiesByNameQuery<Category, int>, Task<IEnumerable<Category>>> categoryHandler)
+        public BaseNewsProvider(INewsApi newsApi, IQueryDispatcher queryDispatcher)
         {
             this.newsApi = newsApi;
-            this.sourceHandler = sourceHandler;
-            this.categoryHandler = categoryHandler;
+            this.queryDispatcher = queryDispatcher;
         }
 
         protected string Source { get; set; }
@@ -38,9 +34,10 @@
         public async Task<IEnumerable<NewsCommand>> Get()
         {
             var tasks = new List<Task<IEnumerable<NewsCommand>>>();
-            var sources = await sourceHandler.Handle(new EntitiesByNameQuery<Source, int>(Enumerable.Repeat(Source, 1)));
-            var categories = await categoryHandler.Handle(new EntitiesByNameQuery<Category, int>(Enumerable.Repeat(Category, 1)));
-            
+
+            IEnumerable<Source> sources = await GetEntities<Source>(Source);
+            IEnumerable<Category> categories = await GetEntities<Category>(Category);
+
             foreach (var subcategoryUrl in SubcategoryUrls)
             {
                 tasks.Add(GetNews(sources.First(), categories.First(), subcategoryUrl));
@@ -50,6 +47,15 @@
 
             return newsCommands.SelectMany(news => news)
                 .Where(x => x != null);
+        }
+
+        private async Task<IEnumerable<TEntity>> GetEntities<TEntity>(string element)
+            where TEntity : BaseModel<int>, INameSearchableEntity
+        {
+            var query = new EntitiesByNameQuery<TEntity, int>(Enumerable.Repeat(element, 1));
+            var entities = await queryDispatcher.Dispatch<EntitiesByNameQuery<TEntity, int>, Task<IEnumerable<TEntity>>>(query);
+
+            return entities;
         }
 
         private async Task<IEnumerable<NewsCommand>> GetNews(Source source, Category category, string subcategoryUrl)

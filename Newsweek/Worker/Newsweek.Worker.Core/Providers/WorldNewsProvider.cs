@@ -2,22 +2,16 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     using AngleSharp.Dom;
      
-    using Newsweek.Data.Models;
-    using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Worker.Core.Contracts;
     
     public class WorldNewsProvider : BaseNewsProvider
     {
-        public WorldNewsProvider(
-            INewsApi newsApi, 
-            IQueryHandler<EntitiesByNameQuery<Source, int>, Task<IEnumerable<Source>>> sourceHandler,
-            IQueryHandler<EntitiesByNameQuery<Category, int>, Task<IEnumerable<Category>>> categoryHandler)
-            : base(newsApi, sourceHandler, categoryHandler)
+        public WorldNewsProvider(INewsApi newsApi,IQueryDispatcher queryDispatcher)
+            : base(newsApi, queryDispatcher)
         {
             Source = "Reuters";
             Category = "World";
