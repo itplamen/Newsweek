@@ -13,11 +13,11 @@
 
     public class CreateSubcategoriesCommandHandler : ICommandHandler<CreateSubcategoriesCommand, IEnumerable<Subcategory>>
     {
-        private readonly IQueryHandler<EntitiesByNameQuery<Subcategory, int>, IEnumerable<Subcategory>> getHandler;
+        private readonly IQueryHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>> getHandler;
         private readonly ICommandHandler<CreateEntitiesCommand<Subcategory, int>, IEnumerable<Subcategory>> createHandler;
 
         public CreateSubcategoriesCommandHandler(
-            IQueryHandler<EntitiesByNameQuery<Subcategory, int>, IEnumerable<Subcategory>> getHandler, 
+            IQueryHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>> getHandler, 
             ICommandHandler<CreateEntitiesCommand<Subcategory, int>, IEnumerable<Subcategory>> createHandler)
         {
             this.getHandler = getHandler;
@@ -26,8 +26,12 @@
 
         public async Task<IEnumerable<Subcategory>> Handle(CreateSubcategoriesCommand command)
         {
-            IEnumerable<string> subcategoryNames = command.Subcategories.Select(x => x.Name);
-            IEnumerable<Subcategory> existingSubcategories = await getHandler.Handle(new EntitiesByNameQuery<Subcategory, int>(subcategoryNames));
+            GetEntitiesQuery<Subcategory> subcategoriesQuery = new GetEntitiesQuery<Subcategory>()
+            {
+                Filter = x => command.Subcategories.Select(x => x.Name).Contains(x.Name)
+            };
+
+            IEnumerable<Subcategory> existingSubcategories = await getHandler.Handle(subcategoriesQuery);
             IEnumerable<string> existingSubcategoryNames = existingSubcategories.Select(x => x.Name);
 
             IEnumerable<SubcategoryCommand> subcategoriesToCreate = command.Subcategories.Where(x => !existingSubcategoryNames.Contains(x.Name));

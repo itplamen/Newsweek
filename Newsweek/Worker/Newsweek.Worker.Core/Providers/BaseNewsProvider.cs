@@ -52,10 +52,12 @@
         private async Task<IEnumerable<TEntity>> GetEntities<TEntity>(string element)
             where TEntity : BaseModel<int>, INameSearchableEntity
         {
-            var query = new EntitiesByNameQuery<TEntity, int>(Enumerable.Repeat(element, 1));
-            var entities = await queryDispatcher.Dispatch<EntitiesByNameQuery<TEntity, int>, IEnumerable<TEntity>>(query);
+            GetEntitiesQuery<TEntity> query = new GetEntitiesQuery<TEntity>()
+            {
+                Filter = x => Enumerable.Repeat(element, 1).Contains(x.Name)
+            };
 
-            return entities;
+            return await queryDispatcher.Dispatch<GetEntitiesQuery<TEntity>, IEnumerable<TEntity>>(query);
         }
 
         private async Task<IEnumerable<NewsCommand>> GetNews(Source source, Category category, string subcategoryUrl)
