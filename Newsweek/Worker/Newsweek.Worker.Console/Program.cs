@@ -24,7 +24,6 @@
     using Newsweek.Handlers.Queries;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
-    using Newsweek.Handlers.Queries.News;
     using Newsweek.Worker.Core.Api;
     using Newsweek.Worker.Core.Contracts;
     using Newsweek.Worker.Core.Providers;
@@ -87,7 +86,7 @@
             services.AddScoped<IQueryHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>>, GetEntitiesQueryHandler<Subcategory>>();
             services.AddScoped<IQueryHandler<GetEntitiesQuery<Source>, IEnumerable<Source>>, GetEntitiesQueryHandler<Source>>();
             services.AddScoped<IQueryHandler<GetEntitiesQuery<Category>, IEnumerable<Category>>, GetEntitiesQueryHandler<Category>>();
-            services.AddScoped<IQueryHandler<NewsByRemoteUrlQuery, IEnumerable<News>>, NewsByRemoteUrlQueryHandler>();
+            services.AddScoped<IQueryHandler<GetEntitiesQuery<News>, IEnumerable<News>>, GetEntitiesQueryHandler<News>>();
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<Subcategory, int>, IEnumerable<Subcategory>>, CreateEntitiesCommandHandler<Subcategory, int>>();
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<News, int>, IEnumerable<News>>, CreateEntitiesCommandHandler<News, int>>();
             services.AddScoped<ICommandHandler<CreateSubcategoriesCommand, IEnumerable<Subcategory>>, CreateSubcategoriesCommandHandler>();

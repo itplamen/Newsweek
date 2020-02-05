@@ -1,7 +1,9 @@
 ﻿namespace Newsweek.Worker.Core.Providers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
 
     using AngleSharp.Dom;
@@ -52,10 +54,8 @@
         private async Task<IEnumerable<TEntity>> GetEntities<TEntity>(string element)
             where TEntity : BaseModel<int>, INameSearchableEntity
         {
-            GetEntitiesQuery<TEntity> query = new GetEntitiesQuery<TEntity>()
-            {
-                Filter = x => Enumerable.Repeat(element, 1).Contains(x.Name)
-            };
+            Expression<Func<TEntity, bool>> entityFilter = x => Enumerable.Repeat(element, 1).Contains(x.Name);
+            GetEntitiesQuery<TEntity> query = new GetEntitiesQuery<TEntity>(entityFilter);
 
             return await queryDispatcher.Dispatch<GetEntitiesQuery<TEntity>, IEnumerable<TEntity>>(query);
         }
