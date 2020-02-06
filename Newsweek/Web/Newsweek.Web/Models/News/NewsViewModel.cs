@@ -4,7 +4,7 @@
     using Newsweek.Web.Models.Sources;
     using Newsweek.Web.Models.Subcategories;
 
-    public class NewViewModel : IMapFrom<Data.Models.News>
+    public class NewsViewModel : IMapFrom<Data.Models.News>
     {
         public string Title { get; set; }
 
