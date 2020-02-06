@@ -21,13 +21,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Worker.Core", "Wor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Handlers", "Handlers", "{41BBC287-74D5-4FFF-951C-55CE8B21EE48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsweek.Handlers.Commands", "Handlers\Newsweek.Handlers.Commands\Newsweek.Handlers.Commands.csproj", "{82C649ED-4915-4BC6-BA13-0211FE6F4A70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Handlers.Commands", "Handlers\Newsweek.Handlers.Commands\Newsweek.Handlers.Commands.csproj", "{82C649ED-4915-4BC6-BA13-0211FE6F4A70}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{2CDC587A-52FF-472D-BE93-23B532D7D027}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsweek.Common.Infrastructure", "Common\Newsweek.Common.Infrastructure\Newsweek.Common.Infrastructure.csproj", "{93A92FE7-0947-42D7-AB37-967694CEBEBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Common.Infrastructure", "Common\Newsweek.Common.Infrastructure\Newsweek.Common.Infrastructure.csproj", "{93A92FE7-0947-42D7-AB37-967694CEBEBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsweek.Handlers.Queries", "Handlers\Newsweek.Handlers.Queries\Newsweek.Handlers.Queries.csproj", "{CB06F048-E287-4CC7-992F-4FF9629EC6AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Handlers.Queries", "Handlers\Newsweek.Handlers.Queries\Newsweek.Handlers.Queries.csproj", "{CB06F048-E287-4CC7-992F-4FF9629EC6AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsweek.Common.IoCContainer", "Common\Newsweek.Common.IoCContainer\Newsweek.Common.IoCContainer.csproj", "{46145FCA-774D-465B-9ECC-96BD929E7489}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{CB06F048-E287-4CC7-992F-4FF9629EC6AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB06F048-E287-4CC7-992F-4FF9629EC6AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB06F048-E287-4CC7-992F-4FF9629EC6AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46145FCA-774D-465B-9ECC-96BD929E7489}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46145FCA-774D-465B-9ECC-96BD929E7489}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46145FCA-774D-465B-9ECC-96BD929E7489}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46145FCA-774D-465B-9ECC-96BD929E7489}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +86,7 @@ Global
 		{82C649ED-4915-4BC6-BA13-0211FE6F4A70} = {41BBC287-74D5-4FFF-951C-55CE8B21EE48}
 		{93A92FE7-0947-42D7-AB37-967694CEBEBD} = {2CDC587A-52FF-472D-BE93-23B532D7D027}
 		{CB06F048-E287-4CC7-992F-4FF9629EC6AE} = {41BBC287-74D5-4FFF-951C-55CE8B21EE48}
+		{46145FCA-774D-465B-9ECC-96BD929E7489} = {2CDC587A-52FF-472D-BE93-23B532D7D027}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B736D035-665E-4F9C-9C04-AEC89AAB9AF6}
