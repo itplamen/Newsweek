@@ -1,6 +1,5 @@
 ﻿namespace Newsweek.Worker.Console
 {
-    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
     using System.Threading.Tasks;
@@ -11,19 +10,13 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    
+
     using Newsweek.Common.Infrastructure.Mapping;
+    using Newsweek.Common.IoCContainer;
     using Newsweek.Data;
     using Newsweek.Data.Models;
     using Newsweek.Data.Seeders;
-    using Newsweek.Handlers.Commands;
-    using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Commands.Contracts;
-    using Newsweek.Handlers.Commands.News;
-    using Newsweek.Handlers.Commands.Subcategories;
-    using Newsweek.Handlers.Queries;
-    using Newsweek.Handlers.Queries.Common;
-    using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Worker.Core.Api;
     using Newsweek.Worker.Core.Contracts;
     using Newsweek.Worker.Core.Providers;
@@ -83,18 +76,7 @@
                         x.GetRequiredService<ITNewsProvider>()
                     }));
 
-            services.AddScoped<IQueryHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>>, GetEntitiesQueryHandler<Subcategory>>();
-            services.AddScoped<IQueryHandler<GetEntitiesQuery<Source>, IEnumerable<Source>>, GetEntitiesQueryHandler<Source>>();
-            services.AddScoped<IQueryHandler<GetEntitiesQuery<Category>, IEnumerable<Category>>, GetEntitiesQueryHandler<Category>>();
-            services.AddScoped<IQueryHandler<GetEntitiesQuery<News>, IEnumerable<News>>, GetEntitiesQueryHandler<News>>();
-            services.AddScoped<ICommandHandler<CreateEntitiesCommand<Subcategory, int>, IEnumerable<Subcategory>>, CreateEntitiesCommandHandler<Subcategory, int>>();
-            services.AddScoped<ICommandHandler<CreateEntitiesCommand<News, int>, IEnumerable<News>>, CreateEntitiesCommandHandler<News, int>>();
-            services.AddScoped<ICommandHandler<CreateSubcategoriesCommand, IEnumerable<Subcategory>>, CreateSubcategoriesCommandHandler>();
-            services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
-
-            services.AddScoped<IQueryDispatcher, QueryDispatcher>();
-            services.AddScoped<ICommandDispatcher, CommandDispatcher>();
-
+            services.AddServices();
             services.AddHostedService<TasksExecutor>();
         }
     }
