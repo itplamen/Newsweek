@@ -1,26 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Newsweek.Web.Models;
-
-namespace Newsweek.Web.Controllers
+﻿namespace Newsweek.Web.Controllers
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Threading.Tasks;
+    
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    
+    using Newsweek.Handlers.Queries.Contracts;
+    using Newsweek.Web.Models;
+    using Newsweek.Web.Models.News;
+
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> logger;
+        private readonly IQueryDispatcher queryDispatcher;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IQueryDispatcher queryDispatcher)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.queryDispatcher = queryDispatcher;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            IEnumerable<NewsViewModel> topNews = await queryDispatcher.Dispatch<IEnumerable<NewsViewModel>>();
+
+            return View(topNews);
         }
 
         public IActionResult Privacy()

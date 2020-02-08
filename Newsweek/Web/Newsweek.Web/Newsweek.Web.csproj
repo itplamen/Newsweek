@@ -19,8 +19,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Newsweek.Common.Infrastructure\Newsweek.Common.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Common\Newsweek.Common.IoCContainer\Newsweek.Common.IoCContainer.csproj" />
     <ProjectReference Include="..\..\Data\Newsweek.Data.Models\Newsweek.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\Newsweek.Data\Newsweek.Data.csproj" />
+    <ProjectReference Include="..\..\Handlers\Newsweek.Handlers.Queries\Newsweek.Handlers.Queries.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,15 +1,24 @@
 namespace Newsweek.Web
 {
+    using System.Collections.Generic;
+    using System.Reflection;
+
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-
+ 
+    using Newsweek.Common.Infrastructure.Mapping;
+    using Newsweek.Common.IoCContainer;
     using Newsweek.Data;
     using Newsweek.Data.Models;
     using Newsweek.Data.Seeders;
+    using Newsweek.Handlers.Queries.Contracts;
+    using Newsweek.Handlers.Queries.News;
+    using Newsweek.Web.Models;
+    using Newsweek.Web.Models.News;
 
     public class Startup
     {
@@ -32,6 +41,10 @@ namespace Newsweek.Web
             services.AddRazorPages();
 
             services.AddSingleton(configuration);
+
+            services.AddServices();
+
+            services.AddScoped<IQueryHandler<IEnumerable<NewsViewModel>>, TopNewsQueryHandler<NewsViewModel>>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -70,6 +83,8 @@ namespace Newsweek.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
         }
     }
 }
