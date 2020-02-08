@@ -8,6 +8,7 @@
 
     using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Data;
+    using Newsweek.Data.Models;
     using Newsweek.Handlers.Queries.Contracts;
 
     public class TopNewsQueryHandler<TViewModel> : IQueryHandler<IEnumerable<TViewModel>>
@@ -24,10 +25,11 @@
 
         public async Task<IEnumerable<TViewModel>> Handle()
         {
-            IEnumerable<TViewModel> news = await dbContext.Set<Data.Models.News>()
-                .Select(x => x.Source)
-                .Distinct()
-                .SelectMany(x => x.News.Take(NEWS_FOR_SOURCE))
+            IEnumerable<TViewModel> news = await dbContext.Set<Category>()
+                .SelectMany(x => x.Subcategories
+                    .SelectMany(y => y.News)
+                    .OrderByDescending(y => y.Id)
+                    .Take(NEWS_FOR_SOURCE))
                 .To<TViewModel>()
                 .ToListAsync();
 
