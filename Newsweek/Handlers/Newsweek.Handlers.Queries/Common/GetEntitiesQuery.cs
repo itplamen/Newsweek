@@ -11,6 +11,8 @@
     public class GetEntitiesQuery<TEntity> : IQuery<IEnumerable<TEntity>>
         where TEntity : BaseModel<int>
     {
+        public int Take { get; set; }
+
         public Expression<Func<TEntity, bool>> Predicate { get; set; }
 
         public Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> OrderBy { get; set; }

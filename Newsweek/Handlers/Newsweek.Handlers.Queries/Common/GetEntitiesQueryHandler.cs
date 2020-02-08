@@ -34,6 +34,11 @@
                 entities = query.OrderBy(entities);
             }
 
+            if (query.Take > 0)
+            {
+                entities = entities.Take(query.Take);
+            }
+
             return await entities.ToListAsync();
         }
     }
