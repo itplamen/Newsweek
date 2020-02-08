@@ -1,6 +1,4 @@
-using System;
-
-namespace Newsweek.Web.Models
+namespace Newsweek.Web.Models.Common
 {
     public class ErrorViewModel
     {

@@ -1,4 +1,4 @@
-﻿namespace Newsweek.Web.Models
+﻿namespace Newsweek.Web.Models.Common
 {
     using System;
 

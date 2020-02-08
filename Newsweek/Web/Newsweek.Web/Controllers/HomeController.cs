@@ -2,13 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Threading.Tasks;
     
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     
     using Newsweek.Handlers.Queries.Contracts;
-    using Newsweek.Web.Models;
+    using Newsweek.Web.Models.Common;
     using Newsweek.Web.Models.News;
 
     public class HomeController : Controller

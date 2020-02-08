@@ -17,7 +17,7 @@ namespace Newsweek.Web
     using Newsweek.Data.Seeders;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Handlers.Queries.News;
-    using Newsweek.Web.Models;
+    using Newsweek.Web.Models.Common;
     using Newsweek.Web.Models.News;
 
     public class Startup
