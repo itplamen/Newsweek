@@ -1,10 +1,11 @@
 ﻿namespace Newsweek.Web.Models.News
 {
     using Newsweek.Common.Infrastructure.Mapping;
+    using Newsweek.Web.Models.Common;
     using Newsweek.Web.Models.Sources;
     using Newsweek.Web.Models.Subcategories;
 
-    public class NewsViewModel : IMapFrom<Data.Models.News>
+    public class NewsViewModel : BaseViewModel, IMapFrom<Data.Models.News>
     {
         public string Title { get; set; }
 
