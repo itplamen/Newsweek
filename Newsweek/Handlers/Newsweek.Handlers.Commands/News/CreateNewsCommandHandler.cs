@@ -27,8 +27,12 @@
 
         public async Task Handle(CreateNewsCommand command)
         {
-            Expression<Func<News, bool>> newsFilter = x => command.News.Select(x => x.RemoteUrl).Contains(x.RemoteUrl);
-            IEnumerable<News> news = await newsGetHandler.Handle(new GetEntitiesQuery<News>(newsFilter));
+            GetEntitiesQuery<News> newsQuery = new GetEntitiesQuery<News>()
+            {
+                Predicate =  x => command.News.Select(x => x.RemoteUrl).Contains(x.RemoteUrl)
+            };
+
+            IEnumerable<News> news = await newsGetHandler.Handle(newsQuery);
 
             ICollection<NewsCommand> newsCommandsToCreate = new List<NewsCommand>();
 

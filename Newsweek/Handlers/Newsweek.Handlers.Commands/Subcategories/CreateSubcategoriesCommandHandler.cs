@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Threading.Tasks;
 
     using Newsweek.Data.Models;
@@ -27,8 +26,12 @@
 
         public async Task<IEnumerable<Subcategory>> Handle(CreateSubcategoriesCommand command)
         {
-            Expression<Func<Subcategory, bool>> subcategoriesFilter = x => command.Subcategories.Select(x => x.Name).Contains(x.Name);
-            IEnumerable<Subcategory> existingSubcategories = await getHandler.Handle(new GetEntitiesQuery<Subcategory>(subcategoriesFilter));
+            GetEntitiesQuery<Subcategory> subcategoryQuery = new GetEntitiesQuery<Subcategory>()
+            {
+                Predicate = x => command.Subcategories.Select(x => x.Name).Contains(x.Name)
+            };
+
+            IEnumerable<Subcategory> existingSubcategories = await getHandler.Handle(subcategoryQuery);
 
             IEnumerable<string> existingSubcategoryNames = existingSubcategories.Select(x => x.Name);
             IEnumerable<SubcategoryCommand> subcategoriesToCreate = command.Subcategories.Where(x => !existingSubcategoryNames.Contains(x.Name));

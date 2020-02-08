@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Threading.Tasks;
 
     using AngleSharp.Dom;
@@ -54,8 +53,10 @@
         private async Task<IEnumerable<TEntity>> GetEntities<TEntity>(string element)
             where TEntity : BaseModel<int>, INameSearchableEntity
         {
-            Expression<Func<TEntity, bool>> entityFilter = x => Enumerable.Repeat(element, 1).Contains(x.Name);
-            GetEntitiesQuery<TEntity> query = new GetEntitiesQuery<TEntity>(entityFilter);
+            GetEntitiesQuery<TEntity> query = new GetEntitiesQuery<TEntity>()
+            {
+                Predicate = x => Enumerable.Repeat(element, 1).Contains(x.Name)
+            };
 
             return await queryDispatcher.Dispatch<GetEntitiesQuery<TEntity>, IEnumerable<TEntity>>(query);
         }

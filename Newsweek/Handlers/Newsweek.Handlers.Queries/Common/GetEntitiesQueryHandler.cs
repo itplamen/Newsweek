@@ -24,14 +24,9 @@
         {
             IQueryable<TEntity> entities = dbContext.Set<TEntity>();
 
-            if (query.Filter != null)
+            if (query.Predicate != null)
             {
-                entities = entities.Where(query.Filter);
-            }
-
-            if (query.Selector != null)
-            {
-                entities = entities.Select(query.Selector);
+                entities = entities.Where(query.Predicate);
             }
 
             if (query.OrderBy != null)
