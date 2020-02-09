@@ -14,7 +14,7 @@
     public class TopNewsQueryHandler<TViewModel> : IQueryHandler<IEnumerable<TViewModel>>
         where TViewModel : class
     {
-        private const int NEWS_FOR_SOURCE = 5;
+        private const int NEWS_FOR_SOURCE = 3;
 
         private readonly NewsweekDbContext dbContext;
  
