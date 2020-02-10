@@ -13,7 +13,7 @@
 
 @foreach (var grouped in Model.GroupBy(x => x.Subcategory.Category.Name))
 {
-    <div class="album dd">
+    <div class="album top-news">
         <h4 class="text-center font-weight-bold p-3">@grouped.Key</h4>
         <div class="row">
             @foreach (var news in grouped)
