@@ -6,6 +6,10 @@
     ViewData["Title"] = "Home - Newsweek";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/top-news.css" />
+}
+
 <div class="text-center">
     <h1 class="display-4">Newsweek</h1>
     <p>Latest breaking news available. Stay informed on European and world news about economy, politics, sport, IT… with Newsweek</p>
@@ -19,16 +23,18 @@
             @foreach (var news in grouped)
             {
                 <div class="col-md-4 card shadow-lg" title="@news.Title">
-                    <div class="top-news-title">@news.Title</div>
+                    <a asp-controller="News" asp-action="@news.Id">
+                        <div class="top-news-title">@news.Title</div>
 
-                    @if (!string.IsNullOrEmpty(news.MainImageUrl))
-                    {
-                        <img class="bd-placeholder-img card-img-top" src="@news.MainImageUrl" />
-                    }
+                        @if (!string.IsNullOrEmpty(news.MainImageUrl))
+                        {
+                            <img class="bd-placeholder-img card-img-top" src="@news.MainImageUrl" />
+                        }
 
-                    <div class="card-body">
-                        <div class="card-text">@Html.Raw(news.Description)</div>
-                    </div>
+                        <div class="card-body">
+                            <div class="card-text">@Html.Raw(news.Description)</div>
+                        </div>
+                    </a>
                 </div>
             }
         </div>
