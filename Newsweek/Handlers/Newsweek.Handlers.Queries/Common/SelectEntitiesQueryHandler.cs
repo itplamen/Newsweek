@@ -5,7 +5,8 @@
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
-    
+
+    using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Data;
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Queries.Contracts;
@@ -29,7 +30,12 @@
                 entities = entities.Where(query.Predicate);
             }
 
-            return await entities.Select(query.Selector).ToListAsync();
+            if (query.Selector != null)
+            {
+                return await entities.Select(query.Selector).ToListAsync();
+            }
+
+            return await entities.To<TResult>().ToListAsync();
         }
     }
 }
