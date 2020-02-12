@@ -1,0 +1,58 @@
+﻿@using Newsweek.Web.Models.News;
+
+@model NewsViewModel;
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/news.css" />
+}
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h1 class="card-title">@Model.Title</h1>
+        <div class="card-text">
+            <div>
+                <small class="text-muted news-source">
+                    Source:
+                    <span>
+                        <a href="@Model.RemoteUrl">@Model.Source.Name</a>
+                    </span>
+                </small>
+            </div>
+
+            <div>
+                <small class="text-muted news-created">
+                    Created:
+                    <span>
+                        @Model.CreatedOn.ToString("dd/MM/yyyy HH:mm")
+                    </span>
+                </small>
+            </div>
+
+            <div>
+                <small class="text-muted news-breadcrumb">
+                    <span><a href="#">@Model.Subcategory.Category.Name</a></span>/
+                    <span><a href="#">@Model.Subcategory.Name</a></span>/
+                    <span class="active">@Model.Title</span>
+                </small>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.MainImageUrl))
+        {
+            <img class="card-img-top" src="@Model.MainImageUrl" />
+        }
+
+        <p class="card-text"><small class="text-muted">@Html.Raw(Model.Description)</small></p>
+        <div class="card-body">@Html.Raw(Model.Content)</div>
+    </div>
+</div>
+
+<div class="album">
+    <div class="text-gray-soft text-regular"></div>
+
+
+</div>

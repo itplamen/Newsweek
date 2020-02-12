@@ -15,6 +15,7 @@ namespace Newsweek.Web
     using Newsweek.Data;
     using Newsweek.Data.Models;
     using Newsweek.Data.Seeders;
+    using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Handlers.Queries.News;
     using Newsweek.Web.Models.Common;
@@ -45,6 +46,7 @@ namespace Newsweek.Web
             services.AddServices();
 
             services.AddScoped<IQueryHandler<IEnumerable<NewsViewModel>>, TopNewsQueryHandler<NewsViewModel>>();
+            services.AddScoped<IQueryHandler<SelectEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, SelectEntitiesQueryHandler<News, NewsViewModel>>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -81,6 +83,10 @@ namespace Newsweek.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    "news",
+                    "News/{id:int:min(1)}",
+                    new { controller = "News", action = "Get", });
                 endpoints.MapRazorPages();
             });
 
