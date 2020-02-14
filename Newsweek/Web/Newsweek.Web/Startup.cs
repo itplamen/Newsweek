@@ -19,6 +19,7 @@ namespace Newsweek.Web
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Handlers.Queries.News;
     using Newsweek.Web.Models.Common;
+    using Newsweek.Web.Models.Menu;
     using Newsweek.Web.Models.News;
 
     public class Startup
@@ -47,6 +48,7 @@ namespace Newsweek.Web
 
             services.AddScoped<IQueryHandler<IEnumerable<NewsViewModel>>, TopNewsQueryHandler<NewsViewModel>>();
             services.AddScoped<IQueryHandler<SelectEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, SelectEntitiesQueryHandler<News, NewsViewModel>>();
+            services.AddScoped<IQueryHandler<SelectEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>, SelectEntitiesQueryHandler<Category, MenuViewModel>>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
