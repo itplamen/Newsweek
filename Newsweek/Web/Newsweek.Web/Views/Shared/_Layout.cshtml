@@ -19,14 +19,9 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+                    <cache expires-after="@TimeSpan.FromMinutes(20)">
+                        <vc:menu></vc:menu>
+                    </cache>
                 </div>
             </div>
         </nav>
@@ -45,6 +40,25 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $('#navigationMenu').on('keyup', '.dropdown-search', function () {
+            let text = $(this).val(); 
+
+            $(this)
+                .next()
+                .children('.dropdown-item')
+                .each(function (index, element) {
+                    let content = $(element).html().toLowerCase();
+
+                    if (content.indexOf(text.toLowerCase()) > -1) {
+                        $(element).show();
+                    }
+                    else {
+                        $(element).hide();
+                    }
+                });
+        });
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
