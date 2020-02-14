@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Common.Infrastruct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Handlers.Queries", "Handlers\Newsweek.Handlers.Queries\Newsweek.Handlers.Queries.csproj", "{CB06F048-E287-4CC7-992F-4FF9629EC6AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsweek.Common.IoCContainer", "Common\Newsweek.Common.IoCContainer\Newsweek.Common.IoCContainer.csproj", "{46145FCA-774D-465B-9ECC-96BD929E7489}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Common.IoCContainer", "Common\Newsweek.Common.IoCContainer\Newsweek.Common.IoCContainer.csproj", "{46145FCA-774D-465B-9ECC-96BD929E7489}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

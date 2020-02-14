@@ -1,0 +1,23 @@
+﻿@model IEnumerable<MenuViewModel>
+
+<ul class="navbar-nav flex-grow-1" id="navigationMenu">
+    @foreach (var menu in Model)
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" asp-area="" asp-controller="Home" asp-action="Privacy">@menu.Name</a>
+            <div class="dropdown-menu">
+                <input type="text" placeholder="Search.." class="dropdown-search" />
+                <div class="dropdown-menu-scrollable">
+                    @foreach (var submenu in menu.Submenu)
+                    {
+                        <a class="dropdown-item" href="#">@submenu.Name</a>
+                    }
+                </div>
+            </div>
+        </li>
+     }
+
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Prdivacy</a>
+    </li>
+</ul>
