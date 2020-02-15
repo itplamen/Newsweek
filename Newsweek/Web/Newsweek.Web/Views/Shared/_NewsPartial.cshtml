@@ -1,0 +1,16 @@
+﻿@model NewsViewModel;
+
+<div class="col-md-4 card shadow-lg" title="@Model.Title">
+    <a asp-controller="News" asp-action="@Model.Id">
+        <div class="top-news-title">@Model.Title</div>
+
+        @if (!string.IsNullOrEmpty(Model.MainImageUrl))
+        {
+            <img class="bd-placeholder-img card-img-top" src="@Model.MainImageUrl" />
+        }
+
+        <div class="card-body">
+            <div class="card-text">@Html.Raw(Model.Description)</div>
+        </div>
+    </a>
+</div>

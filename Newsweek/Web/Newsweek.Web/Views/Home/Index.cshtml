@@ -20,20 +20,7 @@
         <div class="row">
             @foreach (var news in grouped)
             {
-                <div class="col-md-4 card shadow-lg" title="@news.Title">
-                    <a asp-controller="News" asp-action="@news.Id">
-                        <div class="top-news-title">@news.Title</div>
-
-                        @if (!string.IsNullOrEmpty(news.MainImageUrl))
-                        {
-                            <img class="bd-placeholder-img card-img-top" src="@news.MainImageUrl" />
-                        }
-
-                        <div class="card-body">
-                            <div class="card-text">@Html.Raw(news.Description)</div>
-                        </div>
-                    </a>
-                </div>
+                <partial name="_NewsPartial" model="news" />
             }
         </div>
     </div>
