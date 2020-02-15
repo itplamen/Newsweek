@@ -45,6 +45,10 @@ button.accept-policy {
     line-height: inherit;
 }
 
+#navigationMenu li a {
+    width: 70px;
+}
+
 .dropdown-menu-scrollable {
     height: auto;
     max-height: 200px;
