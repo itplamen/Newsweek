@@ -11,7 +11,7 @@
                 <div class="dropdown-menu-scrollable">
                     @foreach (var submenu in menu.Submenu)
                     {
-                        <a class="dropdown-item" href="#">@submenu.Name</a>
+                        <a class="dropdown-item" asp-controller="News" asp-action="Search" asp-route-subcategory="@submenu.Name">@submenu.Name</a>
                     }
                 </div>
             </div>

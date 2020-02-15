@@ -45,7 +45,7 @@ button.accept-policy {
     line-height: inherit;
 }
 
-#navigationMenu li a {
+#navigationMenu li.nav-item a.nav-link {
     width: 70px;
 }
 

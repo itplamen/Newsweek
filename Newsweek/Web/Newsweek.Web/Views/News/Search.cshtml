@@ -1,0 +1,31 @@
+﻿@model SearchResponseViewModel
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/news.css" />
+}
+
+<small class="lead">
+    Showing 
+    <span class="font-weight-bolder">
+        @Model.News.Count()
+    </span> 
+    results for 
+    <span class="font-weight-bolder">
+        @Model.Search
+    </span>
+</small>
+
+<div class="album top-news">
+    @{
+        <div class="row">
+            @foreach (var news in Model.News)
+            {
+                <partial name="_NewsPartial" model="news" />
+            }
+        </div>
+    }
+</div>
