@@ -66,9 +66,15 @@ button.accept-policy {
     outline: none;
 }
 
+.dropdown-arrow {
+    position: relative;
+    left: -4px;
+    cursor: pointer;
+}
+
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
