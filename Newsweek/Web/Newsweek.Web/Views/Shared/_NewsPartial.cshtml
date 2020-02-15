@@ -8,6 +8,10 @@
         {
             <img class="bd-placeholder-img card-img-top" src="@Model.MainImageUrl" />
         }
+        else
+        {
+            <img class="bd-placeholder-img card-img-top" src="~/no-image-found.png" />
+        }
 
         <div class="card-body">
             <div class="card-text">@Html.Raw(Model.Description)</div>
