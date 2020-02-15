@@ -1,0 +1,45 @@
+﻿.card-text {
+    margin-bottom: 10px;
+}
+
+.card-text div {
+    overflow: hidden;
+    display: inline-block;
+}
+
+.card-text div:last-child {
+    width: 500px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.card-body {
+    text-align: justify;
+}
+
+.news-source span, .news-created span, .news-breadcrumb span:not(.active) {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.news-source a:link, .news-breadcrumb a:link {
+    color: currentColor;
+}
+
+.news-breadcrumb span {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.news-breadcrumb .active {
+    text-decoration: none;
+}
+
+.news-source a:visited, .news-breadcrumb a:visited {
+    text-decoration: none;
+    color: currentColor;
+}
+
+.news-created, .news-breadcrumb {
+    margin-left: 10px;
+}
