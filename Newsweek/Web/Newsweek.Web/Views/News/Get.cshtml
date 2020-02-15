@@ -32,8 +32,16 @@
 
             <div>
                 <small class="text-muted news-breadcrumb">
-                    <span><a href="#">@Model.Subcategory.Category.Name</a></span>/
-                    <span><a href="#">@Model.Subcategory.Name</a></span>/
+                    <span>
+                        <a asp-controller="News" asp-action="Search" asp-route-category="@Model.Subcategory.Category.Name">
+                            @Model.Subcategory.Category.Name
+                        </a>
+                    </span>/
+                    <span>
+                        <a asp-controller="News" asp-action="Search" asp-route-subcategory="@Model.Subcategory.Name">
+                            @Model.Subcategory.Name
+                        </a>
+                    </span>/
                     <span class="active">@Model.Title</span>
                 </small>
             </div>
