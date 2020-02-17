@@ -1,9 +1,15 @@
 ﻿namespace Newsweek.Data.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class News : BaseModel<int>
     {
+        public News()
+        {
+            Tags = new HashSet<NewsTag>();
+        }
+
         [Required]
         public string Title { get; set; }
 
@@ -25,5 +31,7 @@
         public int SubcategoryId { get; set; }
 
         public Subcategory Subcategory { get; set; }
+
+        public ICollection<NewsTag> Tags { get; set; }
     }
 }
