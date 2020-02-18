@@ -46,8 +46,37 @@
 
             var newsCommands = await Task.WhenAll(tasks);
 
-            return newsCommands.SelectMany(news => news)
-                .Where(x => x != null);
+            return newsCommands.SelectMany(news => news).Where(x => x != null);
+        }
+
+        protected abstract IEnumerable<string> GetArticleUrls(IDocument document);
+
+        protected abstract string GetTitle(IDocument document);
+
+        protected abstract string GetDescription(IDocument document);
+
+        protected abstract string GetContent(IDocument document);
+
+        protected abstract string GetMainImageUrl(IDocument document);
+
+        protected abstract string GetSubcategory(IDocument document);
+
+        protected virtual IEnumerable<string> GetTags(IDocument document)
+        {
+            string metaTag = document.QuerySelector("meta[name=news_keywords]")?.OuterHtml;
+
+            if (!string.IsNullOrEmpty(metaTag))
+            {
+                string[] separators = new string[] { "content=", "<meta name=\"news_keywords", ">", "\"", ",", "(", ")", "/", ";" };
+
+                IEnumerable<string> tags = metaTag.Split(separators, StringSplitOptions.RemoveEmptyEntries)
+                    .Where(x => !string.IsNullOrEmpty(x))
+                    .Select(x => x.Trim().ToLower());
+
+                return tags;
+            }
+
+            return Enumerable.Empty<string>();
         }
 
         private async Task<IEnumerable<TEntity>> GetEntities<TEntity>(string element)
@@ -124,17 +153,5 @@
                     !string.IsNullOrEmpty(content) &&
                     !string.IsNullOrEmpty(description);
         }
-
-        protected abstract IEnumerable<string> GetArticleUrls(IDocument document);
-
-        protected abstract string GetTitle(IDocument document);
-
-        protected abstract string GetDescription(IDocument document);
-
-        protected abstract string GetContent(IDocument document);
-
-        protected abstract string GetMainImageUrl(IDocument document);
-
-        protected abstract string GetSubcategory(IDocument document);
     }
 }

@@ -67,8 +67,16 @@
                 }
             }
 
-
             return string.Empty;
+        }
+
+        protected override IEnumerable<string> GetTags(IDocument document)
+        {
+            IEnumerable<string> tags = document.QuerySelectorAll("li.tags__item.theme__after-color")?
+                 .SelectMany(x => x.Children)
+                 .Select(x => x.InnerHtml.Trim().ToLower());
+
+            return tags;
         }
     }
 }

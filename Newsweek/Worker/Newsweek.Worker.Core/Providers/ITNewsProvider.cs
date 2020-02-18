@@ -48,5 +48,11 @@
         {
             return document.QuerySelector("nav.breadcrumbs.horiz ul li:nth-child(2) a.edition-link-url span")?.InnerHtml;
         }
+
+        protected override IEnumerable<string> GetTags(IDocument document)
+        {
+            return document.QuerySelectorAll("span.primary-cat-name2")?
+                .Select(x => x.InnerHtml.ToLower());
+        }
     }
 }
