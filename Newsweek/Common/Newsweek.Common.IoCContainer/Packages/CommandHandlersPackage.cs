@@ -10,6 +10,7 @@
     using Newsweek.Handlers.Commands.Contracts;
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Commands.Subcategories;
+    using Newsweek.Handlers.Commands.Tags;
 
     public sealed class CommandHandlersPackage : IPackage
     {
@@ -17,7 +18,9 @@
         {
             services.AddScoped<ICommandDispatcher, CommandDispatcher>();
             services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateTagsCommand>, CreateTagsCommandHandler>();
             services.AddScoped<ICommandHandler<CreateSubcategoriesCommand, IEnumerable<Subcategory>>, CreateSubcategoriesCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateEntitiesCommand<Tag, int>, IEnumerable<Tag>>, CreateEntitiesCommandHandler<Tag, int>>();
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<News, int>, IEnumerable<News>>, CreateEntitiesCommandHandler<News, int>>();
             services.AddScoped<ICommandHandler<CreateEntitiesCommand<Subcategory, int>, IEnumerable<Subcategory>>, CreateEntitiesCommandHandler<Subcategory, int>>();
         }
