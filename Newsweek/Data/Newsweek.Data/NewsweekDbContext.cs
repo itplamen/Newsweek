@@ -20,6 +20,8 @@
 
         public DbSet<News> News { get; set; }
 
+        public DbSet<Tag> Tags { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder) =>
             builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
     }
