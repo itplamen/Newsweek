@@ -11,6 +11,7 @@
     using Newsweek.Data.Models.Contracts;
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Commands.Subcategories;
+    using Newsweek.Handlers.Commands.Tags;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Worker.Core.Contracts;
@@ -114,12 +115,13 @@
                 string title = GetTitle(document);
                 string description = GetDescription(document);
                 string content = GetContent(document);
-                string mainImageUrl = GetMainImageUrl(document);
-                string subcategory = GetSubcategory(document);
  
                 if (IsArticleValid(title, description, content))
                 {
+                    string mainImageUrl = GetMainImageUrl(document);
+                    string subcategory = GetSubcategory(document);
                     var subcategoryCommand = new SubcategoryCommand(subcategory, categoryId);
+                    IEnumerable<TagCommand> tags = GetTags(document).Select(x => new TagCommand(x));
 
                     return new NewsCommand()
                     {
@@ -129,7 +131,8 @@
                         RemoteUrl = url, 
                         MainImageUrl = mainImageUrl, 
                         SourceId = sourceId,
-                        Subcategory = subcategoryCommand
+                        Subcategory = subcategoryCommand,
+                        Tags = tags
                     };
                 }
             }

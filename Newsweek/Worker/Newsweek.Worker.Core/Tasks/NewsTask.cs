@@ -8,6 +8,7 @@
     using Newsweek.Handlers.Commands.Contracts;
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Commands.Subcategories;
+    using Newsweek.Handlers.Commands.Tags;
     using Newsweek.Worker.Core.Contracts;
 
     public class NewsTask : ITask
@@ -40,8 +41,8 @@
                 .GroupBy(x => x.Name)
                 .Select(x => x.First());
 
-            IEnumerable<Subcategory> subcategories = await commandDispatcher.Dispatch<CreateSubcategoriesCommand, IEnumerable<Subcategory>>(
-                new CreateSubcategoriesCommand(subcategoryCommands));
+            var subcategories = await commandDispatcher
+                .Dispatch<CreateSubcategoriesCommand, IEnumerable<Subcategory>>(new CreateSubcategoriesCommand(subcategoryCommands));
 
             foreach (var subcategory in subcategories)
             {
@@ -54,6 +55,7 @@
             }
 
             await commandDispatcher.Dispatch(new CreateNewsCommand(newsCommands));
+            await commandDispatcher.Dispatch(new CreateTagsCommand(newsCommands.SelectMany(x => x.Tags)));
         }
     }
 }

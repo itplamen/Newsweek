@@ -1,10 +1,13 @@
 ﻿namespace Newsweek.Handlers.Commands.News
 {
+    using System.Collections.Generic;
+
     using AutoMapper;
 
     using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Handlers.Commands.Contracts;
     using Newsweek.Handlers.Commands.Subcategories;
+    using Newsweek.Handlers.Commands.Tags;
     using NewsData = Data.Models.News;
 
     public class NewsCommand : ICommand, IMapTo<NewsData>, IHaveCustomMappings
@@ -25,6 +28,8 @@
 
         public SubcategoryCommand Subcategory { get; set; }
 
+        public IEnumerable<TagCommand> Tags { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<NewsCommand, NewsData>()
@@ -34,7 +39,8 @@
                 .ForMember(x => x.MainImageUrl, opt => opt.MapFrom(x => x.MainImageUrl))
                 .ForMember(x => x.SourceId, opt => opt.MapFrom(x => x.SourceId))
                 .ForMember(x => x.SubcategoryId, opt => opt.MapFrom(x => x.SubcategoryId))
-                .ForMember(x => x.Subcategory, opt => opt.Ignore());
+                .ForMember(x => x.Subcategory, opt => opt.Ignore())
+                .ForMember(x => x.Tags, opt => opt.Ignore());
         }
     }
 }
