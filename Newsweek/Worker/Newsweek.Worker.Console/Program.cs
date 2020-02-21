@@ -5,6 +5,8 @@
     using System.Threading.Tasks;
 
     using AngleSharp.Html.Parser;
+
+    using MediatR;
     
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -56,6 +58,7 @@
             }
 
             AutoMapperConfig.RegisterMappings(Assembly.Load(MAPPING_ASSEMBLY));
+            services.AddMediatR(Assembly.Load(MAPPING_ASSEMBLY));
 
             services.AddHttpClient();
             services.AddSingleton<IHtmlParser, HtmlParser>();
