@@ -2,9 +2,11 @@
 {
     using System.Collections.Generic;
 
-    using Newsweek.Handlers.Commands.Contracts;
+    using MediatR;
 
-    public class CreateSubcategoriesCommand : ICommand
+    using Newsweek.Data.Models;
+
+    public class CreateSubcategoriesCommand : IRequest<IEnumerable<Subcategory>>
     {
         public CreateSubcategoriesCommand(IEnumerable<SubcategoryCommand> subcategories)
         {

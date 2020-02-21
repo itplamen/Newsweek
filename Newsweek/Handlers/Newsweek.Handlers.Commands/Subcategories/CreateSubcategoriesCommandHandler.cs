@@ -3,17 +3,17 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using MediatR;
     
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Common;
-    using Newsweek.Handlers.Commands.Contracts;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Contracts;
 
-    public class CreateSubcategoriesCommandHandler : ICommandHandler<CreateSubcategoriesCommand, IEnumerable<Subcategory>>
+    public class CreateSubcategoriesCommandHandler : IRequestHandler<CreateSubcategoriesCommand, IEnumerable<Subcategory>>
     {
         private readonly IMediator mediator;
         private readonly IQueryHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>> getHandler;
@@ -24,17 +24,17 @@
             this.getHandler = getHandler;
         }
 
-        public async Task<IEnumerable<Subcategory>> Handle(CreateSubcategoriesCommand command)
+        public async Task<IEnumerable<Subcategory>> Handle(CreateSubcategoriesCommand request, CancellationToken cancellationToken)
         {
             GetEntitiesQuery<Subcategory> subcategoryQuery = new GetEntitiesQuery<Subcategory>()
             {
-                Predicate = x => command.Subcategories.Select(x => x.Name).Contains(x.Name)
+                Predicate = x => request.Subcategories.Select(x => x.Name).Contains(x.Name)
             };
 
             IEnumerable<Subcategory> existingSubcategories = await getHandler.Handle(subcategoryQuery);
 
             IEnumerable<string> existingSubcategoryNames = existingSubcategories.Select(x => x.Name);
-            IEnumerable<SubcategoryCommand> subcategoriesToCreate = command.Subcategories.Where(x => !existingSubcategoryNames.Contains(x.Name));
+            IEnumerable<SubcategoryCommand> subcategoriesToCreate = request.Subcategories.Where(x => !existingSubcategoryNames.Contains(x.Name));
             IEnumerable<Subcategory> createdSubcategories = await mediator.Send(new CreateEntitiesCommand<Subcategory, int>(subcategoriesToCreate));
 
             List<Subcategory> newsSubcategories = new List<Subcategory>();

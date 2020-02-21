@@ -45,8 +45,7 @@
                 .GroupBy(x => x.Name)
                 .Select(x => x.First());
 
-            var subcategories = await commandDispatcher
-                .Dispatch<CreateSubcategoriesCommand, IEnumerable<Subcategory>>(new CreateSubcategoriesCommand(subcategoryCommands));
+            IEnumerable<Subcategory> subcategories = await mediator.Send(new CreateSubcategoriesCommand(subcategoryCommands));
 
             foreach (var subcategory in subcategories)
             {
