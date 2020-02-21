@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    using Newsweek.Handlers.Commands.Contracts;
+    using MediatR;
 
-    public class CreateNewsCommand : ICommand
+    public class CreateNewsCommand : IRequest
     {
         public CreateNewsCommand(IEnumerable<NewsCommand> news)
         {

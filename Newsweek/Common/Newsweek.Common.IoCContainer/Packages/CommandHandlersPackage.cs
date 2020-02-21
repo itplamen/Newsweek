@@ -19,7 +19,7 @@
         public void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<ICommandDispatcher, CommandDispatcher>();
-            services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
+           // services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
             services.AddScoped<ICommandHandler<CreateTagsCommand>, CreateTagsCommandHandler>();
             services.AddScoped<ICommandHandler<CreateSubcategoriesCommand, IEnumerable<Subcategory>>, CreateSubcategoriesCommandHandler>();
             services.AddScoped<IRequestHandler<CreateEntitiesCommand<Tag, int>, IEnumerable<Tag>>, CreateEntitiesCommandHandler<Tag, int>>();
