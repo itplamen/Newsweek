@@ -3,29 +3,31 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
+
+    using MediatR;
     
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-    
-    using Newsweek.Handlers.Queries.Contracts;
+
+    using Newsweek.Handlers.Queries.News;
     using Newsweek.Web.Models.Common;
     using Newsweek.Web.Models.News;
 
     public class HomeController : Controller
     {
+        private readonly IMediator mediator;
         private readonly ILogger<HomeController> logger;
-        private readonly IQueryDispatcher queryDispatcher;
 
-        public HomeController(ILogger<HomeController> logger, IQueryDispatcher queryDispatcher)
+        public HomeController(IMediator mediator, ILogger<HomeController> logger)
         {
+            this.mediator = mediator;
             this.logger = logger;
-            this.queryDispatcher = queryDispatcher;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<NewsViewModel> topNews = await queryDispatcher.Dispatch<IEnumerable<NewsViewModel>>();
+            IEnumerable<NewsViewModel> topNews = await mediator.Send(new TopNewsQuery<NewsViewModel>(3));
 
             return View(topNews);
         }
