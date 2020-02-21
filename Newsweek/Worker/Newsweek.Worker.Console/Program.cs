@@ -71,7 +71,6 @@
             services.AddTransient<ITask, NewsTask>(x =>
                 new NewsTask(
                     x.GetRequiredService<IMediator>(),
-                    x.GetRequiredService<ICommandDispatcher>(),
                     new INewsProvider[]
                     {
                         x.GetRequiredService<EuropeNewsProvider>(),

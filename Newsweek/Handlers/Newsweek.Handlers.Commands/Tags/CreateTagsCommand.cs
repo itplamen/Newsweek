@@ -1,10 +1,10 @@
 ﻿namespace Newsweek.Handlers.Commands.Tags
 {
     using System.Collections.Generic;
-
-    using Newsweek.Handlers.Commands.Contracts;
-
-    public class CreateTagsCommand : ICommand
+    
+    using MediatR;
+    
+    public class CreateTagsCommand : IRequest
     {
         public CreateTagsCommand(IEnumerable<TagCommand> tags)
         {

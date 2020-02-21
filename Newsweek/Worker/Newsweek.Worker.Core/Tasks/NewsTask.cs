@@ -7,7 +7,6 @@
     using MediatR;
     
     using Newsweek.Data.Models;
-    using Newsweek.Handlers.Commands.Contracts;
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Commands.Subcategories;
     using Newsweek.Handlers.Commands.Tags;
@@ -16,14 +15,12 @@
     public class NewsTask : ITask
     {
         private readonly IMediator mediator;
-        private readonly ICommandDispatcher commandDispatcher;
         private readonly IEnumerable<INewsProvider> newsProviders;
         
-        public NewsTask(IMediator mediator, ICommandDispatcher commandDispatcher, IEnumerable<INewsProvider> newsProviders)
+        public NewsTask(IMediator mediator, IEnumerable<INewsProvider> newsProviders)
         {
             this.mediator = mediator;
             this.newsProviders = newsProviders;
-            this.commandDispatcher = commandDispatcher;
         }
 
         public async Task DoWork()
@@ -58,7 +55,7 @@
             }
 
             await mediator.Send(new CreateNewsCommand(newsCommands));
-            await commandDispatcher.Dispatch(new CreateTagsCommand(newsCommands.SelectMany(x => x.Tags)));
+            await mediator.Send(new CreateTagsCommand(newsCommands.SelectMany(x => x.Tags)));
         }
     }
 }
