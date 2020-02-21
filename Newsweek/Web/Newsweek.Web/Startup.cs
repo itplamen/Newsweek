@@ -18,6 +18,7 @@ namespace Newsweek.Web
     using Newsweek.Data.Models;
     using Newsweek.Data.Seeders;
     using Newsweek.Handlers.Queries.Common;
+    using Newsweek.Handlers.Queries.News;
     using Newsweek.Web.Models.Common;
     using Newsweek.Web.Models.Menu;
     using Newsweek.Web.Models.News;
@@ -49,6 +50,7 @@ namespace Newsweek.Web
             services.AddServices();
             services.AddMediatR(Assembly.Load(QUERIES_ASSEMBLY));
 
+            services.AddScoped<IRequestHandler<TopNewsQuery<NewsViewModel>, IEnumerable<NewsViewModel>>, TopNewsQueryHandler<NewsViewModel>>();
             services.AddScoped<IRequestHandler<SelectEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, SelectEntitiesQueryHandler<News, NewsViewModel>>();
             services.AddScoped<IRequestHandler<SelectEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>, SelectEntitiesQueryHandler<Category, MenuViewModel>>();
         }
