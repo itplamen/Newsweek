@@ -3,6 +3,8 @@ namespace Newsweek.Web
     using System.Collections.Generic;
     using System.Reflection;
 
+    using MediatR;
+    
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -24,6 +26,8 @@ namespace Newsweek.Web
 
     public class Startup
     {
+        private const string QUERIES_ASSEMBLY = "Newsweek.Handlers.Queries";
+
         private readonly IConfiguration configuration;
 
         public Startup(IConfiguration configuration)
@@ -45,6 +49,7 @@ namespace Newsweek.Web
             services.AddSingleton(configuration);
 
             services.AddServices();
+            services.AddMediatR(Assembly.Load(QUERIES_ASSEMBLY));
 
             services.AddScoped<IQueryHandler<IEnumerable<NewsViewModel>>, TopNewsQueryHandler<NewsViewModel>>();
             services.AddScoped<IQueryHandler<SelectEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, SelectEntitiesQueryHandler<News, NewsViewModel>>();
