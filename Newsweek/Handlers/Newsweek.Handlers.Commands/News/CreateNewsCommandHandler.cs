@@ -11,18 +11,14 @@
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Queries.Common;
-    using Newsweek.Handlers.Queries.Contracts;
 
     public class CreateNewsCommandHandler : IRequestHandler<CreateNewsCommand>
     {
         private readonly IMediator mediator; 
 
-        private readonly IQueryHandler<GetEntitiesQuery<News>, IEnumerable<News>> newsGetHandler;
-
-        public CreateNewsCommandHandler(IMediator mediator, IQueryHandler<GetEntitiesQuery<News>, IEnumerable<News>> newsGetHandler)
+        public CreateNewsCommandHandler(IMediator mediator)
         {
             this.mediator = mediator;
-            this.newsGetHandler = newsGetHandler;
         }
 
         public async Task<Unit> Handle(CreateNewsCommand request, CancellationToken cancellationToken)
@@ -32,7 +28,7 @@
                 Predicate = x => request.News.Select(x => x.RemoteUrl).Contains(x.RemoteUrl)
             };
 
-            IEnumerable<News> news = await newsGetHandler.Handle(newsQuery);
+            IEnumerable<News> news = await mediator.Send(newsQuery, cancellationToken);
 
             ICollection<NewsCommand> newsCommandsToCreate = new List<NewsCommand>();
 

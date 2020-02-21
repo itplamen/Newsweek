@@ -4,14 +4,15 @@
     using System.Linq;
 
     using AngleSharp.Dom;
-
-    using Newsweek.Handlers.Queries.Contracts;
+    
+    using MediatR;
+    
     using Newsweek.Worker.Core.Contracts;
     
     public class ITNewsProvider : BaseNewsProvider
     {
-        public ITNewsProvider(INewsApi newsApi, IQueryDispatcher queryDispatcher)
-            : base(newsApi, queryDispatcher)
+        public ITNewsProvider(INewsApi newsApi, IMediator mediator)
+            : base(newsApi, mediator)
         {
             Source = "ITworld";
             Category = "IT";

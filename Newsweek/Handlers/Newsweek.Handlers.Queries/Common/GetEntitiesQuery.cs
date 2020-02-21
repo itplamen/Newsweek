@@ -4,11 +4,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-
+    
+    using MediatR;
+    
     using Newsweek.Data.Models;
-    using Newsweek.Handlers.Queries.Contracts;
-
-    public class GetEntitiesQuery<TEntity> : IQuery<IEnumerable<TEntity>>
+    
+    public class GetEntitiesQuery<TEntity> : IRequest<IEnumerable<TEntity>>
         where TEntity : BaseModel<int>
     {
         public int Take { get; set; }

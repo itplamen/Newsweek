@@ -1,6 +1,8 @@
 ﻿namespace Newsweek.Common.IoCContainer.Packages
 {
     using System.Collections.Generic;
+    
+    using MediatR;
 
     using Microsoft.Extensions.DependencyInjection;
     
@@ -14,11 +16,11 @@
         public void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IQueryDispatcher, QueryDispatcher>();
-            services.AddScoped<IQueryHandler<GetEntitiesQuery<News>, IEnumerable<News>>, GetEntitiesQueryHandler<News>>();
-            services.AddScoped<IQueryHandler<GetEntitiesQuery<Tag>, IEnumerable<Tag>>, GetEntitiesQueryHandler<Tag>>();
-            services.AddScoped<IQueryHandler<GetEntitiesQuery<Source>, IEnumerable<Source>>, GetEntitiesQueryHandler<Source>>();
-            services.AddScoped<IQueryHandler<GetEntitiesQuery<Category>, IEnumerable<Category>>, GetEntitiesQueryHandler<Category>>();
-            services.AddScoped<IQueryHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>>, GetEntitiesQueryHandler<Subcategory>>();
+            services.AddScoped<IRequestHandler<GetEntitiesQuery<News>, IEnumerable<News>>, GetEntitiesQueryHandler<News>>();
+            services.AddScoped<IRequestHandler<GetEntitiesQuery<Tag>, IEnumerable<Tag>>, GetEntitiesQueryHandler<Tag>>();
+            services.AddScoped<IRequestHandler<GetEntitiesQuery<Source>, IEnumerable<Source>>, GetEntitiesQueryHandler<Source>>();
+            services.AddScoped<IRequestHandler<GetEntitiesQuery<Category>, IEnumerable<Category>>, GetEntitiesQueryHandler<Category>>();
+            services.AddScoped<IRequestHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>>, GetEntitiesQueryHandler<Subcategory>>();
             services.AddScoped<IQueryHandler<SelectEntitiesQuery<Source, int>, IEnumerable<int>>, SelectEntitiesQueryHandler<Source, int>>();
         }
     }

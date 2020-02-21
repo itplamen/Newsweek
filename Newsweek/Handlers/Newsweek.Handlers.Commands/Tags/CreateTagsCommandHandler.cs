@@ -10,17 +10,14 @@
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Queries.Common;
-    using Newsweek.Handlers.Queries.Contracts;
 
     public class CreateTagsCommandHandler : IRequestHandler<CreateTagsCommand>
     {
         private readonly IMediator mediator;
-        private readonly IQueryHandler<GetEntitiesQuery<Tag>, IEnumerable<Tag>> getHandler;
 
-        public CreateTagsCommandHandler(Mediator mediator, IQueryHandler<GetEntitiesQuery<Tag>, IEnumerable<Tag>> getHandler)
+        public CreateTagsCommandHandler(Mediator mediator)
         {
             this.mediator = mediator;
-            this.getHandler = getHandler;
         }
 
         public async Task<Unit> Handle(CreateTagsCommand request, CancellationToken cancellationToken)
@@ -37,7 +34,7 @@
                     .Contains(x.Name)
             };
 
-            IEnumerable<Tag> tags = await getHandler.Handle(query);
+            IEnumerable<Tag> tags = await mediator.Send(query, cancellationToken);
 
             ICollection<TagCommand> tagsToCreate = new List<TagCommand>();
 

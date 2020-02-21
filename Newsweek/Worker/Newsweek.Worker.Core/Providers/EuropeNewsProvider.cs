@@ -6,15 +6,16 @@
 
     using AngleSharp.Dom;
     
-    using Newsweek.Handlers.Queries.Contracts;
+    using MediatR;
+    
     using Newsweek.Worker.Core.Contracts;
     
     public class EuropeNewsProvider : BaseNewsProvider
     {
         private readonly IEnumerable<string> excludedSubcategories; 
 
-        public EuropeNewsProvider(INewsApi newsApi, IQueryDispatcher queryDispatcher)
-            : base(newsApi, queryDispatcher)
+        public EuropeNewsProvider(INewsApi newsApi, IMediator mediator)
+            : base(newsApi, mediator)
         {
             Source = "Euronews";
             Category = "Europe";

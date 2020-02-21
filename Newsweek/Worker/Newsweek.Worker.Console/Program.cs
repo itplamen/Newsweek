@@ -25,7 +25,8 @@
 
     public class Program
     {
-        private const string MAPPING_ASSEMBLY = "Newsweek.Handlers.Commands";
+        private const string COMMANDS_ASSEMBLY = "Newsweek.Handlers.Commands";
+        private const string QUERIES_ASSEMBLY = "Newsweek.Handlers.Queries";
 
         public static async Task Main(string[] args)
         {
@@ -56,8 +57,8 @@
                 NewsweekDbContextSeeder.Seed(dbContext);
             }
 
-            AutoMapperConfig.RegisterMappings(Assembly.Load(MAPPING_ASSEMBLY));
-            services.AddMediatR(Assembly.Load(MAPPING_ASSEMBLY));
+            AutoMapperConfig.RegisterMappings(Assembly.Load(COMMANDS_ASSEMBLY));
+            services.AddMediatR(Assembly.Load(COMMANDS_ASSEMBLY), Assembly.Load(QUERIES_ASSEMBLY));
 
             services.AddHttpClient();
             services.AddSingleton<IHtmlParser, HtmlParser>();

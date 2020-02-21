@@ -7,24 +7,25 @@
 
     using AngleSharp.Dom;
 
+    using MediatR;
+
     using Newsweek.Data.Models;
     using Newsweek.Data.Models.Contracts;
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Commands.Subcategories;
     using Newsweek.Handlers.Commands.Tags;
     using Newsweek.Handlers.Queries.Common;
-    using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Worker.Core.Contracts;
 
     public abstract class BaseNewsProvider : INewsProvider
     {
         private readonly INewsApi newsApi;
-        private readonly IQueryDispatcher queryDispatcher;
+        private readonly IMediator mediator;
 
-        public BaseNewsProvider(INewsApi newsApi, IQueryDispatcher queryDispatcher)
+        public BaseNewsProvider(INewsApi newsApi, IMediator mediator)
         {
             this.newsApi = newsApi;
-            this.queryDispatcher = queryDispatcher;
+            this.mediator = mediator;
         }
 
         protected string Source { get; set; }
@@ -88,7 +89,7 @@
                 Predicate = x => Enumerable.Repeat(element, 1).Contains(x.Name)
             };
 
-            return await queryDispatcher.Dispatch<GetEntitiesQuery<TEntity>, IEnumerable<TEntity>>(query);
+            return await mediator.Send(query);
         }
 
         private async Task<IEnumerable<NewsCommand>> GetNews(Source source, Category category, string subcategoryUrl)

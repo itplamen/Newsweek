@@ -11,17 +11,14 @@
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Queries.Common;
-    using Newsweek.Handlers.Queries.Contracts;
 
     public class CreateSubcategoriesCommandHandler : IRequestHandler<CreateSubcategoriesCommand, IEnumerable<Subcategory>>
     {
         private readonly IMediator mediator;
-        private readonly IQueryHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>> getHandler;
 
-        public CreateSubcategoriesCommandHandler(IMediator mediator, IQueryHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>> getHandler)
+        public CreateSubcategoriesCommandHandler(IMediator mediator)
         {
             this.mediator = mediator;
-            this.getHandler = getHandler;
         }
 
         public async Task<IEnumerable<Subcategory>> Handle(CreateSubcategoriesCommand request, CancellationToken cancellationToken)
@@ -31,7 +28,7 @@
                 Predicate = x => request.Subcategories.Select(x => x.Name).Contains(x.Name)
             };
 
-            IEnumerable<Subcategory> existingSubcategories = await getHandler.Handle(subcategoryQuery);
+            IEnumerable<Subcategory> existingSubcategories = await mediator.Send(subcategoryQuery, cancellationToken);
 
             IEnumerable<string> existingSubcategoryNames = existingSubcategories.Select(x => x.Name);
             IEnumerable<SubcategoryCommand> subcategoriesToCreate = request.Subcategories.Where(x => !existingSubcategoryNames.Contains(x.Name));

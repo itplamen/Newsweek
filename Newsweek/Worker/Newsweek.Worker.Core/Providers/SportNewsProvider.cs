@@ -5,14 +5,15 @@
     using System.Linq;
 
     using AngleSharp.Dom;
-
-    using Newsweek.Handlers.Queries.Contracts;
+    
+    using MediatR;
+    
     using Newsweek.Worker.Core.Contracts;
     
     public class SportNewsProvider : BaseNewsProvider
     {
-        public SportNewsProvider(INewsApi newsApi, IQueryDispatcher queryDispatcher)
-            : base(newsApi, queryDispatcher)
+        public SportNewsProvider(INewsApi newsApi, IMediator mediator)
+            : base(newsApi, mediator)
         {
             Source = "talkSPORT";
             Category = "Sport";
