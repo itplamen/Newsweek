@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    
+    using MediatR;
+    
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Commands.Contracts;
@@ -12,15 +14,13 @@
 
     public class CreateTagsCommandHandler : ICommandHandler<CreateTagsCommand>
     {
+        private readonly IMediator mediator;
         private readonly IQueryHandler<GetEntitiesQuery<Tag>, IEnumerable<Tag>> getHandler;
-        private readonly ICommandHandler<CreateEntitiesCommand<Tag, int>, IEnumerable<Tag>> createHandler;
 
-        public CreateTagsCommandHandler(
-            IQueryHandler<GetEntitiesQuery<Tag>, IEnumerable<Tag>> getHandler, 
-            ICommandHandler<CreateEntitiesCommand<Tag, int>, IEnumerable<Tag>> createHandler)
+        public CreateTagsCommandHandler(Mediator mediator, IQueryHandler<GetEntitiesQuery<Tag>, IEnumerable<Tag>> getHandler)
         {
+            this.mediator = mediator;
             this.getHandler = getHandler;
-            this.createHandler = createHandler;
         }
 
         public async Task Handle(CreateTagsCommand command)
@@ -49,7 +49,7 @@
                 }
             }
 
-            await createHandler.Handle(new CreateEntitiesCommand<Tag, int>(tagsToCreate));
+            await mediator.Send(new CreateEntitiesCommand<Tag, int>(tagsToCreate));
         }
     }
 }

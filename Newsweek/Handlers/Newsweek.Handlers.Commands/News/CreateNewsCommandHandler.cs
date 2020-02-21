@@ -3,9 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Threading.Tasks;
-
+    
+    using MediatR;
+    
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Commands.Contracts;
@@ -14,15 +15,14 @@
 
     public class CreateNewsCommandHandler : ICommandHandler<CreateNewsCommand>
     {
-        private readonly IQueryHandler<GetEntitiesQuery<News>, IEnumerable<News>> newsGetHandler;
-        private readonly ICommandHandler<CreateEntitiesCommand<News, int>, IEnumerable<News>> newsCreateHandler;
+        private readonly IMediator mediator; 
 
-        public CreateNewsCommandHandler(
-            IQueryHandler<GetEntitiesQuery<News>, IEnumerable<News>> newsGetHandler, 
-            ICommandHandler<CreateEntitiesCommand<News, int>, IEnumerable<News>> newsCreateHandler)
+        private readonly IQueryHandler<GetEntitiesQuery<News>, IEnumerable<News>> newsGetHandler;
+
+        public CreateNewsCommandHandler(IMediator mediator, IQueryHandler<GetEntitiesQuery<News>, IEnumerable<News>> newsGetHandler)
         {
+            this.mediator = mediator;
             this.newsGetHandler = newsGetHandler;
-            this.newsCreateHandler = newsCreateHandler;
         }
 
         public async Task Handle(CreateNewsCommand command)
@@ -44,7 +44,7 @@
                 }
             }
 
-            await newsCreateHandler.Handle(new CreateEntitiesCommand<News, int>(newsCommandsToCreate));
+            await mediator.Send(new CreateEntitiesCommand<News, int>(newsCommandsToCreate));
         }
     }
 }

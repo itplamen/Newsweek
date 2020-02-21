@@ -5,6 +5,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using MediatR;
+    
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Commands.Contracts;
@@ -13,15 +15,13 @@
 
     public class CreateSubcategoriesCommandHandler : ICommandHandler<CreateSubcategoriesCommand, IEnumerable<Subcategory>>
     {
+        private readonly IMediator mediator;
         private readonly IQueryHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>> getHandler;
-        private readonly ICommandHandler<CreateEntitiesCommand<Subcategory, int>, IEnumerable<Subcategory>> createHandler;
 
-        public CreateSubcategoriesCommandHandler(
-            IQueryHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>> getHandler, 
-            ICommandHandler<CreateEntitiesCommand<Subcategory, int>, IEnumerable<Subcategory>> createHandler)
+        public CreateSubcategoriesCommandHandler(IMediator mediator, IQueryHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>> getHandler)
         {
+            this.mediator = mediator;
             this.getHandler = getHandler;
-            this.createHandler = createHandler;
         }
 
         public async Task<IEnumerable<Subcategory>> Handle(CreateSubcategoriesCommand command)
@@ -35,7 +35,7 @@
 
             IEnumerable<string> existingSubcategoryNames = existingSubcategories.Select(x => x.Name);
             IEnumerable<SubcategoryCommand> subcategoriesToCreate = command.Subcategories.Where(x => !existingSubcategoryNames.Contains(x.Name));
-            IEnumerable<Subcategory> createdSubcategories = await createHandler.Handle(new CreateEntitiesCommand<Subcategory, int>(subcategoriesToCreate));
+            IEnumerable<Subcategory> createdSubcategories = await mediator.Send(new CreateEntitiesCommand<Subcategory, int>(subcategoriesToCreate));
 
             List<Subcategory> newsSubcategories = new List<Subcategory>();
             newsSubcategories.AddRange(existingSubcategories);

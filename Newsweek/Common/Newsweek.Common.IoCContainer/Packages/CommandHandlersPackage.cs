@@ -2,6 +2,8 @@
 {
     using System.Collections.Generic;
     
+    using MediatR;
+    
     using Microsoft.Extensions.DependencyInjection;
     
     using Newsweek.Data.Models;
@@ -20,9 +22,9 @@
             services.AddScoped<ICommandHandler<CreateNewsCommand>, CreateNewsCommandHandler>();
             services.AddScoped<ICommandHandler<CreateTagsCommand>, CreateTagsCommandHandler>();
             services.AddScoped<ICommandHandler<CreateSubcategoriesCommand, IEnumerable<Subcategory>>, CreateSubcategoriesCommandHandler>();
-            services.AddScoped<ICommandHandler<CreateEntitiesCommand<Tag, int>, IEnumerable<Tag>>, CreateEntitiesCommandHandler<Tag, int>>();
-            services.AddScoped<ICommandHandler<CreateEntitiesCommand<News, int>, IEnumerable<News>>, CreateEntitiesCommandHandler<News, int>>();
-            services.AddScoped<ICommandHandler<CreateEntitiesCommand<Subcategory, int>, IEnumerable<Subcategory>>, CreateEntitiesCommandHandler<Subcategory, int>>();
+            services.AddScoped<IRequestHandler<CreateEntitiesCommand<Tag, int>, IEnumerable<Tag>>, CreateEntitiesCommandHandler<Tag, int>>();
+            services.AddScoped<IRequestHandler<CreateEntitiesCommand<News, int>, IEnumerable<News>>, CreateEntitiesCommandHandler<News, int>>();
+            services.AddScoped<IRequestHandler<CreateEntitiesCommand<Subcategory, int>, IEnumerable<Subcategory>>, CreateEntitiesCommandHandler<Subcategory, int>>();
         }
     }
 }

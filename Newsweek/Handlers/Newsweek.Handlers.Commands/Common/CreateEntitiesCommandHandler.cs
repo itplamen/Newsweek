@@ -3,15 +3,17 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     
     using AutoMapper;
-    
+
+    using MediatR;
+
     using Newsweek.Data;
     using Newsweek.Data.Models;
-    using Newsweek.Handlers.Commands.Contracts;
 
-    public class CreateEntitiesCommandHandler<TEntity, TKey> : ICommandHandler<CreateEntitiesCommand<TEntity, TKey>, IEnumerable<TEntity>>
+    public class CreateEntitiesCommandHandler<TEntity, TKey> : IRequestHandler<CreateEntitiesCommand<TEntity, TKey>, IEnumerable<TEntity>>
         where TEntity : BaseModel<TKey>
     {
         private readonly NewsweekDbContext dbContext;
@@ -21,11 +23,11 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<TEntity>> Handle(CreateEntitiesCommand<TEntity, TKey> command)
+        public async Task<IEnumerable<TEntity>> Handle(CreateEntitiesCommand<TEntity, TKey> request, CancellationToken cancellationToken)
         {
-            if (command.Entities.Any())
+            if (request.Entities.Any())
             {
-                IEnumerable<TEntity> entities = Mapper.Map<IEnumerable<TEntity>>(command.Entities);
+                IEnumerable<TEntity> entities = Mapper.Map<IEnumerable<TEntity>>(request.Entities);
 
                 foreach (var entity in entities)
                 {
@@ -34,7 +36,7 @@
                     await dbContext.AddAsync(entity);
                 }
 
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync(cancellationToken);
 
                 return entities;
             }
