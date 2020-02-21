@@ -1,10 +1,11 @@
 ﻿namespace Newsweek.Handlers.Commands.Subcategories
 {
+    using MediatR;
+
     using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Data.Models;
-    using Newsweek.Handlers.Commands.Contracts;
-
-    public class SubcategoryCommand : ICommand, IMapTo<Subcategory>
+    
+    public class SubcategoryCommand : IRequest, IMapTo<Subcategory>
     {
         public SubcategoryCommand(string name, int categoryId)
         {

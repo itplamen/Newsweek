@@ -4,13 +4,14 @@
 
     using AutoMapper;
 
+    using MediatR;
+
     using Newsweek.Common.Infrastructure.Mapping;
-    using Newsweek.Handlers.Commands.Contracts;
     using Newsweek.Handlers.Commands.Subcategories;
     using Newsweek.Handlers.Commands.Tags;
     using NewsData = Data.Models.News;
 
-    public class NewsCommand : ICommand, IMapTo<NewsData>, IHaveCustomMappings
+    public class NewsCommand : IRequest, IMapTo<NewsData>, IHaveCustomMappings
     {
         public string Title { get; set; }
 
