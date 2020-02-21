@@ -4,21 +4,22 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using MediatR;
+
     using Microsoft.AspNetCore.Mvc;
 
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Queries.Common;
-    using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Web.Models.Menu;
    
     [ViewComponent(Name = "Menu")]
     public class MenuViewComponent : ViewComponent
     {
-        private readonly IQueryDispatcher queryDispatcher;
+        private readonly IMediator mediator;
 
-        public MenuViewComponent(IQueryDispatcher queryDispatcher)
+        public MenuViewComponent(IMediator mediator)
         {
-            this.queryDispatcher = queryDispatcher;
+            this.mediator = mediator;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
@@ -37,8 +38,7 @@
                 }
             };
 
-            IEnumerable<MenuViewModel> menu = await queryDispatcher
-                .Dispatch<SelectEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>(query);
+            IEnumerable<MenuViewModel> menu = await mediator.Send(query);
 
             return View(menu);
         }

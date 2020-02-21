@@ -52,8 +52,8 @@ namespace Newsweek.Web
             services.AddMediatR(Assembly.Load(QUERIES_ASSEMBLY));
 
             services.AddScoped<IQueryHandler<IEnumerable<NewsViewModel>>, TopNewsQueryHandler<NewsViewModel>>();
-            services.AddScoped<IQueryHandler<SelectEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, SelectEntitiesQueryHandler<News, NewsViewModel>>();
-            services.AddScoped<IQueryHandler<SelectEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>, SelectEntitiesQueryHandler<Category, MenuViewModel>>();
+            services.AddScoped<IRequestHandler<SelectEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, SelectEntitiesQueryHandler<News, NewsViewModel>>();
+            services.AddScoped<IRequestHandler<SelectEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>, SelectEntitiesQueryHandler<Category, MenuViewModel>>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

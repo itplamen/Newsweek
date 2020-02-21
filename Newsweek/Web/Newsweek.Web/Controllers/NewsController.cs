@@ -6,27 +6,28 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
 
+    using MediatR;
+    
     using Microsoft.AspNetCore.Mvc;
 
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Queries.Common;
-    using Newsweek.Handlers.Queries.Contracts;
     using Newsweek.Web.Models.News;
     
     public class NewsController : Controller
     {
-        private readonly IQueryDispatcher queryDispatcher;
+        private readonly IMediator mediator;
 
-        public NewsController(IQueryDispatcher queryDispatcher)
+        public NewsController(IMediator mediator)
         {
-            this.queryDispatcher = queryDispatcher;
+            this.mediator = mediator;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
             var newsQuery = new SelectEntitiesQuery<News, NewsViewModel>() { Predicate = x => x.Id == id };
-            var news = await queryDispatcher.Dispatch<SelectEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>(newsQuery);
+            IEnumerable<NewsViewModel> news = await mediator.Send(newsQuery);
 
             return View(news.FirstOrDefault());
         }
@@ -49,8 +50,7 @@
                 expression = x => x.Subcategory.Name == request.Subcategory;
             }
 
-            var newsQuery = new SelectEntitiesQuery<News, NewsViewModel>() { Predicate = expression };
-            response.News = await queryDispatcher.Dispatch<SelectEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>(newsQuery);
+            response.News = await mediator.Send(new SelectEntitiesQuery<News, NewsViewModel>() { Predicate = expression });
 
             return View(response);
         }

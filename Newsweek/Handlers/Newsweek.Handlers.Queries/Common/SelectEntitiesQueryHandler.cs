@@ -2,16 +2,18 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
-
+    
+    using MediatR;
+    
     using Microsoft.EntityFrameworkCore;
 
     using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Data;
     using Newsweek.Data.Models;
-    using Newsweek.Handlers.Queries.Contracts;
     
-    public class SelectEntitiesQueryHandler<TEntity, TResult> : IQueryHandler<SelectEntitiesQuery<TEntity, TResult>, IEnumerable<TResult>>
+    public class SelectEntitiesQueryHandler<TEntity, TResult> : IRequestHandler<SelectEntitiesQuery<TEntity, TResult>, IEnumerable<TResult>>
         where TEntity : BaseModel<int>
     {
         private readonly NewsweekDbContext dbContext;
@@ -21,21 +23,22 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<TResult>> Handle(SelectEntitiesQuery<TEntity, TResult> query)
+        public async Task<IEnumerable<TResult>> Handle(SelectEntitiesQuery<TEntity, TResult> request, CancellationToken cancellationToken)
         {
             IQueryable<TEntity> entities = dbContext.Set<TEntity>();
 
-            if (query.Predicate != null)
+            if (request.Predicate != null)
             {
-                entities = entities.Where(query.Predicate);
+                entities = entities.Where(request.Predicate);
             }
 
-            if (query.Selector != null)
+            if (request.Selector != null)
             {
-                return await entities.Select(query.Selector).ToListAsync();
+                return await entities.Select(request.Selector).ToListAsync();
             }
 
-            return await entities.To<TResult>().ToListAsync();
+            return await entities.To<TResult>()
+                .ToListAsync(cancellationToken);
         }
     }
 }

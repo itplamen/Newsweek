@@ -4,10 +4,11 @@
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
-    using Newsweek.Data.Models;
-    using Newsweek.Handlers.Queries.Contracts;
+    using MediatR;
     
-    public class SelectEntitiesQuery<TEntity, TResult> : IQuery<IEnumerable<TResult>>
+    using Newsweek.Data.Models;
+    
+    public class SelectEntitiesQuery<TEntity, TResult> : IRequest<IEnumerable<TResult>>
         where TEntity : BaseModel<int>
     {
         public Expression<Func<TEntity, bool>> Predicate { get; set; }
