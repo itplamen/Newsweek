@@ -11,7 +11,7 @@
     using Newsweek.Handlers.Commands.Common;
     using Newsweek.Handlers.Queries.Common;
 
-    public class CreateTagsCommandHandler : IRequestHandler<CreateTagsCommand>
+    public class CreateTagsCommandHandler : IRequestHandler<CreateTagsCommand, IEnumerable<Tag>>
     {
         private readonly IMediator mediator;
 
@@ -20,7 +20,7 @@
             this.mediator = mediator;
         }
 
-        public async Task<Unit> Handle(CreateTagsCommand request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Tag>> Handle(CreateTagsCommand request, CancellationToken cancellationToken)
         {
             request.Tags = request.Tags
                 .GroupBy(x => x.Name)
@@ -46,9 +46,7 @@
                 }
             }
 
-            await mediator.Send(new CreateEntitiesCommand<Tag>(tagsToCreate), cancellationToken);
-
-            return Unit.Value;
+            return await mediator.Send(new CreateEntitiesCommand<Tag>(tagsToCreate), cancellationToken);
         }
     }
 }

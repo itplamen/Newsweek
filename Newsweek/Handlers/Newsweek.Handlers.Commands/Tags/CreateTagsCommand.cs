@@ -3,8 +3,10 @@
     using System.Collections.Generic;
     
     using MediatR;
-    
-    public class CreateTagsCommand : IRequest
+
+    using Newsweek.Data.Models;
+
+    public class CreateTagsCommand : IRequest<IEnumerable<Tag>>
     {
         public CreateTagsCommand(IEnumerable<TagCommand> tags)
         {
