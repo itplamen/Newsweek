@@ -13,8 +13,8 @@
     using Newsweek.Data;
     using Newsweek.Data.Models;
 
-    public class CreateEntitiesCommandHandler<TEntity, TKey> : IRequestHandler<CreateEntitiesCommand<TEntity, TKey>, IEnumerable<TEntity>>
-        where TEntity : BaseModel<TKey>
+    public class CreateEntitiesCommandHandler<TEntity> : IRequestHandler<CreateEntitiesCommand<TEntity>, IEnumerable<TEntity>>
+        where TEntity : BaseModel<int>
     {
         private readonly NewsweekDbContext dbContext;
 
@@ -23,7 +23,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<TEntity>> Handle(CreateEntitiesCommand<TEntity, TKey> request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TEntity>> Handle(CreateEntitiesCommand<TEntity> request, CancellationToken cancellationToken)
         {
             if (request.Entities.Any())
             {

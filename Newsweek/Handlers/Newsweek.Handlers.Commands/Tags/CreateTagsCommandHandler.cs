@@ -46,7 +46,7 @@
                 }
             }
 
-            await mediator.Send(new CreateEntitiesCommand<Tag, int>(tagsToCreate), cancellationToken);
+            await mediator.Send(new CreateEntitiesCommand<Tag>(tagsToCreate), cancellationToken);
 
             return Unit.Value;
         }

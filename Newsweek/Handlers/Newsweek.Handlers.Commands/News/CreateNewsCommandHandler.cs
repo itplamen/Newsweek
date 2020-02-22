@@ -40,7 +40,7 @@
                 }
             }
 
-            await mediator.Send(new CreateEntitiesCommand<News, int>(newsCommandsToCreate), cancellationToken);
+            await mediator.Send(new CreateEntitiesCommand<News>(newsCommandsToCreate), cancellationToken);
 
             return Unit.Value;
         }

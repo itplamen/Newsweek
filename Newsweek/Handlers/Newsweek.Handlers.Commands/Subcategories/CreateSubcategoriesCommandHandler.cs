@@ -32,7 +32,7 @@
 
             IEnumerable<string> existingSubcategoryNames = existingSubcategories.Select(x => x.Name);
             IEnumerable<SubcategoryCommand> subcategoriesToCreate = request.Subcategories.Where(x => !existingSubcategoryNames.Contains(x.Name));
-            IEnumerable<Subcategory> createdSubcategories = await mediator.Send(new CreateEntitiesCommand<Subcategory, int>(subcategoriesToCreate), cancellationToken);
+            IEnumerable<Subcategory> createdSubcategories = await mediator.Send(new CreateEntitiesCommand<Subcategory>(subcategoriesToCreate), cancellationToken);
 
             List<Subcategory> newsSubcategories = new List<Subcategory>();
             newsSubcategories.AddRange(existingSubcategories);

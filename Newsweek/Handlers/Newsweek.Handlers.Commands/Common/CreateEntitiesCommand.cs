@@ -6,8 +6,8 @@
     
     using Newsweek.Data.Models;
 
-    public class CreateEntitiesCommand<TEntity, TKey> : IRequest<IEnumerable<TEntity>>
-        where TEntity : BaseModel<TKey>
+    public class CreateEntitiesCommand<TEntity> : IRequest<IEnumerable<TEntity>>
+        where TEntity : BaseModel<int>
     {
         public CreateEntitiesCommand(IEnumerable<IRequest> entities)
         {
