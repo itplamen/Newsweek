@@ -15,7 +15,7 @@
     {
         private readonly IMediator mediator;
 
-        public CreateTagsCommandHandler(Mediator mediator)
+        public CreateTagsCommandHandler(IMediator mediator)
         {
             this.mediator = mediator;
         }
