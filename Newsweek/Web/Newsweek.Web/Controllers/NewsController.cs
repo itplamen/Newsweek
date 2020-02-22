@@ -43,11 +43,15 @@
                 response.Search = request.Category;
                 expression = x => x.Subcategory.Category.Name == request.Category;
             }
-
-            if (!string.IsNullOrEmpty(request.Subcategory))
+            else if (!string.IsNullOrEmpty(request.Subcategory))
             {
                 response.Search = request.Subcategory;
                 expression = x => x.Subcategory.Name == request.Subcategory;
+            }
+            else
+            {
+                response.Search = request.Tag;
+                expression = x => x.Tags.Any(y => y.Tag.Name == request.Tag.ToLower());
             }
 
             response.News = await mediator.Send(new SelectEntitiesQuery<News, NewsViewModel>() { Predicate = expression });

@@ -5,5 +5,7 @@
         public string Category { get; set; }
 
         public string Subcategory { get; set; }
+
+        public string Tag { get; set; }
     }
 }
