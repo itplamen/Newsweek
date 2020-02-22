@@ -15,6 +15,7 @@
         {
             services.AddScoped<IRequestHandler<GetEntitiesQuery<News>, IEnumerable<News>>, GetEntitiesQueryHandler<News>>();
             services.AddScoped<IRequestHandler<GetEntitiesQuery<Tag>, IEnumerable<Tag>>, GetEntitiesQueryHandler<Tag>>();
+            services.AddScoped<IRequestHandler<GetEntitiesQuery<NewsTag>, IEnumerable<NewsTag>>, GetEntitiesQueryHandler<NewsTag>>();
             services.AddScoped<IRequestHandler<GetEntitiesQuery<Source>, IEnumerable<Source>>, GetEntitiesQueryHandler<Source>>();
             services.AddScoped<IRequestHandler<GetEntitiesQuery<Category>, IEnumerable<Category>>, GetEntitiesQueryHandler<Category>>();
             services.AddScoped<IRequestHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>>, GetEntitiesQueryHandler<Subcategory>>();
