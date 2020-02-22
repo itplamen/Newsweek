@@ -8,6 +8,7 @@
     
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.News;
+    using Newsweek.Handlers.Commands.NewsTags;
     using Newsweek.Handlers.Commands.Subcategories;
     using Newsweek.Handlers.Commands.Tags;
     using Newsweek.Worker.Core.Contracts;
@@ -54,8 +55,9 @@
                 }
             }
 
-            await mediator.Send(new CreateNewsCommand(newsCommands));
-            await mediator.Send(new CreateTagsCommand(newsCommands.SelectMany(x => x.Tags)));
+            IEnumerable<News> news = await mediator.Send(new CreateNewsCommand(newsCommands));
+            IEnumerable<Tag> tags = await mediator.Send(new CreateTagsCommand(newsCommands.SelectMany(x => x.Tags)));
+            await mediator.Send(new CreateNewsTagsCommand(newsCommands, news, tags));
         }
     }
 }
