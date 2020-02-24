@@ -4,10 +4,10 @@
 
     using MediatR;
     
-    using Newsweek.Data.Models;
+    using Newsweek.Data.Models.Contracts;
 
     public class CreateEntitiesCommand<TEntity> : IRequest<IEnumerable<TEntity>>
-        where TEntity : BaseModel<int>
+        where TEntity : IAuditInfo, IDeletableEntity
     {
         public CreateEntitiesCommand(IEnumerable<IRequest> entities)
         {

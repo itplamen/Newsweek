@@ -9,6 +9,9 @@
     {
         public void Configure(EntityTypeBuilder<Category> category)
         {
+            category.Property(x => x.Name)
+                 .IsRequired();
+
             category.HasIndex(x => x.Name)
                 .IsUnique();
 

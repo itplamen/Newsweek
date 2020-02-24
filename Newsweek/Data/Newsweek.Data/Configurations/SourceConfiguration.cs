@@ -9,6 +9,12 @@
     {
         public void Configure(EntityTypeBuilder<Source> source)
         {
+            source.Property(x => x.Name)
+                .IsRequired();
+
+            source.Property(x => x.Url)
+                .IsRequired();
+
             source.HasIndex(x => x.Name)
                 .IsUnique();
 

@@ -7,10 +7,10 @@
     
     using MediatR;
     
-    using Newsweek.Data.Models;
-    
+    using Newsweek.Data.Models.Contracts;
+
     public class GetEntitiesQuery<TEntity> : IRequest<IEnumerable<TEntity>>
-        where TEntity : BaseModel<int>
+        where TEntity : IAuditInfo, IDeletableEntity
     {
         public int Take { get; set; }
 

@@ -9,6 +9,18 @@
     {
         public void Configure(EntityTypeBuilder<News> news)
         {
+            news.Property(x => x.Title)
+                .IsRequired();
+
+            news.Property(x => x.Content)
+                .IsRequired();
+
+            news.Property(x => x.Description)
+                .IsRequired();
+
+            news.Property(x => x.RemoteUrl)
+                .IsRequired();
+
             news.HasIndex(x => x.RemoteUrl)
                 .IsUnique();
 

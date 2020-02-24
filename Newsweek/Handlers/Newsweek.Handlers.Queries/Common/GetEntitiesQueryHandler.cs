@@ -10,10 +10,10 @@
     using Microsoft.EntityFrameworkCore;
     
     using Newsweek.Data;
-    using Newsweek.Data.Models;
-    
+    using Newsweek.Data.Models.Contracts;
+
     public class GetEntitiesQueryHandler<TEntity> : IRequestHandler<GetEntitiesQuery<TEntity>, IEnumerable<TEntity>>
-        where TEntity : BaseModel<int>
+        where TEntity : class, IAuditInfo, IDeletableEntity
     {
         private readonly NewsweekDbContext dbContext;
 

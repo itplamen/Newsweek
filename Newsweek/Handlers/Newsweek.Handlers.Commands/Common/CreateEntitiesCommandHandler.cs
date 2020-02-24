@@ -11,10 +11,10 @@
     using MediatR;
 
     using Newsweek.Data;
-    using Newsweek.Data.Models;
+    using Newsweek.Data.Models.Contracts;
 
     public class CreateEntitiesCommandHandler<TEntity> : IRequestHandler<CreateEntitiesCommand<TEntity>, IEnumerable<TEntity>>
-        where TEntity : BaseModel<int>
+        where TEntity : IAuditInfo, IDeletableEntity
     {
         private readonly NewsweekDbContext dbContext;
 
