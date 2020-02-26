@@ -11,7 +11,9 @@ namespace Newsweek.Web
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
- 
+
+    using SendGrid;
+
     using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Common.IoCContainer;
     using Newsweek.Data;
@@ -26,6 +28,7 @@ namespace Newsweek.Web
     public class Startup
     {
         private const string QUERIES_ASSEMBLY = "Newsweek.Handlers.Queries";
+        private const string COMMANDS_ASSEMBLY = "Newsweek.Handlers.Commands";
 
         private readonly IConfiguration configuration;
 
@@ -48,8 +51,9 @@ namespace Newsweek.Web
             services.AddSingleton(configuration);
 
             services.AddServices();
-            services.AddMediatR(Assembly.Load(QUERIES_ASSEMBLY));
+            services.AddMediatR(Assembly.Load(QUERIES_ASSEMBLY), Assembly.Load(COMMANDS_ASSEMBLY));
 
+            services.AddScoped<ISendGridClient>(x => new SendGridClient(configuration["SendGrid:ApiKey"]));
             services.AddScoped<IRequestHandler<TopNewsQuery<NewsViewModel>, IEnumerable<NewsViewModel>>, TopNewsQueryHandler<NewsViewModel>>();
             services.AddScoped<IRequestHandler<SelectEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, SelectEntitiesQueryHandler<News, NewsViewModel>>();
             services.AddScoped<IRequestHandler<SelectEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>, SelectEntitiesQueryHandler<Category, MenuViewModel>>();
