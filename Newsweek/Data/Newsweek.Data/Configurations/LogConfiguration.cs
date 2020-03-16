@@ -12,7 +12,7 @@
             log.Property(x => x.Operation)
                 .IsRequired();
 
-            log.Property(x => x.Request)
+            log.Property(x => x.Message)
                 .IsRequired();
         }
     }
