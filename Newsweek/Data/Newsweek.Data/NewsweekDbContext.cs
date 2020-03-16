@@ -16,8 +16,6 @@
 
         public DbSet<Email> Emails { get; set; }
 
-        public DbSet<Log> Logs { get; set; }
-
         public DbSet<News> News { get; set; }
 
         public DbSet<NewsTag> NewsTags { get; set; }
