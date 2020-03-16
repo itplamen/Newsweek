@@ -2,6 +2,7 @@ namespace Newsweek.Web
 {
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Logging;
 
     public class Program
     {
@@ -11,6 +12,11 @@ namespace Newsweek.Web
         }
 
         private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
+            WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    logging.ClearProviders();
+                })
+                .UseStartup<Startup>();
     }
 }
