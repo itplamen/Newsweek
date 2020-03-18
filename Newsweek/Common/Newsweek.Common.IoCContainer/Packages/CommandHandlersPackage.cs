@@ -8,11 +8,13 @@
     
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Common;
+    using Newsweek.Handlers.Commands.Emails;
 
     public sealed class CommandHandlersPackage : IPackage
     {
         public void RegisterServices(IServiceCollection services)
         {
+            services.AddScoped<IRequestHandler<SendEmailCommand>, SendEmailCommandHandler>();
             services.AddScoped<IRequestHandler<CreateEntitiesCommand<Tag>, IEnumerable<Tag>>, CreateEntitiesCommandHandler<Tag>>();
             services.AddScoped<IRequestHandler<CreateEntitiesCommand<News>, IEnumerable<News>>, CreateEntitiesCommandHandler<News>>();
             services.AddScoped<IRequestHandler<CreateEntitiesCommand<NewsTag>, IEnumerable<NewsTag>>, CreateEntitiesCommandHandler<NewsTag>>();
