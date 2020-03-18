@@ -46,7 +46,7 @@
             services.AddDbContext<NewsweekDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>(IdentityOptionsProvider.GetIdentityOptions)
+            services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddEntityFrameworkStores<NewsweekDbContext>();
 
             using (var serviceScope = services.BuildServiceProvider().CreateScope())
