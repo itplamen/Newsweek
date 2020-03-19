@@ -35,6 +35,12 @@
                 .HasForeignKey(x => x.SubcategoryId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            news.HasMany(x => x.Comments)
+                .WithOne(x => x.News)
+                .HasForeignKey(x => x.NewsId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

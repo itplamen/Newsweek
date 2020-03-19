@@ -13,6 +13,7 @@
         {
             Id = Guid.NewGuid().ToString();
             Emails = new HashSet<UserEmail>();
+            Comments = new HashSet<Comment>();
             Roles = new HashSet<IdentityUserRole<string>>();
             Claims = new HashSet<IdentityUserClaim<string>>();
             Logins = new HashSet<IdentityUserLogin<string>>();
@@ -27,6 +28,8 @@
         public DateTime? DeletedOn { get; set; }
 
         public ICollection<UserEmail> Emails { get; set; }
+
+        public ICollection<Comment> Comments { get; set; }
 
         public ICollection<IdentityUserRole<string>> Roles { get; set; }
 

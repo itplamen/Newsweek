@@ -7,6 +7,7 @@
         public News()
         {
             Tags = new HashSet<NewsTag>();
+            Comments = new HashSet<Comment>();
         }
 
         public string Title { get; set; }
@@ -28,5 +29,7 @@
         public Subcategory Subcategory { get; set; }
 
         public ICollection<NewsTag> Tags { get; set; }
+
+        public ICollection<Comment> Comments { get; set; }
     }
 }
