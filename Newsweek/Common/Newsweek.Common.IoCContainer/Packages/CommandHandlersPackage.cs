@@ -18,6 +18,7 @@
             services.AddScoped<IRequestHandler<CreateEntitiesCommand<Tag>, IEnumerable<Tag>>, CreateEntitiesCommandHandler<Tag>>();
             services.AddScoped<IRequestHandler<CreateEntitiesCommand<News>, IEnumerable<News>>, CreateEntitiesCommandHandler<News>>();
             services.AddScoped<IRequestHandler<CreateEntitiesCommand<NewsTag>, IEnumerable<NewsTag>>, CreateEntitiesCommandHandler<NewsTag>>();
+            services.AddScoped<IRequestHandler<CreateEntitiesCommand<Comment>, IEnumerable<Comment>>, CreateEntitiesCommandHandler<Comment>>();
             services.AddScoped<IRequestHandler<CreateEntitiesCommand<Subcategory>, IEnumerable<Subcategory>>, CreateEntitiesCommandHandler<Subcategory>>();
         }
     }
