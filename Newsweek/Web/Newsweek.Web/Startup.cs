@@ -103,7 +103,7 @@ namespace Newsweek.Web
                 endpoints.MapRazorPages();
             });
 
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly, Assembly.Load(COMMANDS_ASSEMBLY));
         }
     }
 }
