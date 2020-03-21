@@ -1,6 +1,9 @@
 ﻿namespace Newsweek.Web.Models.News
 {
+    using System.Collections.Generic;
+
     using Newsweek.Common.Infrastructure.Mapping;
+    using Newsweek.Web.Models.Comments;
     using Newsweek.Web.Models.Common;
     using Newsweek.Web.Models.Sources;
     using Newsweek.Web.Models.Subcategories;
@@ -20,5 +23,7 @@
         public SourceViewModel Source { get; set; }
 
         public SubcategoryViewModel Subcategory { get; set; }
+
+        public IEnumerable<GetCommentViewModel> Comments { get; set; }
     }
 }
