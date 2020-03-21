@@ -56,3 +56,5 @@
         <div class="card-body">@Html.Raw(Model.Content)</div>
     </div>
 </div>
+
+<partial name="_CommentsPartial" model="(Model.Id, Model.Comments)" />

@@ -43,3 +43,30 @@
 .news-created, .news-breadcrumb {
     margin-left: 10px;
 }
+
+#comments {
+    margin-top: 50px;
+}
+
+#comments hr, #addComment, #existingComments {
+    width: 50%;
+}
+
+#comments #addComment textarea {
+    resize: none;
+}
+
+#comments #addComment input[type=submit] {
+    margin-top: 10px;
+    width: 100px;
+    float: right;
+}
+
+#existingComments {
+    margin-top: 100px;
+}
+
+#existingComments .card {
+    margin-top: 10px;
+    
+}

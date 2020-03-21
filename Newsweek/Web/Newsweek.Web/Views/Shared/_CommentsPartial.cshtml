@@ -1,0 +1,40 @@
+﻿@model (int newsId, IEnumerable<GetCommentViewModel> comments)
+
+<div id="comments">
+    <h3>@Model.comments.Count() Comments</h3>
+    <hr align="left" />
+
+    <div id="addComment">
+        <form class="form-group" method="post" asp-controller="News" asp-action="Comment">
+            @{
+                string disable = string.Empty;
+                string placeholder = string.Empty;
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    <input type="hidden" name="NewsId" value="@Model.newsId" />
+                }
+                else
+                {
+                    disable = "disabled=\"disabled\"";
+                    placeholder = "Sign in to comment...";
+                }
+            }
+
+            <textarea name="Content" class="form-control" rows="5" @disable placeholder="@placeholder"></textarea>
+            <input type="submit" class="form-control btn btn-success" @disable value="Comment" />
+        </form>
+    </div>
+    <div id="existingComments">
+        @foreach (var comment in Model.comments)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">@comment.Username</h6>
+                    <p><i><small class="card-text">@comment.CreatedOn.ToString("dd/MMMM/yyyy HH:mm")</small></i></p>
+                    <small class="card-text">@comment.Content</small>
+                </div>
+            </div>
+        }
+    </div>
+</div>
