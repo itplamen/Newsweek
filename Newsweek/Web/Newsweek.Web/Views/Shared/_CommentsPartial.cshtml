@@ -5,7 +5,15 @@
     <hr align="left" />
 
     <div id="addComment">
-        <form class="form-group" method="post" asp-controller="News" asp-action="Comment">
+        <form 
+              class="form-group" 
+              data-ajax="true" 
+              data-ajax-method="post" 
+              data-ajax-success="clearTextArea" 
+              data-ajax-failure="showCommentFail"
+              data-ajax-update="#existingComments" 
+              data-ajax-mode="after" 
+              data-ajax-url="/News/Comment">
             @{
                 string disable = string.Empty;
                 string placeholder = string.Empty;
@@ -28,13 +36,7 @@
     <div id="existingComments">
         @foreach (var comment in Model.comments)
         {
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="card-title">@comment.Username</h6>
-                    <p><i><small class="card-text">@comment.CreatedOn.ToString("dd/MMMM/yyyy HH:mm")</small></i></p>
-                    <small class="card-text">@comment.Content</small>
-                </div>
-            </div>
+            <partial name="_CommentPartial" model="comment" />
         }
     </div>
 </div>

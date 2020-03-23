@@ -58,3 +58,17 @@
 </div>
 
 <partial name="_CommentsPartial" model="(Model.Id, Model.Comments)" />
+
+@section Scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script>
+        function clearTextArea(xhr) {
+            $('#addComment textarea').val('');
+        }
+
+        function showCommentFail(xhr) {
+            alert(xhr.responseText);
+        }
+    </script>
+}
