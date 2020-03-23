@@ -15,6 +15,7 @@
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Comments;
     using Newsweek.Handlers.Commands.Common;
+    using Newsweek.Web.Attributes;
     using Newsweek.Web.Models.Comments;
     
     public class CommentsController : Controller
@@ -27,6 +28,7 @@
         }
 
         [HttpPost]
+        [AjaxOnly]
         [Authorize]
         public async Task<IActionResult> Post(CreateCommentViewModel request)
         {
