@@ -7,13 +7,13 @@
     using System.Threading.Tasks;
 
     using MediatR;
-    
+
     using Microsoft.AspNetCore.Mvc;
 
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Web.Models.News;
-    
+
     public class NewsController : Controller
     {
         private readonly IMediator mediator;
