@@ -1,7 +1,7 @@
 ﻿@model (int newsId, IEnumerable<GetCommentViewModel> comments)
 
 <div id="comments">
-    <h3>@Model.comments.Count() Comments</h3>
+    <h3><span id="comments-count">@Model.comments.Count()</span> Comments</h3>
     <hr align="left" />
 
     <div id="addComment">
@@ -9,8 +9,8 @@
               class="form-group" 
               data-ajax="true" 
               data-ajax-method="post" 
-              data-ajax-success="clearTextArea" 
-              data-ajax-failure="showCommentFail"
+              data-ajax-success="handleSuccesfulComment" 
+              data-ajax-failure="handleFailedComment"
               data-ajax-update="#existingComments" 
               data-ajax-mode="after" 
               data-ajax-url="/Comments/Post">

@@ -63,11 +63,15 @@
     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
 
     <script>
-        function clearTextArea(xhr) {
+        function handleSuccesfulComment(xhr) {
+            let commentsCount = parseInt($('#comments #comments-count').html(), 10);
+            commentsCount += 1;
+
+            $('#comments #comments-count').html(commentsCount);
             $('#addComment textarea').val('');
         }
 
-        function showCommentFail(xhr) {
+        function handleFailedComment(xhr) {
             alert(xhr.responseText);
         }
     </script>
