@@ -1,0 +1,9 @@
+﻿@model GetCommentViewModel
+
+<div class="card">
+    <div class="card-body">
+        <h6 class="card-title">@Model.Username</h6>
+        <p><i><small class="card-text">@Model.CreatedOn.ToString("dd/MMMM/yyyy HH:mm")</small></i></p>
+        <small class="card-text">@Model.Content</small>
+    </div>
+</div>
