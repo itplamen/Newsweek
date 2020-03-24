@@ -60,7 +60,7 @@
 
             bool isDeleted = await mediator.Send(new DeleteEntityCommand<Comment>(id));
 
-            return PartialView("_CommentPartial", isDeleted);
+            return Json(isDeleted);
         }
     }
 }

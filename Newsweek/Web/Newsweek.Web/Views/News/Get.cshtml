@@ -74,5 +74,22 @@
         function handleFailedComment(xhr) {
             alert(xhr.responseText);
         }
+
+        $('.delete-commen-option').click(function () {
+            let self = $(this);
+            let id = $(this).attr('data-comment-id');
+
+            $.post('/Comments/Delete', { id: id })
+                .done(function (isDeleted)
+                {
+                    if (isDeleted) {
+                        let parent = self.parents('.card');
+                        parent.remove();
+                    }
+                })
+                .fail(function (data) {
+                    alert(data.responseText);
+                });
+        });
     </script>
 }
