@@ -8,6 +8,7 @@
     
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Common.Create;
+    using Newsweek.Handlers.Commands.Common.Delete;
     using Newsweek.Handlers.Commands.Emails;
 
     public sealed class CommandHandlersPackage : IPackage
@@ -20,6 +21,7 @@
             services.AddScoped<IRequestHandler<CreateEntitiesCommand<NewsTag>, IEnumerable<NewsTag>>, CreateEntitiesCommandHandler<NewsTag>>();
             services.AddScoped<IRequestHandler<CreateEntitiesCommand<Comment>, IEnumerable<Comment>>, CreateEntitiesCommandHandler<Comment>>();
             services.AddScoped<IRequestHandler<CreateEntitiesCommand<Subcategory>, IEnumerable<Subcategory>>, CreateEntitiesCommandHandler<Subcategory>>();
+            services.AddScoped<IRequestHandler<DeleteEntityCommand<Comment>, bool>, DeleteEntityCommandHandler<Comment>>();
         }
     }
 }

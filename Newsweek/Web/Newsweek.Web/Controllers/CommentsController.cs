@@ -15,6 +15,7 @@
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Comments;
     using Newsweek.Handlers.Commands.Common.Create;
+    using Newsweek.Handlers.Commands.Common.Delete;
     using Newsweek.Web.Attributes;
     using Newsweek.Web.Models.Comments;
     
@@ -41,10 +42,25 @@
                 GetCommentViewModel response = Mapper.Map<GetCommentViewModel>(comments.First());
                 response.Username = User.Identity.Name;
 
-                return this.PartialView("_CommentPartial", response);
+                return PartialView("_CommentPartial", response);
             }
 
             return BadRequest(ModelState);
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid comment Id!");
+            }
+
+            bool isDeleted = await mediator.Send(new DeleteEntityCommand<Comment>(id));
+
+            return PartialView("_CommentPartial", isDeleted);
         }
     }
 }
