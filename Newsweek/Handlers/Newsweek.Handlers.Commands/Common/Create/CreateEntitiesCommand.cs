@@ -1,4 +1,4 @@
-﻿namespace Newsweek.Handlers.Commands.Common
+﻿namespace Newsweek.Handlers.Commands.Common.Create
 {
     using System.Collections.Generic;
 

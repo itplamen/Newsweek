@@ -7,7 +7,7 @@
     using Microsoft.Extensions.DependencyInjection;
     
     using Newsweek.Data.Models;
-    using Newsweek.Handlers.Commands.Common;
+    using Newsweek.Handlers.Commands.Common.Create;
     using Newsweek.Handlers.Commands.Emails;
 
     public sealed class CommandHandlersPackage : IPackage

@@ -8,7 +8,7 @@
     using MediatR;
     
     using Newsweek.Data.Models;
-    using Newsweek.Handlers.Commands.Common;
+    using Newsweek.Handlers.Commands.Common.Create;
     using Newsweek.Handlers.Queries.Common;
 
     public class CreateTagsCommandHandler : IRequestHandler<CreateTagsCommand, IEnumerable<Tag>>

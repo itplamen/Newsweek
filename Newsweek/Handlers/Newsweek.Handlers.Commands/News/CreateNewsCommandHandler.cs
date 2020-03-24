@@ -9,7 +9,7 @@
     using MediatR;
     
     using Newsweek.Data.Models;
-    using Newsweek.Handlers.Commands.Common;
+    using Newsweek.Handlers.Commands.Common.Create;
     using Newsweek.Handlers.Queries.Common;
 
     public class CreateNewsCommandHandler : IRequestHandler<CreateNewsCommand, IEnumerable<Data.Models.News>>

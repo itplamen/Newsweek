@@ -14,7 +14,7 @@
     
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Comments;
-    using Newsweek.Handlers.Commands.Common;
+    using Newsweek.Handlers.Commands.Common.Create;
     using Newsweek.Web.Attributes;
     using Newsweek.Web.Models.Comments;
     
