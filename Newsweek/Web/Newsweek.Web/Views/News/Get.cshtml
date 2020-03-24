@@ -63,7 +63,7 @@
     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
 
     <script>
-        function handleSuccesfulComment(xhr) {
+        function handleSuccesfulComment() {
             let commentsCount = parseInt($('#comments #comments-count').html(), 10);
             commentsCount += 1;
 
@@ -75,7 +75,7 @@
             alert(xhr.responseText);
         }
 
-        $('.delete-commen-option').click(function () {
+        $('#comments').on('click', '.delete-commen-option', function () {
             let self = $(this);
             let id = $(this).attr('data-comment-id');
 
@@ -85,6 +85,11 @@
                     if (isDeleted) {
                         let parent = self.parents('.card');
                         parent.remove();
+
+                        let commentsCount = parseInt($('#comments #comments-count').html(), 10);
+                        commentsCount -= 1;
+
+                        $('#comments #comments-count').html(commentsCount)
                     }
                 })
                 .fail(function (data) {
