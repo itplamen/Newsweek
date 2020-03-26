@@ -11,6 +11,7 @@ namespace Newsweek.Web
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
 
     using SendGrid;
 
@@ -24,7 +25,6 @@ namespace Newsweek.Web
     using Newsweek.Web.Models.Common;
     using Newsweek.Web.Models.Menu;
     using Newsweek.Web.Models.News;
-    using Microsoft.Extensions.Logging;
     using Newsweek.Common.Infrastructure.Logging;
     using Newsweek.Handlers.Commands.Common.Update;
     using Newsweek.Web.Models.Comments;
@@ -60,6 +60,7 @@ namespace Newsweek.Web
             services.AddScoped<ISendGridClient>(x => new SendGridClient(configuration["SendGrid:ApiKey"]));
             services.AddScoped<IRequestHandler<TopNewsQuery<NewsViewModel>, IEnumerable<NewsViewModel>>, TopNewsQueryHandler<NewsViewModel>>();
             services.AddScoped<IRequestHandler<SelectEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, SelectEntitiesQueryHandler<News, NewsViewModel>>();
+            services.AddScoped<IRequestHandler<SelectEntitiesQuery<Comment, GetCommentViewModel>, IEnumerable<GetCommentViewModel>>, SelectEntitiesQueryHandler<Comment, GetCommentViewModel>>();
             services.AddScoped<IRequestHandler<SelectEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>, SelectEntitiesQueryHandler<Category, MenuViewModel>>();
             services.AddScoped<IRequestHandler<UpdateEntityCommand<Comment, UpdateCommentViewModel>, bool>, UpdateEntityCommandHandler<Comment, UpdateCommentViewModel>>();
             services.AddSingleton<ILoggerProvider, FileLoggerProvider>();

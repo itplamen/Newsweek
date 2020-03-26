@@ -17,6 +17,7 @@
     using Newsweek.Handlers.Commands.Common.Create;
     using Newsweek.Handlers.Commands.Common.Delete;
     using Newsweek.Handlers.Commands.Common.Update;
+    using Newsweek.Handlers.Queries.Common;
     using Newsweek.Web.Attributes;
     using Newsweek.Web.Models.Comments;
 
@@ -28,6 +29,26 @@
         public CommentsController(IMediator mediator)
         {
             this.mediator = mediator;
+        }
+
+        [HttpGet]
+        [AjaxOnly]
+        [AllowAnonymous]
+        public async Task<IActionResult> Get(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid comment Id!");
+            }
+
+            var commentsQuery = new SelectEntitiesQuery<Comment, GetCommentViewModel>() 
+            {
+                Take = 3,
+                Predicate = x => x.Id > id 
+            };
+            IEnumerable<GetCommentViewModel> response = await mediator.Send(commentsQuery);
+
+            return PartialView("_CommentsListPartial", response);
         }
 
         [HttpPost]
