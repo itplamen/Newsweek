@@ -1,7 +1,7 @@
-﻿@model (int newsId, IEnumerable<GetCommentViewModel> comments)
+﻿@model (int NewsId, CommentsListViewModel CommentsList)
 
 <div id="comments">
-    <h3><span id="comments-count">@Model.comments.Count()</span> Comments</h3>
+    <h3><span id="comments-count">@Model.CommentsList.TotalCount</span> Comments</h3>
     <hr align="left" />
 
     <div id="addComment">
@@ -16,11 +16,11 @@
               data-ajax-url="/Comments/Post">
             @{
                 string disable = string.Empty;
-                string placeholder = string.Empty;
+                string placeholder = "Write a comment..."   ;
 
                 if (User.Identity.IsAuthenticated)
                 {
-                    <input type="hidden" name="NewsId" value="@Model.newsId" />
+                    <input type="hidden" name="NewsId" value="@Model.NewsId" />
                 }
                 else
                 {
@@ -34,7 +34,9 @@
         </form>
     </div>
     <div id="existingComments">
-        @foreach (var comment in Model.comments)
+        <button type="button" class="btn btn-link">View more comments</button>
+
+        @foreach (var comment in Model.CommentsList.Comments)
         {
             <partial name="_CommentPartial" model="comment" />
         }

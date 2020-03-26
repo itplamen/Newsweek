@@ -1,8 +1,5 @@
 ﻿namespace Newsweek.Web.Models.News
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
     using AutoMapper;
     
     using Newsweek.Common.Infrastructure.Mapping;
@@ -27,12 +24,12 @@
 
         public SubcategoryViewModel Subcategory { get; set; }
 
-        public IEnumerable<GetCommentViewModel> Comments { get; set; }
+        public CommentsListViewModel CommentsList { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Data.Models.News, NewsViewModel>()
-                .ForMember(x => x.Comments, opt => opt.MapFrom(x => x.Comments.Where(y => !y.IsDeleted)));
+                .ForMember(x => x.CommentsList, opt => opt.MapFrom(x => x.Comments));
         }
     }
 }
