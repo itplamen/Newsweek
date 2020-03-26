@@ -14,7 +14,6 @@
 }
 
 .card .card-options {
-    position: absolute;
     margin-left: 90%;
 }
 
@@ -23,7 +22,6 @@
  }
 
 .card .card-options div svg {
-    cursor: pointer;
     display: inline-block;
     vertical-align: middle;
     -webkit-transform: perspective(1px) translateZ(0);

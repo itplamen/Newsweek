@@ -57,6 +57,29 @@
     </div>
 </div>
 
+<div class="modal fade" id="commentsUpdateModal" tabindex="-1" role="dialog" aria-labelledby="commentsUpdateModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Update Comment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="commentIdUpdateModal" />
+
+                <label for="commentComentUpdateModal">Content:</label>
+                <textarea id="commentComentUpdateModal" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="saveUpdatedComment" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <partial name="_CommentsPartial" model="(Model.Id, Model.Comments)" />
 
 @section Scripts {
@@ -77,11 +100,10 @@
 
         $('#comments').on('click', '.delete-commen-option', function () {
             let self = $(this);
-            let id = $(this).attr('data-comment-id');
+            let id = $(this).parent().attr('data-comment-id');
 
             $.post('/Comments/Delete', { id: id })
-                .done(function (isDeleted)
-                {
+                .done(function (isDeleted) {
                     if (isDeleted) {
                         let parent = self.parents('.card');
                         parent.remove();
@@ -90,6 +112,38 @@
                         commentsCount -= 1;
 
                         $('#comments #comments-count').html(commentsCount)
+                    }
+                })
+                .fail(function (data) {
+                    alert(data.responseText);
+                });
+        });
+
+        $('#comments').on('click', '.update-commen-option', function () {
+            let id = $(this).parent().attr('data-comment-id');
+            $('#commentIdUpdateModal').val(id);
+
+            let content = $(this).parents('.card').find('.card-body .card-text:eq(1)').html();
+            $('#commentComentUpdateModal').val(content);
+
+            $('#commentsUpdateModal').modal('toggle');
+        });
+
+        $('#saveUpdatedComment').on('click', function () {
+            $('#commentsUpdateModal').modal('toggle');
+
+            let data = {
+                id: $('#commentIdUpdateModal').val(),
+                content: $('#commentComentUpdateModal').val()
+            };
+
+            $.post('/Comments/Update', data)
+                .done(function (isUpdated) {
+                    if (isUpdated) {
+                        $('.card-options[data-comment-id=' + data.id + ']')
+                            .siblings('.card-body')
+                            .children('.card-text')
+                            .html(data.content);
                     }
                 })
                 .fail(function (data) {
