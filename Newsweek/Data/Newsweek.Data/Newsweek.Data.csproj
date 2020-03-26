@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Newsweek.Common\Newsweek.Common.csproj" />
     <ProjectReference Include="..\Newsweek.Data.Models\Newsweek.Data.Models.csproj" />
   </ItemGroup>
 

@@ -2,7 +2,8 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    
+
+    using Newsweek.Common.Validation;
     using Newsweek.Data.Models;
 
     public class CommentConfiguration : IEntityTypeConfiguration<Comment>
@@ -10,7 +11,8 @@
         public void Configure(EntityTypeBuilder<Comment> comment)
         {
             comment.Property(x => x.Content)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(ValidationConstants.COMMENT_MAX_CONTENT_LENGTH);
 
             comment.HasOne(x => x.User)
                 .WithMany(x => x.Comments)

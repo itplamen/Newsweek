@@ -34,19 +34,19 @@
         [AjaxOnly]
         public async Task<IActionResult> Post(CreateCommentViewModel request)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                CreateCommentCommand command = Mapper.Map<CreateCommentCommand>(request);
-                command.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-                IEnumerable<Comment> comments = await mediator.Send(new CreateEntitiesCommand<Comment>(Enumerable.Repeat(command, 1)));
-                GetCommentViewModel response = Mapper.Map<GetCommentViewModel>(comments.First());
-                response.Username = User.Identity.Name;
-
-                return PartialView("_CommentPartial", response);
+                return BadRequest(ModelState);
             }
+            
+            CreateCommentCommand command = Mapper.Map<CreateCommentCommand>(request);
+            command.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            return BadRequest(ModelState);
+            IEnumerable<Comment> comments = await mediator.Send(new CreateEntitiesCommand<Comment>(Enumerable.Repeat(command, 1)));
+            GetCommentViewModel response = Mapper.Map<GetCommentViewModel>(comments.First());
+            response.Username = User.Identity.Name;
+
+            return PartialView("_CommentPartial", response);
         }
 
         [HttpPost]

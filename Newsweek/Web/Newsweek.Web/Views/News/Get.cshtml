@@ -70,7 +70,7 @@
                 <input type="hidden" id="commentIdUpdateModal" />
 
                 <label for="commentComentUpdateModal">Content:</label>
-                <textarea id="commentComentUpdateModal" class="form-control" rows="5"></textarea>
+                <textarea id="commentComentUpdateModal" maxlength="@ValidationConstants.COMMENT_MAX_CONTENT_LENGTH" class="form-control" rows="5"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

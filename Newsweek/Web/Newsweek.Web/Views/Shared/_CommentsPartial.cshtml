@@ -29,7 +29,7 @@
                 }
             }
 
-            <textarea name="Content" class="form-control" rows="5" @disable placeholder="@placeholder"></textarea>
+            <textarea name="Content" class="form-control" maxlength="@ValidationConstants.COMMENT_MAX_CONTENT_LENGTH" rows="5" @disable placeholder="@placeholder"></textarea>
             <input type="submit" class="form-control btn btn-success" @disable value="Comment" />
         </form>
     </div>
