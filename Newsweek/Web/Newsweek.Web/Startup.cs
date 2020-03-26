@@ -26,6 +26,8 @@ namespace Newsweek.Web
     using Newsweek.Web.Models.News;
     using Microsoft.Extensions.Logging;
     using Newsweek.Common.Infrastructure.Logging;
+    using Newsweek.Handlers.Commands.Common.Update;
+    using Newsweek.Web.Models.Comments;
 
     public class Startup
     {
@@ -59,6 +61,7 @@ namespace Newsweek.Web
             services.AddScoped<IRequestHandler<TopNewsQuery<NewsViewModel>, IEnumerable<NewsViewModel>>, TopNewsQueryHandler<NewsViewModel>>();
             services.AddScoped<IRequestHandler<SelectEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, SelectEntitiesQueryHandler<News, NewsViewModel>>();
             services.AddScoped<IRequestHandler<SelectEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>, SelectEntitiesQueryHandler<Category, MenuViewModel>>();
+            services.AddScoped<IRequestHandler<UpdateEntityCommand<Comment, UpdateCommentViewModel>, bool>, UpdateEntityCommandHandler<Comment, UpdateCommentViewModel>>();
             services.AddSingleton<ILoggerProvider, FileLoggerProvider>();
         }
 

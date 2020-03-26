@@ -16,9 +16,11 @@
     using Newsweek.Handlers.Commands.Comments;
     using Newsweek.Handlers.Commands.Common.Create;
     using Newsweek.Handlers.Commands.Common.Delete;
+    using Newsweek.Handlers.Commands.Common.Update;
     using Newsweek.Web.Attributes;
     using Newsweek.Web.Models.Comments;
-    
+
+    [Authorize]
     public class CommentsController : Controller
     {
         private readonly IMediator mediator;
@@ -30,7 +32,6 @@
 
         [HttpPost]
         [AjaxOnly]
-        [Authorize]
         public async Task<IActionResult> Post(CreateCommentViewModel request)
         {
             if (ModelState.IsValid)
@@ -50,7 +51,20 @@
 
         [HttpPost]
         [AjaxOnly]
-        [Authorize]
+        public async Task<IActionResult> Update(UpdateCommentViewModel request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            bool isUpdated = await mediator.Send(new UpdateEntityCommand<Comment, UpdateCommentViewModel>(request));
+
+            return Ok(isUpdated);
+        }
+
+        [HttpPost]
+        [AjaxOnly]
         public async Task<IActionResult> Delete(int id)
         {
             if (id <= 0)
@@ -60,7 +74,7 @@
 
             bool isDeleted = await mediator.Send(new DeleteEntityCommand<Comment>(id));
 
-            return Json(isDeleted);
+            return Ok(isDeleted);
         }
     }
 }
