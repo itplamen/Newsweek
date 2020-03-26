@@ -11,6 +11,8 @@
     public class SelectEntitiesQuery<TEntity, TResult> : IRequest<IEnumerable<TResult>>
         where TEntity : BaseModel<int>
     {
+        public int Take { get; set; }
+
         public Expression<Func<TEntity, bool>> Predicate { get; set; }
 
         public Expression<Func<TEntity, TResult>> Selector { get; set; }

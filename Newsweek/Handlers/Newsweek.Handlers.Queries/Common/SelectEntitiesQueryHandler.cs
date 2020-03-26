@@ -32,6 +32,11 @@
                 entities = entities.Where(request.Predicate);
             }
 
+            if (request.Take > 0)
+            {
+                entities = entities.Take(request.Take);
+            }
+
             if (request.Selector != null)
             {
                 return await entities.Select(request.Selector).ToListAsync();
