@@ -8,8 +8,8 @@
         <form class="form-group"
               data-ajax="true"
               data-ajax-method="post"
-              data-ajax-success="handleSuccesfulComment"
-              data-ajax-failure="handleFailedComment"
+              data-ajax-success="commentsModule.handleSuccess"
+              data-ajax-failure="commentsModule.handleError"
               data-ajax-update="#existingComments"
               data-ajax-mode="after"
               data-ajax-url="/Comments/Post">
@@ -42,7 +42,8 @@
                data-ajax-method="get"
                data-ajax-mode="after"
                data-ajax-update="#existingComments"
-               data-ajax-success="setNextCommentId"
+               data-ajax-success="commentsModule.setNextId"
+               data-ajax-failure="commentsModule.handleError"
                data-ajax-url="/Comments/Get?id=@id&newsId=@Model.NewsId"
                id="viewMoreComments"
                class="btn btn-link">View more comments</a>
