@@ -6,26 +6,25 @@
 
     <div id="addComment">
         <form class="form-group"
-                data-ajax="true"
-                data-ajax-method="post"
-                data-ajax-success="handleSuccesfulComment"
-                data-ajax-failure="handleFailedComment"
-                data-ajax-update="#existingComments"
-                data-ajax-mode="after"
-                data-ajax-url="/Comments/Post">
+              data-ajax="true"
+              data-ajax-method="post"
+              data-ajax-success="handleSuccesfulComment"
+              data-ajax-failure="handleFailedComment"
+              data-ajax-update="#existingComments"
+              data-ajax-mode="after"
+              data-ajax-url="/Comments/Post">
             @{
                 string disable = string.Empty;
                 string placeholder = "Write a comment...";
 
-                if (User.Identity.IsAuthenticated)
+                if (!User.Identity.IsAuthenticated)
                 {
-                    <input type="hidden" name="NewsId" value="@Model.NewsId" />
-                }
-                else
-                {
+
                     disable = "disabled=\"disabled\"";
                     placeholder = "Sign in to comment...";
                 }
+
+                <input type="hidden" name="NewsId" id="newsIdHidden" value="@Model.NewsId" />
             }
 
             <textarea name="Content" class="form-control" maxlength="@ValidationConstants.COMMENT_MAX_CONTENT_LENGTH" rows="5" @disable placeholder="@placeholder"></textarea>
@@ -34,7 +33,7 @@
     </div>
 
     <div id="existingComments">
-        @if (Model.CommentsList.TotalCount > 0)
+        @if (Model.CommentsList.TotalCount > ValidationConstants.TAKE_COMMENTS)
         {
             int id = Model.CommentsList.Comments.Last().Id;
 
@@ -44,13 +43,13 @@
                data-ajax-mode="after"
                data-ajax-update="#existingComments"
                data-ajax-success="setNextCommentId"
-               data-ajax-url="/Comments/Get?id=@id"
+               data-ajax-url="/Comments/Get?id=@id&newsId=@Model.NewsId"
                id="viewMoreComments"
                class="btn btn-link">View more comments</a>
 
             <input type="hidden" value="@id" id="lastCommentId" />
-
-            <partial name="_CommentsListPartial" model="@Model.CommentsList.Comments" />
         }
+
+        <partial name="_CommentsListPartial" model="@Model.CommentsList.Comments" />
     </div>
 </div>

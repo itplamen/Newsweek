@@ -34,17 +34,17 @@
         [HttpGet]
         [AjaxOnly]
         [AllowAnonymous]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(GetCommentsListViewModel request)
         {
-            if (id <= 0)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid comment Id!");
+                return BadRequest(ModelState);
             }
 
             var commentsQuery = new SelectEntitiesQuery<Comment, GetCommentViewModel>() 
             {
                 Take = 3,
-                Predicate = x => x.Id > id 
+                Predicate = x => x.Id > request.Id && x.NewsId == request.NewsId 
             };
             IEnumerable<GetCommentViewModel> response = await mediator.Send(commentsQuery);
 

@@ -99,19 +99,26 @@
         }
 
         function setNextCommentId() {
-            let lastCommentId = $('#lastCommentId').val();
-            let id = $('.card').last().attr('data-comment-id');
+            if (parseInt($('#comments-count').html(), 10) === $('.card[data-comment-id]').length) {
+                $('#viewMoreComments').hide();
+            }
+            else {
+                let lastCommentId = $('#lastCommentId').val();
+                let id = $('.card').last().attr('data-comment-id');
 
-            if (lastCommentId != id) {
-                let url = $('#viewMoreComments').attr('data-ajax-url').split('?')[0] + `?id=${id}`;
-                $('#viewMoreComments').attr('data-ajax-url', url);
-                $('#lastCommentId').val(id)
+                if (lastCommentId != id) {
+                    let attributes = $('#viewMoreComments').attr('data-ajax-url').split('?');
+                    let newsId = $('#newsIdHidden').val();
+                    let url = attributes[0] + `?id=${id}&newsId=${newsId}`; 
+                    $('#viewMoreComments').attr('data-ajax-url', url);
+                    $('#lastCommentId').val(id)
+                }
             }
         }
 
         $('#comments').on('click', '.delete-commen-option', function () {
             let self = $(this);
-            let id = $(this).parents('div[data-comment-id]').attr('data-comment-id');
+            let id = $(this).parents('.card[data-comment-id]').attr('data-comment-id');
 
             $.post('/Comments/Delete', { id: id })
                 .done(function (isDeleted) {
@@ -131,7 +138,7 @@
         });
 
         $('#comments').on('click', '.update-commen-option', function () {
-            let id = $(this).parents('div[data-comment-id]').attr('data-comment-id');
+            let id = $(this).parents('.card[data-comment-id]').attr('data-comment-id');
             $('#commentIdUpdateModal').val(id);
 
             let content = $(this).parents('.card').find('.card-body .card-text:eq(1)').html();
@@ -151,10 +158,7 @@
             $.post('/Comments/Update', data)
                 .done(function (isUpdated) {
                     if (isUpdated) {
-                        $('.card-options[data-comment-id=' + data.id + ']')
-                            .siblings('.card-body')
-                            .children('.card-text')
-                            .html(data.content);
+                        $('.card[data-comment-id=' + data.id + '] .card-text:eq(1)').html(data.content);
                     }
                 })
                 .fail(function (data) {
