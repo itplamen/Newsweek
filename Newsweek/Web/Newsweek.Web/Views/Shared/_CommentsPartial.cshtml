@@ -5,18 +5,17 @@
     <hr align="left" />
 
     <div id="addComment">
-        <form 
-              class="form-group" 
-              data-ajax="true" 
-              data-ajax-method="post" 
-              data-ajax-success="handleSuccesfulComment" 
-              data-ajax-failure="handleFailedComment"
-              data-ajax-update="#existingComments" 
-              data-ajax-mode="after" 
-              data-ajax-url="/Comments/Post">
+        <form class="form-group"
+                data-ajax="true"
+                data-ajax-method="post"
+                data-ajax-success="handleSuccesfulComment"
+                data-ajax-failure="handleFailedComment"
+                data-ajax-update="#existingComments"
+                data-ajax-mode="after"
+                data-ajax-url="/Comments/Post">
             @{
                 string disable = string.Empty;
-                string placeholder = "Write a comment..."   ;
+                string placeholder = "Write a comment...";
 
                 if (User.Identity.IsAuthenticated)
                 {
@@ -33,12 +32,25 @@
             <input type="submit" class="form-control btn btn-success" @disable value="Comment" />
         </form>
     </div>
-    <div id="existingComments">
-        <button type="button" class="btn btn-link">View more comments</button>
 
-        @foreach (var comment in Model.CommentsList.Comments)
+    <div id="existingComments">
+        @if (Model.CommentsList.TotalCount > 0)
         {
-            <partial name="_CommentPartial" model="comment" />
+            int id = Model.CommentsList.Comments.Last().Id;
+
+            <a href=""
+               data-ajax="true"
+               data-ajax-method="get"
+               data-ajax-mode="after"
+               data-ajax-update="#existingComments"
+               data-ajax-success="setNextCommentId"
+               data-ajax-url="/Comments/Get?id=@id"
+               id="viewMoreComments"
+               class="btn btn-link">View more comments</a>
+
+            <input type="hidden" value="@id" id="lastCommentId" />
+
+            <partial name="_CommentsListPartial" model="@Model.CommentsList.Comments" />
         }
     </div>
 </div>

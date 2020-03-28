@@ -98,9 +98,20 @@
             alert(xhr.responseText);
         }
 
+        function setNextCommentId() {
+            let lastCommentId = $('#lastCommentId').val();
+            let id = $('.card').last().attr('data-comment-id');
+
+            if (lastCommentId != id) {
+                let url = $('#viewMoreComments').attr('data-ajax-url').split('?')[0] + `?id=${id}`;
+                $('#viewMoreComments').attr('data-ajax-url', url);
+                $('#lastCommentId').val(id)
+            }
+        }
+
         $('#comments').on('click', '.delete-commen-option', function () {
             let self = $(this);
-            let id = $(this).parent().attr('data-comment-id');
+            let id = $(this).parents('div[data-comment-id]').attr('data-comment-id');
 
             $.post('/Comments/Delete', { id: id })
                 .done(function (isDeleted) {
@@ -120,7 +131,7 @@
         });
 
         $('#comments').on('click', '.update-commen-option', function () {
-            let id = $(this).parent().attr('data-comment-id');
+            let id = $(this).parents('div[data-comment-id]').attr('data-comment-id');
             $('#commentIdUpdateModal').val(id);
 
             let content = $(this).parents('.card').find('.card-body .card-text:eq(1)').html();
