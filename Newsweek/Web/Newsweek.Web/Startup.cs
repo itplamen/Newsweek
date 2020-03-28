@@ -98,12 +98,15 @@ namespace Newsweek.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "areaRoute",
+                    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
-                    "news",
-                    "News/{id:int:min(1)}",
-                    new { controller = "News", action = "Get", });
+                    name: "news",
+                    pattern: "News/{id:int:min(1)}",
+                    defaults: new { controller = "News", action = "Get", });
                 endpoints.MapRazorPages();
             });
 
