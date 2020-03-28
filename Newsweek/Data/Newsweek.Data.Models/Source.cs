@@ -15,6 +15,8 @@
 
         public string Url { get; set; }
 
+        public string Description { get; set; }
+
         public ICollection<News> News { get; set; }
     }
 }

@@ -15,6 +15,9 @@
             source.Property(x => x.Url)
                 .IsRequired();
 
+            source.Property(x => x.Description)
+                .IsRequired();
+
             source.HasIndex(x => x.Name)
                 .IsUnique();
 
