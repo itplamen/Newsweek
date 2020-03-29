@@ -28,6 +28,7 @@ namespace Newsweek.Web
     using Newsweek.Common.Infrastructure.Logging;
     using Newsweek.Handlers.Commands.Common.Update;
     using Newsweek.Web.Models.Comments;
+    using Newsweek.Web.Models.Sources;
 
     public class Startup
     {
@@ -52,6 +53,8 @@ namespace Newsweek.Web
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddResponseCaching();
+
             services.AddSingleton(configuration);
 
             services.AddServices();
@@ -62,6 +65,7 @@ namespace Newsweek.Web
             services.AddScoped<IRequestHandler<SelectEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, SelectEntitiesQueryHandler<News, NewsViewModel>>();
             services.AddScoped<IRequestHandler<SelectEntitiesQuery<Comment, GetCommentViewModel>, IEnumerable<GetCommentViewModel>>, SelectEntitiesQueryHandler<Comment, GetCommentViewModel>>();
             services.AddScoped<IRequestHandler<SelectEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>, SelectEntitiesQueryHandler<Category, MenuViewModel>>();
+            services.AddScoped<IRequestHandler<SelectEntitiesQuery<Source, SourceFullViewModel>, IEnumerable<SourceFullViewModel>>, SelectEntitiesQueryHandler<Source, SourceFullViewModel>>();
             services.AddScoped<IRequestHandler<UpdateEntityCommand<Comment, UpdateCommentViewModel>, bool>, UpdateEntityCommandHandler<Comment, UpdateCommentViewModel>>();
             services.AddSingleton<ILoggerProvider, FileLoggerProvider>();
         }
@@ -90,6 +94,7 @@ namespace Newsweek.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseResponseCaching();
 
             app.UseCookiePolicy();
             app.UseAuthentication();

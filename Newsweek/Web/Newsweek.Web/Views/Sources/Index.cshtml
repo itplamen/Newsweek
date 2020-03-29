@@ -1,0 +1,19 @@
+﻿@model IEnumerable<SourceFullViewModel>
+
+@{
+    ViewData["Title"] = "Sources";
+}
+
+<div class="row">
+    @foreach (var source in Model)
+    {
+        <div class="card col-6" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@source.Name</h5>
+                <p class="card-text">@source.Description</p>
+                <p class="card-text">News: @source.NewsCount</p>
+                <a href="@source.Url" class="btn btn-light">Go to website</a>
+            </div>
+        </div>
+    }
+</div>

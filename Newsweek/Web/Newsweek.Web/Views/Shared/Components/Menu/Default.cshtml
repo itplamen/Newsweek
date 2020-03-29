@@ -1,20 +1,24 @@
 ﻿@model IEnumerable<MenuViewModel>
 
-<ul class="navbar-nav flex-grow-1" id="navigationMenu">
-    @foreach (var menu in Model)
-    {
-        <li class="nav-item dropdown btn-group">
-            <a class="nav-link text-dark btn-light" asp-controller="News" asp-action="Search" asp-route-category="@menu.Name">@menu.Name</a>
-            <span class="btn btn-light dropdown-toggle dropdown-toggle-split dropdown-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
-            <div class="dropdown-menu">
-                <input type="text" placeholder="Search.." class="dropdown-search" />
-                <div class="dropdown-menu-scrollable">
-                    @foreach (var submenu in menu.Submenu)
-                    {
-                        <a class="dropdown-item" asp-controller="News" asp-action="Search" asp-route-subcategory="@submenu.Name">@submenu.Name</a>
-                    }
+    <ul class="navbar-nav flex-grow-1" id="navigationMenu">
+        @foreach (var menu in Model)
+        {
+            <li class="nav-item dropdown btn-group">
+                <a class="nav-link text-dark btn-light" asp-controller="News" asp-action="Search" asp-route-category="@menu.Name">@menu.Name</a>
+                <span class="btn btn-light dropdown-toggle dropdown-toggle-split dropdown-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
+                <div class="dropdown-menu">
+                    <input type="text" placeholder="Search.." class="dropdown-search" />
+                    <div class="dropdown-menu-scrollable">
+                        @foreach (var submenu in menu.Submenu)
+                        {
+                            <a class="dropdown-item" asp-controller="News" asp-action="Search" asp-route-subcategory="@submenu.Name">@submenu.Name</a>
+                        }
+                    </div>
                 </div>
-            </div>
+            </li>
+        }
+
+        <li class="nav-item dropdown btn-group">
+            <a class="nav-link text-dark btn-light" asp-controller="Sources" asp-action="Index">Sources</a>
         </li>
-     }
-</ul>
+    </ul>
