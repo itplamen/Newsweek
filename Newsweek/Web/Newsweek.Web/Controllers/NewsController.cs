@@ -38,23 +38,30 @@
             SearchResponseViewModel response = new SearchResponseViewModel();
             Expression<Func<News, bool>> expression = null;
 
-            if (!string.IsNullOrEmpty(request.Category))
-            {
-                response.Search = request.Category;
-                expression = x => x.Subcategory.Category.Name == request.Category;
-            }
-            else if (!string.IsNullOrEmpty(request.Subcategory))
-            {
-                response.Search = request.Subcategory;
-                expression = x => x.Subcategory.Name == request.Subcategory;
-            }
-            else
+            if (!string.IsNullOrWhiteSpace(request.Tag))
             {
                 response.Search = request.Tag;
                 expression = x => x.Tags.Any(y => y.Tag.Name == request.Tag.ToLower());
             }
+            else
+            {
+                response.Search = $"{request.Category}";
+                expression = x => x.Subcategory.Category.Name == request.Category;
 
-            var searchQeury = new GetEntitiesQuery<News, NewsViewModel>() { Take = request.Take, Predicate = expression };
+                if (!string.IsNullOrWhiteSpace(request.Subcategory))
+                {
+                    response.Search += $"{response.Search}/{request.Subcategory}";
+                    expression = x => x.Subcategory.Category.Name == request.Category && x.Subcategory.Name == request.Subcategory;
+                }
+            }
+
+            var searchQeury = new GetEntitiesQuery<News, NewsViewModel>() 
+            { 
+                Take = request.Take, 
+                Predicate = expression,
+                OrderBy = x => x.OrderByDescending(y => y.Id)
+            };
+
             response.News = await mediator.Send(searchQeury);
 
             return View(response);
