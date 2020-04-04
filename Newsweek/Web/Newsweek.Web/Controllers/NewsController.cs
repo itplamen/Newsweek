@@ -26,7 +26,7 @@
         [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
-            var newsQuery = new SelectEntitiesQuery<News, NewsViewModel>() { Predicate = x => x.Id == id };
+            var newsQuery = new GetEntitiesQuery<News, NewsViewModel>() { Predicate = x => x.Id == id };
             IEnumerable<NewsViewModel> news = await mediator.Send(newsQuery);
 
             return View(news.FirstOrDefault());
@@ -54,7 +54,8 @@
                 expression = x => x.Tags.Any(y => y.Tag.Name == request.Tag.ToLower());
             }
 
-            response.News = await mediator.Send(new SelectEntitiesQuery<News, NewsViewModel>() { Predicate = expression });
+            var searchQeury = new GetEntitiesQuery<News, NewsViewModel>() { Take = request.Take, Predicate = expression };
+            response.News = await mediator.Send(searchQeury);
 
             return View(response);
         }

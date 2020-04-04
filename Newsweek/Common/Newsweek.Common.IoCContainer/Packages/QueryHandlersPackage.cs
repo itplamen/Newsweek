@@ -19,7 +19,7 @@
             services.AddScoped<IRequestHandler<GetEntitiesQuery<Source>, IEnumerable<Source>>, GetEntitiesQueryHandler<Source>>();
             services.AddScoped<IRequestHandler<GetEntitiesQuery<Category>, IEnumerable<Category>>, GetEntitiesQueryHandler<Category>>();
             services.AddScoped<IRequestHandler<GetEntitiesQuery<Subcategory>, IEnumerable<Subcategory>>, GetEntitiesQueryHandler<Subcategory>>();
-            services.AddScoped<IRequestHandler<SelectEntitiesQuery<Source, int>, IEnumerable<int>>, SelectEntitiesQueryHandler<Source, int>>();
+            services.AddScoped<IRequestHandler<GetEntitiesQuery<Source, int>, IEnumerable<int>>, GetEntitiesQueryHandler<Source, int>>();
         }
     }
 }

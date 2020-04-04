@@ -41,7 +41,7 @@
                 return BadRequest(ModelState);
             }
 
-            var commentsQuery = new SelectEntitiesQuery<Comment, GetCommentViewModel>() 
+            var commentsQuery = new GetEntitiesQuery<Comment, GetCommentViewModel>() 
             {
                 Take = 3,
                 Predicate = x => x.Id > request.Id && x.NewsId == request.NewsId 

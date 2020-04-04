@@ -8,40 +8,45 @@
     using MediatR;
 
     using Microsoft.EntityFrameworkCore;
-    
+
+    using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Data;
     using Newsweek.Data.Models.Contracts;
 
-    public class GetEntitiesQueryHandler<TEntity> : IRequestHandler<GetEntitiesQuery<TEntity>, IEnumerable<TEntity>>
+    public class GetEntitiesQueryHandler<TEntity> : GetEntitiesBaseQueryHandler<TEntity>, IRequestHandler<GetEntitiesQuery<TEntity>, IEnumerable<TEntity>>
         where TEntity : class, IAuditInfo, IDeletableEntity
     {
-        private readonly NewsweekDbContext dbContext;
-
-        public GetEntitiesQueryHandler(NewsweekDbContext dbContext)
+        public GetEntitiesQueryHandler(NewsweekDbContext dbContext) 
+            : base(dbContext)
         {
-            this.dbContext = dbContext;
         }
 
         public async Task<IEnumerable<TEntity>> Handle(GetEntitiesQuery<TEntity> request, CancellationToken cancellationToken)
         {
-            IQueryable<TEntity> entities = dbContext.Set<TEntity>();
-
-            if (request.Predicate != null)
-            {
-                entities = entities.Where(request.Predicate);
-            }
-
-            if (request.OrderBy != null)
-            {
-                entities = request.OrderBy(entities);
-            }
-
-            if (request.Take > 0)
-            {
-                entities = entities.Take(request.Take);
-            }
+            IQueryable<TEntity> entities = base.Handle(request);
 
             return await entities.ToListAsync(cancellationToken);
+        }
+    }
+
+    public class GetEntitiesQueryHandler<TEntity, TResult> : GetEntitiesBaseQueryHandler<TEntity>, IRequestHandler<GetEntitiesQuery<TEntity, TResult>, IEnumerable<TResult>>
+        where TEntity : class, IAuditInfo, IDeletableEntity
+    {
+        public GetEntitiesQueryHandler(NewsweekDbContext dbContext) 
+            : base(dbContext)
+        {
+        }
+
+        public async Task<IEnumerable<TResult>> Handle(GetEntitiesQuery<TEntity, TResult> request, CancellationToken cancellationToken)
+        {
+            IQueryable<TEntity> entities = base.Handle(request);
+
+            if (request.Selector != null)
+            {
+                return await entities.Select(request.Selector).ToListAsync(cancellationToken);
+            }
+
+            return await entities.To<TResult>().ToListAsync(cancellationToken);
         }
     }
 }

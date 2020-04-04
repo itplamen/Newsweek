@@ -24,7 +24,7 @@
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var query = new SelectEntitiesQuery<Category, MenuViewModel>()
+            var query = new GetEntitiesQuery<Category, MenuViewModel>()
             {
                 Predicate = x => !x.IsDeleted,
                 Selector = x => new MenuViewModel()

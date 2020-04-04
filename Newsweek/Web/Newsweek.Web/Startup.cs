@@ -62,10 +62,10 @@ namespace Newsweek.Web
 
             services.AddScoped<ISendGridClient>(x => new SendGridClient(configuration["SendGrid:ApiKey"]));
             services.AddScoped<IRequestHandler<TopNewsQuery<NewsViewModel>, IEnumerable<NewsViewModel>>, TopNewsQueryHandler<NewsViewModel>>();
-            services.AddScoped<IRequestHandler<SelectEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, SelectEntitiesQueryHandler<News, NewsViewModel>>();
-            services.AddScoped<IRequestHandler<SelectEntitiesQuery<Comment, GetCommentViewModel>, IEnumerable<GetCommentViewModel>>, SelectEntitiesQueryHandler<Comment, GetCommentViewModel>>();
-            services.AddScoped<IRequestHandler<SelectEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>, SelectEntitiesQueryHandler<Category, MenuViewModel>>();
-            services.AddScoped<IRequestHandler<SelectEntitiesQuery<Source, SourceFullViewModel>, IEnumerable<SourceFullViewModel>>, SelectEntitiesQueryHandler<Source, SourceFullViewModel>>();
+            services.AddScoped<IRequestHandler<GetEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, GetEntitiesQueryHandler<News, NewsViewModel>>();
+            services.AddScoped<IRequestHandler<GetEntitiesQuery<Comment, GetCommentViewModel>, IEnumerable<GetCommentViewModel>>, GetEntitiesQueryHandler<Comment, GetCommentViewModel>>();
+            services.AddScoped<IRequestHandler<GetEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>, GetEntitiesQueryHandler<Category, MenuViewModel>>();
+            services.AddScoped<IRequestHandler<GetEntitiesQuery<Source, SourceFullViewModel>, IEnumerable<SourceFullViewModel>>, GetEntitiesQueryHandler<Source, SourceFullViewModel>>();
             services.AddScoped<IRequestHandler<UpdateEntityCommand<Comment, UpdateCommentViewModel>, bool>, UpdateEntityCommandHandler<Comment, UpdateCommentViewModel>>();
             services.AddSingleton<ILoggerProvider, FileLoggerProvider>();
         }

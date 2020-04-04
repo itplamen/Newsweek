@@ -24,7 +24,7 @@
         [ResponseCache(Duration = 60 * 60, Location = ResponseCacheLocation.Any, NoStore = false)]
         public async Task<IActionResult> Index()
         {
-            var selectQuery = new SelectEntitiesQuery<Source, SourceFullViewModel>();
+            var selectQuery = new GetEntitiesQuery<Source, SourceFullViewModel>();
             IEnumerable<SourceFullViewModel> sources = await mediator.Send(selectQuery);
 
             return View(sources);
