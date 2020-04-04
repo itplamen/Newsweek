@@ -4,21 +4,14 @@
     
     using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Web.Models.Comments;
-    using Newsweek.Web.Models.Common;
     using Newsweek.Web.Models.Sources;
     using Newsweek.Web.Models.Subcategories;
 
-    public class NewsViewModel : BaseViewModel, IMapFrom<Data.Models.News>, IHaveCustomMappings
+    public class NewsViewModel : NewsBaseViewModel, IHaveCustomMappings
     {
-        public string Title { get; set; }
-
-        public string Description { get; set; }
-
         public string Content { get; set; }
 
         public string RemoteUrl { get; set; }
-
-        public string MainImageUrl { get; set; }
 
         public SourceViewModel Source { get; set; }
 

@@ -62,6 +62,7 @@ namespace Newsweek.Web
 
             services.AddScoped<ISendGridClient>(x => new SendGridClient(configuration["SendGrid:ApiKey"]));
             services.AddScoped<IRequestHandler<TopNewsQuery<NewsViewModel>, IEnumerable<NewsViewModel>>, TopNewsQueryHandler<NewsViewModel>>();
+            services.AddScoped<IRequestHandler<GetEntitiesQuery<News, NewsBaseViewModel>, IEnumerable<NewsBaseViewModel>>, GetEntitiesQueryHandler<News, NewsBaseViewModel>>();
             services.AddScoped<IRequestHandler<GetEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, GetEntitiesQueryHandler<News, NewsViewModel>>();
             services.AddScoped<IRequestHandler<GetEntitiesQuery<Comment, GetCommentViewModel>, IEnumerable<GetCommentViewModel>>, GetEntitiesQueryHandler<Comment, GetCommentViewModel>>();
             services.AddScoped<IRequestHandler<GetEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>, GetEntitiesQueryHandler<Category, MenuViewModel>>();

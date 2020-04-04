@@ -55,7 +55,7 @@
                 }
             }
 
-            var searchQeury = new GetEntitiesQuery<News, NewsViewModel>() 
+            var searchQeury = new GetEntitiesQuery<News, NewsBaseViewModel>() 
             { 
                 Take = request.Take, 
                 Predicate = expression,

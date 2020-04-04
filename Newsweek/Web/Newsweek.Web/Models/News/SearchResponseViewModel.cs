@@ -6,6 +6,6 @@
     {
         public string Search { get; set; }
 
-        public IEnumerable<NewsViewModel> News { get; set; }
+        public IEnumerable<NewsBaseViewModel> News { get; set; }
     }
 }
