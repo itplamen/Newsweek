@@ -17,17 +17,19 @@ namespace Newsweek.Web
 
     using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Common.IoCContainer;
+    using Newsweek.Common.Infrastructure.Logging;
+
     using Newsweek.Data;
     using Newsweek.Data.Models;
     using Newsweek.Data.Seeders;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.News;
+    using Newsweek.Handlers.Commands.Common.Update;
+    using Newsweek.Handlers.Queries.News.Search;
+    using Newsweek.Web.Models.Comments;
     using Newsweek.Web.Models.Common;
     using Newsweek.Web.Models.Menu;
     using Newsweek.Web.Models.News;
-    using Newsweek.Common.Infrastructure.Logging;
-    using Newsweek.Handlers.Commands.Common.Update;
-    using Newsweek.Web.Models.Comments;
     using Newsweek.Web.Models.Sources;
 
     public class Startup
@@ -68,6 +70,7 @@ namespace Newsweek.Web
             services.AddScoped<IRequestHandler<GetEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>, GetEntitiesQueryHandler<Category, MenuViewModel>>();
             services.AddScoped<IRequestHandler<GetEntitiesQuery<Source, SourceFullViewModel>, IEnumerable<SourceFullViewModel>>, GetEntitiesQueryHandler<Source, SourceFullViewModel>>();
             services.AddScoped<IRequestHandler<UpdateEntityCommand<Comment, UpdateCommentViewModel>, bool>, UpdateEntityCommandHandler<Comment, UpdateCommentViewModel>>();
+            services.AddScoped<IRequestHandler<SearchNewsQuery, SearchNewsResponse>, SearchNewsQueryHandler>();
             services.AddSingleton<ILoggerProvider, FileLoggerProvider>();
         }
 

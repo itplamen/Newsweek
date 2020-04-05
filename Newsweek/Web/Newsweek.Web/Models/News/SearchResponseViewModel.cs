@@ -2,9 +2,14 @@
 {
     using System.Collections.Generic;
 
-    public class SearchResponseViewModel
+    using Newsweek.Common.Infrastructure.Mapping;
+    using Newsweek.Handlers.Queries.News.Search;
+
+    public class SearchResponseViewModel : IMapFrom<SearchNewsResponse>
     {
         public string Search { get; set; }
+
+        public int TotalCount { get; set; }
 
         public IEnumerable<NewsBaseViewModel> News { get; set; }
     }

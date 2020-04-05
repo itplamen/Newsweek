@@ -1,10 +1,10 @@
 ﻿namespace Newsweek.Web.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Threading.Tasks;
+
+    using AutoMapper;
 
     using MediatR;
 
@@ -12,6 +12,7 @@
 
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Queries.Common;
+    using Newsweek.Handlers.Queries.News.Search;
     using Newsweek.Web.Models.News;
 
     public class NewsController : Controller
@@ -35,34 +36,15 @@
         [HttpGet]
         public async Task<IActionResult> Search(SearchRequestViewModel request)
         {
-            SearchResponseViewModel response = new SearchResponseViewModel();
-            Expression<Func<News, bool>> expression = null;
-
-            if (!string.IsNullOrWhiteSpace(request.Tag))
+            var searchNewsQuery = new SearchNewsQuery()
             {
-                response.Search = request.Tag;
-                expression = x => x.Tags.Any(y => y.Tag.Name == request.Tag.ToLower());
-            }
-            else
-            {
-                response.Search = $"{request.Category}";
-                expression = x => x.Subcategory.Category.Name == request.Category;
-
-                if (!string.IsNullOrWhiteSpace(request.Subcategory))
-                {
-                    response.Search += $"{response.Search}/{request.Subcategory}";
-                    expression = x => x.Subcategory.Category.Name == request.Category && x.Subcategory.Name == request.Subcategory;
-                }
-            }
-
-            var searchQeury = new GetEntitiesQuery<News, NewsBaseViewModel>() 
-            { 
-                Take = request.Take, 
-                Predicate = expression,
-                OrderBy = x => x.OrderByDescending(y => y.Id)
+                Tag = request.Tag,
+                Category = request.Category,
+                Subcategory = request.Subcategory
             };
 
-            response.News = await mediator.Send(searchQeury);
+            SearchNewsResponse searchNews = await mediator.Send(searchNewsQuery);
+            SearchResponseViewModel response = Mapper.Map<SearchResponseViewModel>(searchNews);
 
             return View(response);
         }
