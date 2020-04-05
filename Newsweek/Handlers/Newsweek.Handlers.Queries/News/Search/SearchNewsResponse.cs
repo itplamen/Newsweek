@@ -6,7 +6,7 @@
     {
         public string Search { get; set; }
 
-        public int TotalCount { get; set; }
+        public int NewsCount { get; set; }
 
         public IEnumerable<Data.Models.News> News { get; set; }
     }

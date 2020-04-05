@@ -9,7 +9,7 @@
     {
         public string Search { get; set; }
 
-        public int TotalCount { get; set; }
+        public int NewsCount { get; set; }
 
         public IEnumerable<NewsBaseViewModel> News { get; set; }
     }
