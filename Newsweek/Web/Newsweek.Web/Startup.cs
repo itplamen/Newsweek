@@ -116,10 +116,7 @@ namespace Newsweek.Web
                     name: "getNews",
                     pattern: "News/{id:int:min(1)}",
                     defaults: new { controller = "News", action = "Get", });
-                endpoints.MapControllerRoute(
-                    name: "searchNews",
-                    pattern: "News/{category}/{subcategory?}",
-                    defaults: new { controller = "News", action = "Search" });
+
                 endpoints.MapRazorPages();
             });
 

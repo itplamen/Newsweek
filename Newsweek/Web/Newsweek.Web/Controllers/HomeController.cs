@@ -7,7 +7,6 @@
     using MediatR;
     
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
 
     using Newsweek.Handlers.Queries.News;
     using Newsweek.Web.Models.Common;
@@ -16,12 +15,10 @@
     public class HomeController : Controller
     {
         private readonly IMediator mediator;
-        private readonly ILogger<HomeController> logger;
 
-        public HomeController(IMediator mediator, ILogger<HomeController> logger)
+        public HomeController(IMediator mediator)
         {
             this.mediator = mediator;
-            this.logger = logger;
         }
 
         [HttpGet]

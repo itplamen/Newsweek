@@ -20,7 +20,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <form method="get" asp-controller="News" asp-action="Search">
-                        <input type="text" placeholder="Search.." class="dropdown-search" name="Tag" />
+                        <input type="text" placeholder="Search..." class="dropdown-search" name="Tag" />
                     </form>
                     <cache expires-after="@TimeSpan.FromMinutes(20)">
                         <vc:menu></vc:menu>

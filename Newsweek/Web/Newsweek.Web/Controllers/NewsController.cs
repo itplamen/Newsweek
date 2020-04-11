@@ -33,14 +33,18 @@
             return View(news.FirstOrDefault());
         }
 
-        [HttpGet]
+        [HttpGet("News/Search")]
+        [HttpGet("News/{category}/{subcategory?}")]
+        [HttpGet("News/{category}/{page:int:min(1)}")]
+        [HttpGet("News/{category}/{subcategory}/{page:int:min(1)}")]
         public async Task<IActionResult> Search(SearchRequestViewModel request)
         {
             var searchNewsQuery = new SearchNewsQuery()
             {
                 Tag = request.Tag,
                 Category = request.Category,
-                Subcategory = request.Subcategory
+                Subcategory = request.Subcategory,
+                Page = request.Page
             };
 
             SearchNewsResponse searchNews = await mediator.Send(searchNewsQuery);
