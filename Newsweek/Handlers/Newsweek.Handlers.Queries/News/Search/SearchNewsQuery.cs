@@ -9,5 +9,7 @@
         public string Subcategory { get; set; }
 
         public string Tag { get; set; }
+
+        public int Page { get; set; }
     }
 }
