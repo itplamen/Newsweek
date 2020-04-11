@@ -7,9 +7,17 @@
 
     public class SearchResponseViewModel : IMapFrom<SearchNewsResponse>
     {
-        public string Search { get; set; }
+        public SearchCriteriaViewModel Search { get; set; }
 
         public int NewsCount { get; set; }
+
+        public int CurrentPage { get; set; }
+
+        public int PagesCount { get; set; }
+
+        public int PreviousPage { get; set; }
+
+        public int NextPage { get; set; }
 
         public IEnumerable<NewsBaseViewModel> News { get; set; }
     }
