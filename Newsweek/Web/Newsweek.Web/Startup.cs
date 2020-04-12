@@ -116,7 +116,6 @@ namespace Newsweek.Web
                     name: "getNews",
                     pattern: "News/{id:int:min(1)}",
                     defaults: new { controller = "News", action = "Get", });
-
                 endpoints.MapRazorPages();
             });
 

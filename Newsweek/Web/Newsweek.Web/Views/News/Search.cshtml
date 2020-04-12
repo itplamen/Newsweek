@@ -1,7 +1,9 @@
 ﻿@model SearchResponseViewModel
 
 @{
-    ViewData["Title"] = "Search";
+    ViewData["Title"] = string.IsNullOrWhiteSpace(Model.Search.Subcategory) ?
+        Model.Search.Category :
+        $"{Model.Search.Category}/{Model.Search.Subcategory}";
 }
 
 @section Styles {
@@ -10,17 +12,9 @@
 
 <small class="lead">
     Showing
-    <span class="font-weight-bolder">
-        @Model.NewsCount
-    </span>
+    <span class="font-weight-bolder">@Model.NewsCount</span>
     results for
-    <span class="font-weight-bolder">
-        @(
-            string.IsNullOrWhiteSpace(Model.Search.Subcategory) ?
-                Model.Search.Category :
-                $"{Model.Search.Category}/{Model.Search.Subcategory}"
-        )
-    </span>
+    <span class="font-weight-bolder">@ViewData["Title"]</span>
 </small>
 
 <div class="album top-news">
@@ -36,12 +30,17 @@
 
 @if (Model.PagesCount > 1)
 {
-    <nav aria-label="News Pagination">
+    <nav aria-label="News Pagination" id="pagination">
         <ul class="pagination justify-content-center">
             @if (Model.CurrentPage > 1)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-controller="News" asp-action="@Model.Search.Category" asp-route-subcategory="@Model.Search.Subcategory" asp-route-id="@Model.PreviousPage" aria-label="Previous">
+                    <a class="page-link"
+                       aria-label="Previous"
+                       asp-controller="News"
+                       asp-route-category="@Model.Search.Category"
+                       asp-route-subcategory="@Model.Search.Subcategory"
+                       asp-route-page="@Model.PreviousPage">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
@@ -80,16 +79,31 @@
                 }
                 if (i > 0 && pageNumber - 1 != pagesToShow[i - 1])
                 {
-                    <li class="page-item @className"><a class="page-link" asp-controller="News" asp-action="@Model.Search.Category" asp-route-subcategory="@Model.Search.Subcategory" asp-route-id="@(pagesToShow[i - 1] + 1)">...</a></li>
+                    <li class="page-item @className">
+                        <a class="page-link"
+                           asp-controller="News"
+                           asp-route-category="@Model.Search.Category"
+                           asp-route-subcategory="@Model.Search.Subcategory"
+                           asp-route-page="@(pagesToShow[i - 1] + 1)">...</a>
+                    </li>
                 }
                 <li class="page-item @className">
-                    <a class="page-link" asp-controller="News" asp-action="@Model.Search.Category" asp-route-category="@Model.Search.Category" asp-route-subcategory="@Model.Search.Subcategory" asp-route-page="@pageNumber">@pageNumber</a>
+                    <a class="page-link"
+                       asp-controller="News"
+                       asp-route-category="@Model.Search.Category"
+                       asp-route-subcategory="@Model.Search.Subcategory"
+                       asp-route-page="@pageNumber">@pageNumber</a>
                 </li>
             }
             @if (Model.CurrentPage < Model.PagesCount)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-controller="News" asp-action="@Model.Search.Category" asp-route-subcategory="@Model.Search.Subcategory" asp-route-page="@Model.NextPage" aria-label="Next">
+                    <a class="page-link"
+                       aria-label="Next"
+                       asp-controller="News"
+                       asp-route-category="@Model.Search.Category"
+                       asp-route-subcategory="@Model.Search.Subcategory"
+                       asp-route-page="@Model.NextPage">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
