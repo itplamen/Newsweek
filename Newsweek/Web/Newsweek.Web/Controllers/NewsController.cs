@@ -24,7 +24,7 @@
             this.mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("News/{id:int:min(1)}")]
         public async Task<IActionResult> Get(int id)
         {
             var newsQuery = new GetEntitiesQuery<News, NewsViewModel>() { Predicate = x => x.Id == id };

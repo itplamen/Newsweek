@@ -112,11 +112,6 @@ namespace Newsweek.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(
-                    name: "getNews",
-                    pattern: "News/{id:int:min(1)}",
-                    defaults: new { controller = "News", action = "Get", });
-                endpoints.MapRazorPages();
             });
 
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly, Assembly.Load(COMMANDS_ASSEMBLY));
