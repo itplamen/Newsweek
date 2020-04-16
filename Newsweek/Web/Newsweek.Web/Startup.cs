@@ -22,9 +22,10 @@ namespace Newsweek.Web
     using Newsweek.Data;
     using Newsweek.Data.Models;
     using Newsweek.Data.Seeders;
-    using Newsweek.Handlers.Queries.Common;
-    using Newsweek.Handlers.Queries.News;
     using Newsweek.Handlers.Commands.Common.Update;
+    using Newsweek.Handlers.Queries.Common;
+    using Newsweek.Handlers.Queries.Dashboard;
+    using Newsweek.Handlers.Queries.News;
     using Newsweek.Handlers.Queries.News.Search;
     using Newsweek.Web.Models.Comments;
     using Newsweek.Web.Models.Common;
@@ -63,6 +64,7 @@ namespace Newsweek.Web
             services.AddMediatR(Assembly.Load(QUERIES_ASSEMBLY), Assembly.Load(COMMANDS_ASSEMBLY));
 
             services.AddScoped<ISendGridClient>(x => new SendGridClient(configuration["SendGrid:ApiKey"]));
+            services.AddScoped<IRequestHandler<DashboardQuery, DashboardResult>, DashboardQueryHandler>();
             services.AddScoped<IRequestHandler<TopNewsQuery<NewsViewModel>, IEnumerable<NewsViewModel>>, TopNewsQueryHandler<NewsViewModel>>();
             services.AddScoped<IRequestHandler<GetEntitiesQuery<News, NewsBaseViewModel>, IEnumerable<NewsBaseViewModel>>, GetEntitiesQueryHandler<News, NewsBaseViewModel>>();
             services.AddScoped<IRequestHandler<GetEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, GetEntitiesQueryHandler<News, NewsViewModel>>();
