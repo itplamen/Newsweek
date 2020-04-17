@@ -5,6 +5,13 @@
     <UserSecretsId>aspnet-Newsweek.Web-F6A42B9A-4388-41D8-86D9-CCD22085966D</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Areas\Administration\Data\**" />
+    <Content Remove="Areas\Administration\Data\**" />
+    <EmbeddedResource Remove="Areas\Administration\Data\**" />
+    <None Remove="Areas\Administration\Data\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="8.0.0" />
@@ -38,7 +45,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Administration\Controllers\" />
-    <Folder Include="Areas\Administration\Data\" />
     <Folder Include="Areas\Administration\Models\" />
     <Folder Include="Areas\Administration\Views\" />
   </ItemGroup>

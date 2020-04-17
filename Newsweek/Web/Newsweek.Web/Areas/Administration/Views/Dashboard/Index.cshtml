@@ -1,0 +1,32 @@
+﻿@model DashboardViewModel
+@{ 
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">News statistics</h1>
+        <p class="lead">Administration dashboard, news count statistics, manage news</p>
+        <hr class="my-4">
+        <div class="row">
+            @foreach (var news in Model.NewsByMonthCount)
+            {
+                <div class="col col-2 border text-center">
+                    @(new CultureInfo("en-US").DateTimeFormat.GetMonthName(news.Month)): @news.NewsCount
+                </div>
+            }
+        </div>
+        <br />
+        <div class="row">
+            <div class="col col-2 border text-center">Deleted: @Model.NewsCount.Deleted</div>
+            <div class="col col-2 border text-center">Active: @Model.NewsCount.Active</div>
+            <div class="col col-4 border text-center">Total: @Model.NewsCount.Total</div>
+            <div class="col col-2 border text-center">Today: @Model.NewsCount.Today</div>
+            <div class="col col-2 border text-center">Yesterday: @Model.NewsCount.Yesterday</div>
+        </div>
+        <br />
+        <div class="row">
+            <button class="btn btn-primary col col-12">Manage</button>
+        </div>
+    </div>
+</div>
