@@ -34,8 +34,10 @@
         }
 
         [HttpGet("News/Search")]
-        [HttpGet("News/{category}/{page:int:min(1)?}")]
-        [HttpGet("News/{category}/{subcategory}/{page:int:min(1)?}")]
+        [HttpGet("News/{category}")]
+        [HttpGet("News/{category}/{subcategory}")]
+        [HttpGet("News/{category}/page/{page:int:min(1)}")]
+        [HttpGet("News/{category}/{subcategory}/page/{page:int:min(1)}")]
         public async Task<IActionResult> Search(SearchRequestViewModel request)
         {
             var searchNewsQuery = new SearchNewsQuery()
