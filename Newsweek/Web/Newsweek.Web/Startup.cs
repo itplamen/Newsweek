@@ -53,6 +53,7 @@ namespace Newsweek.Web
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddEntityFrameworkStores<NewsweekDbContext>();
 
+            services.AddResponseCaching();
             services.AddControllersWithViews();
             services.AddRazorPages();
 

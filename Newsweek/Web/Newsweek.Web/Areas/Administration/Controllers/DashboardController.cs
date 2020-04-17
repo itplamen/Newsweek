@@ -21,6 +21,7 @@
         }
 
         [HttpGet]
+        [ResponseCache(Duration = 60 * 5, Location = ResponseCacheLocation.Any, NoStore = false)]
         public async Task<IActionResult> Index()
         {
             DashboardResult dashboardResult = await mediator.Send(new DashboardQuery());
