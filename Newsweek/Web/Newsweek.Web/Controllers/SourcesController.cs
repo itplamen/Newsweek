@@ -9,7 +9,7 @@
     
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Queries.Common;
-    using Newsweek.Web.Models.Sources;
+    using Newsweek.Web.ViewModels.Sources;
     
     public class SourcesController : Controller
     {

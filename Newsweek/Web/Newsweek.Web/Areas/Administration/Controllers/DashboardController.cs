@@ -9,7 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
     
     using Newsweek.Handlers.Queries.Dashboard;
-    using Newsweek.Web.Areas.Administration.Models.Dashboard;
+    using Newsweek.Web.ViewModels.Areas.Administration.Dashboard;
 
     public class DashboardController : AdministrationController
     {

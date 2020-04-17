@@ -13,7 +13,7 @@
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.News.Search;
-    using Newsweek.Web.Models.News;
+    using Newsweek.Web.ViewModels.News;
 
     public class NewsController : Controller
     {

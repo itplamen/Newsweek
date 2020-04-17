@@ -27,11 +27,11 @@ namespace Newsweek.Web
     using Newsweek.Handlers.Queries.Dashboard;
     using Newsweek.Handlers.Queries.News;
     using Newsweek.Handlers.Queries.News.Search;
-    using Newsweek.Web.Models.Comments;
-    using Newsweek.Web.Models.Common;
-    using Newsweek.Web.Models.Menu;
-    using Newsweek.Web.Models.News;
-    using Newsweek.Web.Models.Sources;
+    using Newsweek.Web.ViewModels.Comments;
+    using Newsweek.Web.ViewModels.Common;
+    using Newsweek.Web.ViewModels.Menu;
+    using Newsweek.Web.ViewModels.News;
+    using Newsweek.Web.ViewModels.Sources;
 
     public class Startup
     {

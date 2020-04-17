@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Newsweek.Common.Infrastructure\Newsweek.Common.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Data\Newsweek.Data.Models\Newsweek.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Handlers\Newsweek.Handlers.Commands\Newsweek.Handlers.Commands.csproj" />
+    <ProjectReference Include="..\..\Handlers\Newsweek.Handlers.Queries\Newsweek.Handlers.Queries.csproj" />
+  </ItemGroup>
+
+</Project>

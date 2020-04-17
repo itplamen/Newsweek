@@ -40,12 +40,12 @@
     <ProjectReference Include="..\..\Data\Newsweek.Data.Models\Newsweek.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\Newsweek.Data\Newsweek.Data.csproj" />
     <ProjectReference Include="..\..\Handlers\Newsweek.Handlers.Queries\Newsweek.Handlers.Queries.csproj" />
+    <ProjectReference Include="..\Newsweek.Web.ViewModels\Newsweek.Web.ViewModels.csproj" />
   </ItemGroup>
 
 
   <ItemGroup>
     <Folder Include="Areas\Administration\Controllers\" />
-    <Folder Include="Areas\Administration\Models\" />
     <Folder Include="Areas\Administration\Views\" />
   </ItemGroup>
 

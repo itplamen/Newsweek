@@ -10,7 +10,7 @@
 
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Queries.Common;
-    using Newsweek.Web.Models.Menu;
+    using Newsweek.Web.ViewModels.Menu;
    
     [ViewComponent(Name = "Menu")]
     public class MenuViewComponent : ViewComponent

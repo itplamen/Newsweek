@@ -19,7 +19,7 @@
     using Newsweek.Handlers.Commands.Common.Update;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Web.Attributes;
-    using Newsweek.Web.Models.Comments;
+    using Newsweek.Web.ViewModels.Comments;
 
     [Authorize]
     public class CommentsController : Controller

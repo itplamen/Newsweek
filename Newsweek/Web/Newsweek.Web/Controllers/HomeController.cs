@@ -9,8 +9,8 @@
     using Microsoft.AspNetCore.Mvc;
 
     using Newsweek.Handlers.Queries.News;
-    using Newsweek.Web.Models.Common;
-    using Newsweek.Web.Models.News;
+    using Newsweek.Web.ViewModels.Common;
+    using Newsweek.Web.ViewModels.News;
 
     public class HomeController : Controller
     {
