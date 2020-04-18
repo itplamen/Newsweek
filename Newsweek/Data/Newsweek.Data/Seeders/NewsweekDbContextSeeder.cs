@@ -11,7 +11,8 @@
             IEnumerable<ISeeder> seeders = new List<ISeeder>()
             {
                 new SourcesSeeder(),
-                new CategoriesSeeder()
+                new CategoriesSeeder(),
+                new RolesSeeder()
             };
 
             foreach (var seeder in seeders)
