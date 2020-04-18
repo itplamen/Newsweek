@@ -58,6 +58,7 @@ namespace Newsweek.Web
             services.AddRazorPages();
 
             services.AddResponseCaching();
+            services.AddSession();
 
             services.AddSingleton(configuration);
 
@@ -97,6 +98,8 @@ namespace Newsweek.Web
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

@@ -11,5 +11,7 @@
         public string Tag { get; set; }
 
         public int Page { get; set; }
+
+        public int NewsPerPage { get; set; }
     }
 }

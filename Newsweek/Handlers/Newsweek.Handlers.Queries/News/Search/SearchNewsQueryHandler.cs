@@ -15,8 +15,6 @@
     
     public class SearchNewsQueryHandler : IRequestHandler<SearchNewsQuery, SearchNewsResponse>
     {
-        private const int NEWS_PER_PAGE = 9;
-
         private readonly NewsweekDbContext dbContext;
 
         public SearchNewsQueryHandler(NewsweekDbContext dbContext)
@@ -27,18 +25,18 @@
         public async Task<SearchNewsResponse> Handle(SearchNewsQuery request, CancellationToken cancellationToken)
         {
             (SearchCriteriaResponse search, Expression<Func<DataNews, bool>> expression) criteria = GetSearchCriteria(request);
-            int skip = GetNewsSkipCount(request.Page);
+            int skip = GetNewsSkipCount(request.Page, request.NewsPerPage);
 
             SearchNewsResponse response = new SearchNewsResponse();
             response.Search = criteria.search;
             response.NewsCount = dbContext.Set<DataNews>().Count(criteria.expression);
-            response.PagesCount = (int)Math.Ceiling(response.NewsCount / (decimal)NEWS_PER_PAGE);
-            response.CurrentPage = DetermineCurrentPage(request.Page, response.NewsCount);
+            response.PagesCount = (int)Math.Ceiling(response.NewsCount / (decimal)request.NewsPerPage);
+            response.CurrentPage = DetermineCurrentPage(request.Page, response.NewsCount, request.NewsPerPage);
             response.News = await dbContext.Set<DataNews>()
                 .Where(criteria.expression)
                 .OrderByDescending(x => x.Id)
                 .Skip(skip)
-                .Take(NEWS_PER_PAGE)
+                .Take(request.NewsPerPage)
                 .ToListAsync(cancellationToken);
 
             return response;
@@ -47,9 +45,16 @@
         private (SearchCriteriaResponse, Expression<Func<DataNews, bool>>) GetSearchCriteria(SearchNewsQuery request)
         {
             SearchCriteriaResponse search = new SearchCriteriaResponse();
-            Expression<Func<DataNews, bool>> expression = null; ;
+            Expression<Func<DataNews, bool>> expression = null;
 
-            if (!string.IsNullOrWhiteSpace(request.Tag))
+            if (string.IsNullOrWhiteSpace(request.Tag) &&
+                string.IsNullOrWhiteSpace(request.Category) &&
+                string.IsNullOrWhiteSpace(request.Subcategory))
+            {
+                search.Category = "News Administration";
+                expression = x => true;
+            }
+            else if (!string.IsNullOrWhiteSpace(request.Tag))
             {
                 search.Category = request.Tag;
                 expression = x => !x.IsDeleted && x.Tags.Any(y => y.Tag.Name == request.Tag.ToLower());
@@ -71,19 +76,19 @@
             return (search, expression);
         }
 
-        private int GetNewsSkipCount(int requestPage)
+        private int GetNewsSkipCount(int requestPage, int newsPerPage)
         {
             if (requestPage > 0 )
             {
-                return (requestPage - 1) * NEWS_PER_PAGE;
+                return (requestPage - 1) * newsPerPage;
             }
 
             return 0;
         }
 
-        private int DetermineCurrentPage(int requestPage, int newsCount)
+        private int DetermineCurrentPage(int requestPage, int newsCount, int newsPerPage)
         {
-            if (newsCount > NEWS_PER_PAGE && requestPage == 0)
+            if (newsCount > newsPerPage && requestPage == 0)
             {
                 return 1;
             }

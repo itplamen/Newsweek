@@ -45,7 +45,8 @@
                 Tag = request.Tag,
                 Category = request.Category,
                 Subcategory = request.Subcategory,
-                Page = request.Page
+                Page = request.Page,
+                NewsPerPage = 9
             };
 
             SearchNewsResponse searchNews = await mediator.Send(searchNewsQuery);

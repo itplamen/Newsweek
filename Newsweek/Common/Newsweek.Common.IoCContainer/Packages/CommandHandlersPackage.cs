@@ -22,6 +22,7 @@
             services.AddScoped<IRequestHandler<CreateEntitiesCommand<Comment>, IEnumerable<Comment>>, CreateEntitiesCommandHandler<Comment>>();
             services.AddScoped<IRequestHandler<CreateEntitiesCommand<Subcategory>, IEnumerable<Subcategory>>, CreateEntitiesCommandHandler<Subcategory>>();
             services.AddScoped<IRequestHandler<DeleteEntityCommand<Comment>, bool>, DeleteEntityCommandHandler<Comment>>();
+            services.AddScoped<IRequestHandler<DeleteEntityCommand<News>, bool>, DeleteEntityCommandHandler<News>>();
         }
     }
 }
