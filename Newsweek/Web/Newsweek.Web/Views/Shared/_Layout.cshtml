@@ -22,9 +22,7 @@
                     <form method="get" asp-controller="News" asp-action="Search">
                         <input type="text" placeholder="Search..." class="dropdown-search" name="Tag" />
                     </form>
-                    <cache expires-after="@TimeSpan.FromMinutes(20)">
-                        <vc:menu></vc:menu>
-                    </cache>
+                    <vc:menu></vc:menu>
                 </div>
             </div>
         </nav>

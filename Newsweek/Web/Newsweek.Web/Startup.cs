@@ -51,6 +51,7 @@ namespace Newsweek.Web
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
+                .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<NewsweekDbContext>();
 
             services.AddResponseCaching();

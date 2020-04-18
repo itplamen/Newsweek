@@ -91,3 +91,8 @@ body {
   white-space: nowrap;
   line-height: 60px;
 }
+
+#administration-manage {
+    width: 10px;
+    margin-left: 5px;
+}
