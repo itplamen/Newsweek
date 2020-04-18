@@ -18,7 +18,6 @@
         private const int NEWS_PER_PAGE = 9;
 
         private readonly NewsweekDbContext dbContext;
-        private object searchData;
 
         public SearchNewsQueryHandler(NewsweekDbContext dbContext)
         {

@@ -1,4 +1,4 @@
-﻿namespace Newsweek.Handlers.Queries.News
+﻿namespace Newsweek.Handlers.Queries.News.Top
 {
     using System.Collections.Generic;
 

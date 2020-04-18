@@ -25,8 +25,8 @@ namespace Newsweek.Web
     using Newsweek.Handlers.Commands.Common.Update;
     using Newsweek.Handlers.Queries.Common;
     using Newsweek.Handlers.Queries.Dashboard;
-    using Newsweek.Handlers.Queries.News;
     using Newsweek.Handlers.Queries.News.Search;
+    using Newsweek.Handlers.Queries.News.Top;
     using Newsweek.Web.ViewModels.Comments;
     using Newsweek.Web.ViewModels.Common;
     using Newsweek.Web.ViewModels.Menu;

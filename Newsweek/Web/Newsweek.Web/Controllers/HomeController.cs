@@ -8,7 +8,7 @@
     
     using Microsoft.AspNetCore.Mvc;
 
-    using Newsweek.Handlers.Queries.News;
+    using Newsweek.Handlers.Queries.News.Top;
     using Newsweek.Web.ViewModels.Common;
     using Newsweek.Web.ViewModels.News;
 
