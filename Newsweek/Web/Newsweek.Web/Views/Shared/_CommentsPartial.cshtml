@@ -1,7 +1,7 @@
-﻿@model (int NewsId, CommentsListViewModel CommentsList)
+﻿@model (int newsId, CommentsListViewModel commentsList)
 
 <div id="comments">
-    <h3><span id="comments-count">@Model.CommentsList.TotalCount</span> Comments</h3>
+    <h3><span id="comments-count">@Model.commentsList.TotalCount</span> Comments</h3>
     <hr align="left" />
 
     <div id="addComment">
@@ -24,7 +24,7 @@
                     placeholder = "Sign in to comment...";
                 }
 
-                <input type="hidden" name="NewsId" id="newsIdHidden" value="@Model.NewsId" />
+                <input type="hidden" name="NewsId" id="newsIdHidden" value="@Model.newsId" />
             }
 
             <textarea name="Content" class="form-control" maxlength="@ValidationConstants.COMMENT_MAX_CONTENT_LENGTH" rows="5" @disable placeholder="@placeholder"></textarea>
@@ -33,9 +33,9 @@
     </div>
 
     <div id="existingComments">
-        @if (Model.CommentsList.TotalCount > ValidationConstants.TAKE_COMMENTS)
+        @if (Model.commentsList.TotalCount > ValidationConstants.TAKE_COMMENTS)
         {
-            int id = Model.CommentsList.Comments.Last().Id;
+            int id = Model.commentsList.Comments.Last().Id;
 
             <a href=""
                data-ajax="true"
@@ -44,13 +44,13 @@
                data-ajax-update="#existingComments"
                data-ajax-success="commentsModule.setNextId"
                data-ajax-failure="commentsModule.handleError"
-               data-ajax-url="/Comments/Get?id=@id&newsId=@Model.NewsId"
+               data-ajax-url="/Comments/Get?id=@id&newsId=@Model.newsId"
                id="viewMoreComments"
                class="btn btn-link">View more comments</a>
 
             <input type="hidden" value="@id" id="lastCommentId" />
         }
 
-        <partial name="_CommentsListPartial" model="@Model.CommentsList.Comments" />
+        <partial name="_CommentsListPartial" model="@Model.commentsList.Comments" />
     </div>
 </div>

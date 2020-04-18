@@ -1,0 +1,26 @@
+﻿@model (string text, int page, string className, SearchResponseViewModel searchResponse)
+
+@if (string.IsNullOrWhiteSpace(Model.searchResponse.Search.Category))
+{
+    <li class="page-item @Model.className">
+        <a class="page-link"
+           asp-area="Administration"
+           asp-controller="News"
+           asp-action="Index"
+           asp-route-page="@Model.page">
+            <span aria-hidden="true">@Html.Raw(Model.text)</span>
+        </a>
+    </li>
+}
+else
+{
+    <li class="page-item @Model.className">
+        <a class="page-link"
+           asp-controller="News"
+           asp-route-category="@Model.searchResponse.Search.Category"
+           asp-route-subcategory="@Model.searchResponse.Search.Subcategory"
+           asp-route-page="@Model.page">
+            <span aria-hidden="true">@Html.Raw(Model.text)</span>
+        </a>
+    </li>
+}

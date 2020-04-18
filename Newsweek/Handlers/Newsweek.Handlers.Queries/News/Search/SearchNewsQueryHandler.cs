@@ -51,7 +51,6 @@
                 string.IsNullOrWhiteSpace(request.Category) &&
                 string.IsNullOrWhiteSpace(request.Subcategory))
             {
-                search.Category = "News Administration";
                 expression = x => true;
             }
             else if (!string.IsNullOrWhiteSpace(request.Tag))
