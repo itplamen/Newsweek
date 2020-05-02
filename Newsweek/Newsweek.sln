@@ -33,7 +33,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Common.IoCContaine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Common", "Common\Newsweek.Common\Newsweek.Common.csproj", "{2188875E-527F-4410-8ED9-8401F0C90AD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsweek.Web.ViewModels", "Web\Newsweek.Web.ViewModels\Newsweek.Web.ViewModels.csproj", "{292E994D-6592-4787-A1C2-88DC04AA918F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Web.ViewModels", "Web\Newsweek.Web.ViewModels\Newsweek.Web.ViewModels.csproj", "{292E994D-6592-4787-A1C2-88DC04AA918F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E093DBA0-0170-4B2F-BF1A-2F867BBDE7D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Handlers", "Handlers", "{80AE8FAE-87BC-4271-BA52-CFB1EA945E20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsweek.Handlers.Queries.Tests", "Tests\Handlers\Newsweek.Handlers.Queries.Tests\Newsweek.Handlers.Queries.Tests.csproj", "{D973F111-CFED-420A-A6C4-D404C0E5EE9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +91,10 @@ Global
 		{292E994D-6592-4787-A1C2-88DC04AA918F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{292E994D-6592-4787-A1C2-88DC04AA918F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{292E994D-6592-4787-A1C2-88DC04AA918F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D973F111-CFED-420A-A6C4-D404C0E5EE9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D973F111-CFED-420A-A6C4-D404C0E5EE9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D973F111-CFED-420A-A6C4-D404C0E5EE9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D973F111-CFED-420A-A6C4-D404C0E5EE9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +111,8 @@ Global
 		{46145FCA-774D-465B-9ECC-96BD929E7489} = {2CDC587A-52FF-472D-BE93-23B532D7D027}
 		{2188875E-527F-4410-8ED9-8401F0C90AD5} = {2CDC587A-52FF-472D-BE93-23B532D7D027}
 		{292E994D-6592-4787-A1C2-88DC04AA918F} = {9F692309-8859-42A3-A88A-5FC0A14DA71C}
+		{80AE8FAE-87BC-4271-BA52-CFB1EA945E20} = {E093DBA0-0170-4B2F-BF1A-2F867BBDE7D4}
+		{D973F111-CFED-420A-A6C4-D404C0E5EE9C} = {80AE8FAE-87BC-4271-BA52-CFB1EA945E20}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B736D035-665E-4F9C-9C04-AEC89AAB9AF6}
