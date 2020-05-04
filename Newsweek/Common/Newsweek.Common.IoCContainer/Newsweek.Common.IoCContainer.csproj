@@ -5,13 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="0.13.0" />
     <PackageReference Include="MediatR" Version="8.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Handlers\Newsweek.Handlers.Commands\Newsweek.Handlers.Commands.csproj" />
     <ProjectReference Include="..\..\Handlers\Newsweek.Handlers.Queries\Newsweek.Handlers.Queries.csproj" />
+    <ProjectReference Include="..\..\Web\Newsweek.Web.ViewModels\Newsweek.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\..\Worker\Newsweek.Worker.Core\Newsweek.Worker.Core.csproj" />
   </ItemGroup>
 
 </Project>

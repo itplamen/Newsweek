@@ -1,43 +1,21 @@
 namespace Newsweek.Web
 {
-    using System.Collections.Generic;
-    using System.Reflection;
-
-    using MediatR;
-    
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Logging;
 
     using SendGrid;
 
-    using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Common.IoCContainer;
-    using Newsweek.Common.Infrastructure.Logging;
-
     using Newsweek.Data;
     using Newsweek.Data.Models;
     using Newsweek.Data.Seeders;
-    using Newsweek.Handlers.Commands.Common.Update;
-    using Newsweek.Handlers.Queries.Common;
-    using Newsweek.Handlers.Queries.Dashboard;
-    using Newsweek.Handlers.Queries.News.Search;
-    using Newsweek.Handlers.Queries.News.Top;
-    using Newsweek.Web.ViewModels.Comments;
-    using Newsweek.Web.ViewModels.Common;
-    using Newsweek.Web.ViewModels.Menu;
-    using Newsweek.Web.ViewModels.News;
-    using Newsweek.Web.ViewModels.Sources;
 
     public class Startup
     {
-        private const string QUERIES_ASSEMBLY = "Newsweek.Handlers.Queries";
-        private const string COMMANDS_ASSEMBLY = "Newsweek.Handlers.Commands";
-
         private readonly IConfiguration configuration;
 
         public Startup(IConfiguration configuration)
@@ -62,21 +40,8 @@ namespace Newsweek.Web
             services.AddSession();
 
             services.AddSingleton(configuration);
-
-            services.AddServices();
-            services.AddMediatR(Assembly.Load(QUERIES_ASSEMBLY), Assembly.Load(COMMANDS_ASSEMBLY));
-
             services.AddScoped<ISendGridClient>(x => new SendGridClient(configuration["SendGrid:ApiKey"]));
-            services.AddScoped<IRequestHandler<DashboardQuery, DashboardResult>, DashboardQueryHandler>();
-            services.AddScoped<IRequestHandler<TopNewsQuery<NewsViewModel>, IEnumerable<NewsViewModel>>, TopNewsQueryHandler<NewsViewModel>>();
-            services.AddScoped<IRequestHandler<GetEntitiesQuery<News, NewsBaseViewModel>, IEnumerable<NewsBaseViewModel>>, GetEntitiesQueryHandler<News, NewsBaseViewModel>>();
-            services.AddScoped<IRequestHandler<GetEntitiesQuery<News, NewsViewModel>, IEnumerable<NewsViewModel>>, GetEntitiesQueryHandler<News, NewsViewModel>>();
-            services.AddScoped<IRequestHandler<GetEntitiesQuery<Comment, GetCommentViewModel>, IEnumerable<GetCommentViewModel>>, GetEntitiesQueryHandler<Comment, GetCommentViewModel>>();
-            services.AddScoped<IRequestHandler<GetEntitiesQuery<Category, MenuViewModel>, IEnumerable<MenuViewModel>>, GetEntitiesQueryHandler<Category, MenuViewModel>>();
-            services.AddScoped<IRequestHandler<GetEntitiesQuery<Source, SourceFullViewModel>, IEnumerable<SourceFullViewModel>>, GetEntitiesQueryHandler<Source, SourceFullViewModel>>();
-            services.AddScoped<IRequestHandler<UpdateEntityCommand<Comment, UpdateCommentViewModel>, bool>, UpdateEntityCommandHandler<Comment, UpdateCommentViewModel>>();
-            services.AddScoped<IRequestHandler<SearchNewsQuery, SearchNewsResponse>, SearchNewsQueryHandler>();
-            services.AddSingleton<ILoggerProvider, FileLoggerProvider>();
+            services.AddWebServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -121,8 +86,6 @@ namespace Newsweek.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly, Assembly.Load(COMMANDS_ASSEMBLY));
         }
     }
 }
