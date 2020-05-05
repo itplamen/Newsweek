@@ -2,6 +2,7 @@
 {
     using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Web.ViewModels.Common;
+    using Newsweek.Web.ViewModels.Subcategories;
 
     public class NewsBaseViewModel : BaseViewModel, IMapFrom<Data.Models.News>
     {
@@ -10,5 +11,7 @@
         public string Description { get; set; }
 
         public string MainImageUrl { get; set; }
+
+        public SubcategoryViewModel Subcategory { get; set; }
     }
 }

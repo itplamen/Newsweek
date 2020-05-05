@@ -5,7 +5,6 @@
     using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Web.ViewModels.Comments;
     using Newsweek.Web.ViewModels.Sources;
-    using Newsweek.Web.ViewModels.Subcategories;
 
     public class NewsViewModel : NewsBaseViewModel, IHaveCustomMappings
     {
@@ -14,8 +13,6 @@
         public string RemoteUrl { get; set; }
 
         public SourceViewModel Source { get; set; }
-
-        public SubcategoryViewModel Subcategory { get; set; }
 
         public CommentsListViewModel CommentsList { get; set; }
 

@@ -24,7 +24,7 @@
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<NewsViewModel> topNews = await mediator.Send(new TopNewsQuery<NewsViewModel>(3));
+            IEnumerable<NewsBaseViewModel> topNews = await mediator.Send(new TopNewsQuery<NewsBaseViewModel>(3));
 
             return View(topNews);
         }
