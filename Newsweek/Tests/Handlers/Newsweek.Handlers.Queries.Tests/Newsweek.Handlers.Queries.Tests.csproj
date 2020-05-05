@@ -13,4 +13,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Handlers\Newsweek.Handlers.Queries\Newsweek.Handlers.Queries.csproj" />
+    <ProjectReference Include="..\..\..\Web\Newsweek.Web.ViewModels\Newsweek.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\..\Common\Newsweek.Tests.Common\Newsweek.Tests.Common.csproj" />
+  </ItemGroup>
+
 </Project>
