@@ -56,7 +56,7 @@
             else if (!string.IsNullOrWhiteSpace(request.Tag))
             {
                 search.Category = request.Tag;
-                expression = x => !x.IsDeleted && x.Tags.Any(y => y.Tag.Name == request.Tag.ToLower());
+                expression = x => !x.IsDeleted && x.Tags.Any(y => y.Tag.Name.ToLower() == request.Tag.ToLower());
             }
             else
             {

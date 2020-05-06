@@ -23,6 +23,8 @@
             dbContext.Subcategories.AddRange(GetSubcategories());
             dbContext.News.AddRange(GetNews());
             dbContext.Comments.AddRange(GetComments());
+            dbContext.Tags.AddRange(GetTags());
+            dbContext.NewsTags.AddRange(GetNewsTags());
 
             dbContext.SaveChanges();
 
@@ -66,7 +68,7 @@
                 var category = new Category()
                 {
                     CreatedOn = DateTime.UtcNow,
-                    Name = Guid.NewGuid().ToString()
+                    Name = $"Test {i}"
                 };
 
                 categoriesList.Add(category);
@@ -92,7 +94,7 @@
                 {
                     CreatedOn = DateTime.UtcNow,
                     CategoryId = categoryId,
-                    Name = Guid.NewGuid().ToString(),
+                    Name = $"Test {i}"
                 };
 
                 subcategoriesList.Add(subcategory);
@@ -149,6 +151,43 @@
             }
 
             return commentsList;
+        }
+
+        private static IEnumerable<Tag> GetTags()
+        {
+            var tagsList = new List<Tag>();
+
+            for (int i = 1; i <= 20; i++)
+            {
+                var tag = new Tag()
+                {
+                    CreatedOn = DateTime.UtcNow,
+                    Name = $"Test {i}"
+                };
+
+                tagsList.Add(tag);
+            }
+
+            return tagsList;
+        }
+
+        private static IEnumerable<NewsTag> GetNewsTags()
+        {
+            var newsTagsList = new List<NewsTag>();
+
+            for (int i = 1; i <= 20; i++)
+            {
+                var newsTag = new NewsTag()
+                {
+                    CreatedOn = DateTime.UtcNow,
+                    NewsId = i,
+                    TagId = i
+                };
+
+                newsTagsList.Add(newsTag);
+            }
+
+            return newsTagsList;
         }
     }
 }
