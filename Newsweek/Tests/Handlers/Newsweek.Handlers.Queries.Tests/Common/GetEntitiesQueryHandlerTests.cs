@@ -60,12 +60,15 @@
             Assert.True(news.SequenceEqual(expectedNews));
         }
 
-        [Fact]
-        public async Task GetEntitiesQueryShouldReturnSevenNews()
+        [Theory]
+        [InlineData(7)]
+        [InlineData(1)]
+        [InlineData(13)]
+        public async Task GetEntitiesQueryShouldReturnNewsSpecifiedByParameter(int take)
         {
             var newsQuery = new GetEntitiesQuery<News>()
             {
-                Take = 7
+                Take = take
             };
 
             var news = await newsQueryHandler.Handle(newsQuery, CancellationToken.None);
