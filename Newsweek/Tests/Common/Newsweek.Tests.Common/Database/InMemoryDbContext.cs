@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+
     using Microsoft.EntityFrameworkCore;
 
     using Newsweek.Data;
@@ -59,34 +59,55 @@
 
         private static IEnumerable<Category> GetCategories()
         {
-            return new List<Category>()
+            var categoriesList = new List<Category>();
+
+            for (int i = 1; i <= 4; i++)
             {
-                new Category()
+                var category = new Category()
                 {
                     CreatedOn = DateTime.UtcNow,
                     Name = Guid.NewGuid().ToString()
-                }
-            };
+                };
+
+                categoriesList.Add(category);
+            }
+
+            return categoriesList;
         }
 
         private static IEnumerable<Subcategory> GetSubcategories()
         {
-            return new List<Subcategory>()
+            var subcategoriesList = new List<Subcategory>();
+
+            for (int i = 1; i <= 20; i++)
             {
-                new Subcategory()
+                int categoryId = i % 5;
+
+                if (categoryId == 0)
+                {
+                    categoryId = 1;
+                }
+
+                var subcategory = new Subcategory()
                 {
                     CreatedOn = DateTime.UtcNow,
-                    CategoryId = 1,
+                    CategoryId = categoryId,
                     Name = Guid.NewGuid().ToString(),
-                }
-            };
+                };
+
+                subcategoriesList.Add(subcategory);
+            }
+
+            return subcategoriesList;
         } 
 
         private static IEnumerable<News> GetNews()
         {
-            return new List<News>()
+            var newsList = new List<News>();
+
+            for (int i = 1; i <= 20; i++)
             {
-                new News()
+                var news = new News()
                 {
                     CreatedOn = DateTime.UtcNow,
                     Title = Guid.NewGuid().ToString(),
@@ -95,22 +116,39 @@
                     MainImageUrl = Guid.NewGuid().ToString(),
                     RemoteUrl = Guid.NewGuid().ToString(),
                     SourceId = 1,
-                    SubcategoryId = 1
-                }
-            };
+                    SubcategoryId = i
+                };
+
+                newsList.Add(news);
+            }
+
+            return newsList;
         }
 
         private static IEnumerable<Comment> GetComments()
         {
-            return new List<Comment>()
+            var commentsList = new List<Comment>();
+
+            for (int i = 1; i <= 100; i++)
             {
-                new Comment()
+                int newsId = i % 20;
+
+                if (newsId == 0)
+                {
+                    newsId = 1;
+                }
+
+                var comment = new Comment()
                 {
                     CreatedOn = DateTime.UtcNow,
                     Content = Guid.NewGuid().ToString(),
-                    NewsId = 1
-                }
-            };
+                    NewsId = newsId
+                };
+
+                commentsList.Add(comment);
+            }
+
+            return commentsList;
         }
     }
 }

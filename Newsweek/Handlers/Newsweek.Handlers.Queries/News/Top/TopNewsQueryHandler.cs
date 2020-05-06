@@ -9,6 +9,7 @@
     
     using Microsoft.EntityFrameworkCore;
 
+    using Newsweek.Common.Constants;
     using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Data;
     using Newsweek.Data.Models;
@@ -29,7 +30,7 @@
                 .SelectMany(x => x.Subcategories
                     .SelectMany(y => y.News)
                     .OrderByDescending(y => y.Id)
-                    .Take(request.Take))
+                    .Take(PublicConstants.TAKE_NEWS_PER_CATEGORY))
                 .To<TViewModel>()
                 .ToListAsync(cancellationToken);
 

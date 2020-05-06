@@ -33,7 +33,7 @@
     </div>
 
     <div id="existingComments">
-        @if (Model.commentsList.TotalCount > ValidationConstants.TAKE_COMMENTS)
+        @if (Model.commentsList.TotalCount > PublicConstants.TAKE_COMMENTS)
         {
             int id = Model.commentsList.Comments.Last().Id;
 

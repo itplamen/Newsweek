@@ -7,6 +7,7 @@
     
     using Xunit;
 
+    using Newsweek.Common.Constants;
     using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Data;
     using Newsweek.Handlers.Queries.News.Top;
@@ -17,12 +18,12 @@
     public class TopNewsQueryHandlerTests
     {
         private readonly NewsweekDbContext dbContext;
-        private readonly TopNewsQueryHandler<NewsBaseViewModel> newsQuery;
+        private readonly TopNewsQueryHandler<NewsBaseViewModel> newsQueryHandler;
 
         public TopNewsQueryHandlerTests()
         {
             dbContext = InMemoryDbContext.Initialize();
-            newsQuery = new TopNewsQueryHandler<NewsBaseViewModel>(dbContext);
+            newsQueryHandler = new TopNewsQueryHandler<NewsBaseViewModel>(dbContext);
 
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
         }
@@ -32,10 +33,11 @@
         {
             using (dbContext)
             {
-                var query = new TopNewsQuery<NewsBaseViewModel>(1);
-                var topNews = await newsQuery.Handle(query, CancellationToken.None);
+                var query = new TopNewsQuery<NewsBaseViewModel>();
+                var topNews = await newsQueryHandler.Handle(query, CancellationToken.None);
+                var expectedCount = dbContext.Categories.Count() * PublicConstants.TAKE_NEWS_PER_CATEGORY;
 
-                Assert.Equal(query.Take, topNews.Count());
+                Assert.Equal(expectedCount, topNews.Count());
                 Assert.True(topNews.All(x => !string.IsNullOrWhiteSpace(x.Title)));
                 Assert.True(topNews.All(x => !string.IsNullOrWhiteSpace(x.Description)));
                 Assert.True(topNews.All(x => x.Subcategory != null));

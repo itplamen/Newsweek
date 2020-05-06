@@ -7,11 +7,5 @@
     public class TopNewsQuery<TViewModel> : IRequest<IEnumerable<TViewModel>>
         where TViewModel : class
     {
-        public TopNewsQuery(int take)
-        {
-            Take = take;
-        }
-
-        public int Take { get; set; }
     }
 }
