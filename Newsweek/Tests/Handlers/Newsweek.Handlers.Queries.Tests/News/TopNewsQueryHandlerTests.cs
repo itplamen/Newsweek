@@ -1,4 +1,4 @@
-﻿namespace Newsweek.Handlers.Queries.Tests.News.Top
+﻿namespace Newsweek.Handlers.Queries.Tests.News
 {
     using System.Linq;
     using System.Threading;

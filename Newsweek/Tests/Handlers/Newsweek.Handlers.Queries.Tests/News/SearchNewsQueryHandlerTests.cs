@@ -1,4 +1,4 @@
-﻿namespace Newsweek.Handlers.Queries.Tests.News.Search
+﻿namespace Newsweek.Handlers.Queries.Tests.News
 {
     using System;
     using System.Linq;
