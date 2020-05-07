@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -10,13 +9,12 @@
 
     using Xunit;
 
-    using Newsweek.Common.Constants;
-    using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Data;
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Common.Create;
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Tests.Common.Database;
+    using Newsweek.Tests.Common.Mapping;
 
     public class CreateEntitiesCommandHandlerTests
     {
@@ -28,7 +26,7 @@
             dbContext = InMemoryDbContext.Initialize();
             newsQueryHandler = new CreateEntitiesCommandHandler<News>(dbContext);
 
-            AutoMapperConfig.RegisterMappings(Assembly.Load(PublicConstants.COMMANDS_ASSEMBLY));
+            MappingConfig.Initialize();
         }
 
         [Fact]

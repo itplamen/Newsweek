@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Data\Newsweek.Data\Newsweek.Data.csproj" />
+    <ProjectReference Include="..\..\..\Web\Newsweek.Web.ViewModels\Newsweek.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

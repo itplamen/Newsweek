@@ -2,17 +2,15 @@
 {
     using System.Linq;
     using System.Threading;
-    using System.Reflection;
     using System.Threading.Tasks;
     
     using Xunit;
 
     using Newsweek.Common.Constants;
-    using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Data;
     using Newsweek.Handlers.Queries.News.Top;
     using Newsweek.Tests.Common.Database;   
-    using Newsweek.Web.ViewModels.Common;
+    using Newsweek.Tests.Common.Mapping;
     using Newsweek.Web.ViewModels.News;
 
     public class TopNewsQueryHandlerTests
@@ -25,7 +23,7 @@
             dbContext = InMemoryDbContext.Initialize();
             newsQueryHandler = new TopNewsQueryHandler<NewsBaseViewModel>(dbContext);
 
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            MappingConfig.Initialize();
         }
 
         [Fact]
