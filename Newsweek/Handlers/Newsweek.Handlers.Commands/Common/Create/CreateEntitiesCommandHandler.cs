@@ -25,7 +25,7 @@
 
         public async Task<IEnumerable<TEntity>> Handle(CreateEntitiesCommand<TEntity> request, CancellationToken cancellationToken)
         {
-            if (request.Entities.Any())
+            if (request.Entities != null && request.Entities.Any())
             {
                 IEnumerable<TEntity> entities = Mapper.Map<IEnumerable<TEntity>>(request.Entities);
 
