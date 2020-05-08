@@ -11,7 +11,7 @@
     using Microsoft.EntityFrameworkCore;
     
     using Newsweek.Data;
-    using DataNews = Data.Models.News;
+    using Newsweek.Data.Models;
 
     public class DashboardQueryHandler : IRequestHandler<DashboardQuery, DashboardResult>
     {
@@ -34,18 +34,18 @@
         private NewsCountResult GetNewsCount()
         {
             var newsCount = new NewsCountResult();
-            newsCount.Total = dbContext.Set<DataNews>().Count();
-            newsCount.Deleted = dbContext.Set<DataNews>().Count(x => x.IsDeleted);
-            newsCount.Active = dbContext.Set<DataNews>().Count(x => !x.IsDeleted);
-            newsCount.Today = dbContext.Set<DataNews>().Count(x => x.CreatedOn == DateTime.Today);
-            newsCount.Yesterday = dbContext.Set<DataNews>().Count(x => x.CreatedOn == DateTime.Today.AddDays(-1));
+            newsCount.Total = dbContext.Set<News>().Count();
+            newsCount.Deleted = dbContext.Set<News>().Count(x => x.IsDeleted);
+            newsCount.Active = dbContext.Set<News>().Count(x => !x.IsDeleted);
+            newsCount.Today = dbContext.Set<News>().Count(x => x.CreatedOn == DateTime.Today);
+            newsCount.Yesterday = dbContext.Set<News>().Count(x => x.CreatedOn == DateTime.Today.AddDays(-1));
 
             return newsCount;
         }
 
         private async Task<IEnumerable<NewsByMonthCountResult>> GetNewsByMonthCount(CancellationToken cancellationToken)
         {
-            return await dbContext.Set<DataNews>()
+            return await dbContext.Set<News>()
                 .GroupBy(x => x.CreatedOn.Month)
                 .Select(x => new NewsByMonthCountResult()
                 {

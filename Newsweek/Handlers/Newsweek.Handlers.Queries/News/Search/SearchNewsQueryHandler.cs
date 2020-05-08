@@ -11,7 +11,7 @@
     using Microsoft.EntityFrameworkCore;
 
     using Newsweek.Data;
-    using DataNews = Data.Models.News;
+    using Newsweek.Data.Models;
     
     public class SearchNewsQueryHandler : IRequestHandler<SearchNewsQuery, SearchNewsResponse>
     {
@@ -24,15 +24,15 @@
 
         public async Task<SearchNewsResponse> Handle(SearchNewsQuery request, CancellationToken cancellationToken)
         {
-            (SearchCriteriaResponse search, Expression<Func<DataNews, bool>> expression) criteria = GetSearchCriteria(request);
+            (SearchCriteriaResponse search, Expression<Func<News, bool>> expression) criteria = GetSearchCriteria(request);
             int skip = GetNewsSkipCount(request.Page, request.NewsPerPage);
 
             SearchNewsResponse response = new SearchNewsResponse();
             response.Search = criteria.search;
-            response.NewsCount = dbContext.Set<DataNews>().Count(criteria.expression);
+            response.NewsCount = dbContext.Set<News>().Count(criteria.expression);
             response.PagesCount = (int)Math.Ceiling(response.NewsCount / (decimal)request.NewsPerPage);
             response.CurrentPage = DetermineCurrentPage(request.Page, response.NewsCount, request.NewsPerPage);
-            response.News = await dbContext.Set<DataNews>()
+            response.News = await dbContext.Set<News>()
                 .Where(criteria.expression)
                 .OrderByDescending(x => x.Id)
                 .Skip(skip)
@@ -42,10 +42,10 @@
             return response;
         }
 
-        private (SearchCriteriaResponse, Expression<Func<DataNews, bool>>) GetSearchCriteria(SearchNewsQuery request)
+        private (SearchCriteriaResponse, Expression<Func<News, bool>>) GetSearchCriteria(SearchNewsQuery request)
         {
             SearchCriteriaResponse search = new SearchCriteriaResponse();
-            Expression<Func<DataNews, bool>> expression = null;
+            Expression<Func<News, bool>> expression = null;
 
             if (string.IsNullOrWhiteSpace(request.Tag) &&
                 string.IsNullOrWhiteSpace(request.Category) &&

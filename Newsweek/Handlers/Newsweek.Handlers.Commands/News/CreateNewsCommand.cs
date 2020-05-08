@@ -4,7 +4,9 @@
 
     using MediatR;
 
-    public class CreateNewsCommand : IRequest<IEnumerable<Data.Models.News>>
+    using Newsweek.Data.Models;
+
+    public class CreateNewsCommand : IRequest<IEnumerable<News>>
     {
         public CreateNewsCommand(IEnumerable<NewsCommand> news)
         {

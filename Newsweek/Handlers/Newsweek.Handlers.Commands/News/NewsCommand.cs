@@ -7,11 +7,11 @@
     using MediatR;
 
     using Newsweek.Common.Infrastructure.Mapping;
+    using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Subcategories;
     using Newsweek.Handlers.Commands.Tags;
-    using NewsData = Data.Models.News;
 
-    public class NewsCommand : IRequest, IMapTo<NewsData>, IHaveCustomMappings
+    public class NewsCommand : IRequest, IMapTo<News>, IHaveCustomMappings
     {
         public string Title { get; set; }
 
@@ -33,7 +33,7 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<NewsCommand, NewsData>()
+            configuration.CreateMap<NewsCommand, News>()
                 .ForMember(x => x.Title, opt => opt.MapFrom(x => x.Title))
                 .ForMember(x => x.Description, opt => opt.MapFrom(x => x.Description))
                 .ForMember(x => x.RemoteUrl, opt => opt.MapFrom(x => x.RemoteUrl))

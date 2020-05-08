@@ -3,6 +3,7 @@
     using AutoMapper;
     
     using Newsweek.Common.Infrastructure.Mapping;
+    using Newsweek.Data.Models;
     using Newsweek.Web.ViewModels.Comments;
     using Newsweek.Web.ViewModels.Sources;
 
@@ -18,7 +19,7 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Data.Models.News, NewsViewModel>()
+            configuration.CreateMap<News, NewsViewModel>()
                 .ForMember(x => x.CommentsList, opt => opt.MapFrom(x => x.Comments));
         }
     }
