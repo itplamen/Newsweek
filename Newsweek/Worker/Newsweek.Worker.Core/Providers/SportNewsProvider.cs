@@ -38,7 +38,18 @@
 
         protected override string GetContent(IDocument document)
         {
-            return document.QuerySelector("div.article__content")?.InnerHtml;
+            IElement content = document.QuerySelector("div.article__content");
+            var elementsToRemove = content?.QuerySelectorAll("figure.article__media:first-of-type, div.article__credit, div.article__gallery-count.theme__background-color-rgba-80, figcaption.article__media-caption");
+
+            if (elementsToRemove != null)
+            {
+                foreach (var elementToRemove in elementsToRemove)
+                {
+                    elementToRemove.Remove();
+                }
+            }
+
+            return content?.InnerHtml;
         }
 
         protected override string GetMainImageUrl(IDocument document)

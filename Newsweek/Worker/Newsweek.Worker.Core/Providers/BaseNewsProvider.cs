@@ -115,11 +115,11 @@
             {
                 string title = GetTitle(document);
                 string description = GetDescription(document);
+                string mainImageUrl = GetMainImageUrl(document);
                 string content = GetContent(document);
  
                 if (IsArticleValid(title, description, content))
                 {
-                    string mainImageUrl = GetMainImageUrl(document);
                     string subcategory = GetSubcategory(document);
                     var subcategoryCommand = new SubcategoryCommand(subcategory, categoryId);
                     IEnumerable<TagCommand> tags = GetTags(document).Select(x => new TagCommand(x));
