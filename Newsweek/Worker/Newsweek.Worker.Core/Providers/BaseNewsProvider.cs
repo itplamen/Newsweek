@@ -63,6 +63,21 @@
 
         protected abstract string GetSubcategory(IDocument document);
 
+        protected IElement RemoveSelectorsFromElement(IElement element, string selectors)
+        {
+            IHtmlCollection<IElement> elementsToRemove = element?.QuerySelectorAll(selectors);
+
+            if (elementsToRemove != null)
+            {
+                foreach (var elementToRemove in elementsToRemove)
+                {
+                    elementToRemove.Remove();
+                }
+            }
+
+            return element;
+        }
+
         protected virtual IEnumerable<string> GetTags(IDocument document)
         {
             string metaTag = document.QuerySelector("meta[name=news_keywords]")?.OuterHtml;

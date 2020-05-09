@@ -43,15 +43,7 @@
         protected override string GetContent(IDocument document)
         {
             IElement content = document.QuerySelector("div.c-article-content.js-article-content");
-            var elementsToRemove = content?.QuerySelectorAll("div#adzone-outstream, div.c-advertising-sticky-floor");
-
-            if (elementsToRemove != null)
-            {
-                foreach (var elementToRemove in elementsToRemove)
-                {
-                    elementToRemove.Remove();
-                }
-            }
+            content = RemoveSelectorsFromElement(content, "div#adzone-outstream, div.c-advertising-sticky-floor");
 
             return content?.InnerHtml;
         }
