@@ -1,4 +1,8 @@
-﻿.card-text {
+﻿.widgetImage__image {
+    width: 100%;
+}
+
+.card-text {
     margin-bottom: 10px;
 }
 
@@ -93,5 +97,4 @@
 
 #existingComments .card {
     margin-top: 10px;
-    
 }

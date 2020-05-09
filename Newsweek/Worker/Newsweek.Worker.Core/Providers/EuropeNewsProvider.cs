@@ -42,12 +42,23 @@
 
         protected override string GetContent(IDocument document)
         {
-            return document.QuerySelector("div.c-article-content.js-article-content")?.InnerHtml;
+            IElement content = document.QuerySelector("div.c-article-content.js-article-content");
+            var elementsToRemove = content?.QuerySelectorAll("div#adzone-outstream, div.c-advertising-sticky-floor");
+
+            if (elementsToRemove != null)
+            {
+                foreach (var elementToRemove in elementsToRemove)
+                {
+                    elementToRemove.Remove();
+                }
+            }
+
+            return content?.InnerHtml;
         }
 
         protected override string GetMainImageUrl(IDocument document)
         {
-            IElement element = document.QuerySelector("img.media__img__obj");
+            IElement element = document.QuerySelector("img.media__img__obj, img.c-article-media__img");
             string url = element?.Attributes["src"]?.Value;
 
             if (string.IsNullOrEmpty(url))
