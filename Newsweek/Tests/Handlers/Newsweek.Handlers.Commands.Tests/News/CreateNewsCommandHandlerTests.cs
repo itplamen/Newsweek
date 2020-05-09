@@ -25,6 +25,15 @@
         }
 
         [Fact]
+        public async Task CreateNewsShouldNotReturnAnyNewsWhenRequestIsEmpty()
+        {
+            var request = new CreateNewsCommand(Enumerable.Empty<NewsCommand>());
+            var createdNews = await newsCommandHandler.Handle(request, CancellationToken.None);
+
+            Assert.False(createdNews.Any());
+        }
+
+        [Fact]
         public async Task CreateNewsShouldNotReturnAnyNewsWhenTryingToCreateEntityWithExistingRemoteUrl()
         {
             var newsCommands = new List<NewsCommand>()
