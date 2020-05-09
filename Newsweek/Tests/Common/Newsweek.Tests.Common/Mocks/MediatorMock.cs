@@ -23,14 +23,26 @@
 
             var existingNews = new News()
             {
-                RemoteUrl = TestConstants.EXISTING_NEWS_REMOTE_URL
+                RemoteUrl = TestConstants.EXISTING_PROPERTY_FOR_ENTITY
             };
 
             var newlyCreatedNews = new News()
             {
                 Id = int.MaxValue,
                 CreatedOn = DateTime.UtcNow,
-                RemoteUrl = TestConstants.VALID_NEWS_REMOTE_URL
+                RemoteUrl = TestConstants.VALID_PROPERTY_FOR_ENTITY
+            };
+
+            var existingSubcategory = new Subcategory()
+            {
+                Name = TestConstants.EXISTING_PROPERTY_FOR_ENTITY
+            };
+
+            var newslyCreatedSubcategory = new Subcategory()
+            {
+                Id = int.MaxValue,
+                CreatedOn = DateTime.UtcNow,
+                Name = TestConstants.VALID_PROPERTY_FOR_ENTITY
             };
 
             mediator.Setup(x => x.Send(
@@ -52,6 +64,26 @@
                     It.Is<CreateEntitiesCommand<News>>(y => y.Entities.Any()),
                     It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult<IEnumerable<News>>(new List<News>() { newlyCreatedNews }));
+
+            mediator.Setup(x => x.Send(
+                  It.Is<GetEntitiesQuery<Subcategory>>(y => y.Predicate.Compile() (existingSubcategory)),
+                  It.IsAny<CancellationToken>()))
+              .Returns(Task.FromResult<IEnumerable<Subcategory>>(new List<Subcategory>() { existingSubcategory }));
+
+            mediator.Setup(x => x.Send(
+                   It.Is<CreateEntitiesCommand<Subcategory>>(y => !y.Entities.Any()),
+                   It.IsAny<CancellationToken>()))
+               .Returns(Task.FromResult(Enumerable.Empty<Subcategory>()));
+
+            mediator.Setup(x => x.Send(
+                  It.Is<GetEntitiesQuery<Subcategory>>(y => y.Predicate.Compile() (newslyCreatedSubcategory)),
+                  It.IsAny<CancellationToken>()))
+              .Returns(Task.FromResult(Enumerable.Empty<Subcategory>()));
+
+            mediator.Setup(x => x.Send(
+                   It.Is<CreateEntitiesCommand<Subcategory>>(y => y.Entities.Any()),
+                   It.IsAny<CancellationToken>()))
+               .Returns(Task.FromResult<IEnumerable<Subcategory>>(new List<Subcategory>() { newslyCreatedSubcategory }));
 
             return mediator.Object;
         }

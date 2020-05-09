@@ -40,7 +40,7 @@
             {
                 new NewsCommand()
                 {
-                    RemoteUrl = TestConstants.EXISTING_NEWS_REMOTE_URL
+                    RemoteUrl = TestConstants.EXISTING_PROPERTY_FOR_ENTITY
                 }
             };
 
@@ -57,7 +57,7 @@
             {
                 new NewsCommand()
                 {
-                    RemoteUrl = TestConstants.VALID_NEWS_REMOTE_URL
+                    RemoteUrl = TestConstants.VALID_PROPERTY_FOR_ENTITY
                 }
             };
 
