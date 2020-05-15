@@ -6,10 +6,8 @@
     using MediatR;
 
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
 
     using Newsweek.Common.Constants;
-    using Newsweek.Common.Infrastructure.Logging;
     using Newsweek.Common.Infrastructure.Mapping;
     using Newsweek.Data.Models;
     using Newsweek.Handlers.Commands.Common.Update;
@@ -36,7 +34,6 @@
             services.AddScoped<IRequestHandler<GetEntitiesQuery<Source, SourceFullViewModel>, IEnumerable<SourceFullViewModel>>, GetEntitiesQueryHandler<Source, SourceFullViewModel>>();
             services.AddScoped<IRequestHandler<UpdateEntityCommand<Comment, UpdateCommentViewModel>, bool>, UpdateEntityCommandHandler<Comment, UpdateCommentViewModel>>();
             services.AddScoped<IRequestHandler<SearchNewsQuery, SearchNewsResponse>, SearchNewsQueryHandler>();
-            services.AddSingleton<ILoggerProvider, FileLoggerProvider>();
 
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly, Assembly.Load(PublicConstants.COMMANDS_ASSEMBLY));
             services.AddMediatR(Assembly.Load(PublicConstants.QUERIES_ASSEMBLY), Assembly.Load(PublicConstants.COMMANDS_ASSEMBLY));
