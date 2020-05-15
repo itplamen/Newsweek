@@ -30,6 +30,8 @@
 
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<LogMessage> LogMessages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder) =>
             builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
     }
