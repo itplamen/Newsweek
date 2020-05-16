@@ -1,6 +1,7 @@
 ﻿namespace Newsweek.Worker.Core.Tasks
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
@@ -29,8 +30,8 @@
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var logMessage = new LogMessageCommand();
-                logMessage.Action = $"{nameof(TasksExecutor)} -> {nameof(ExecuteAsync)}";
+                var message = new MessageCommand();
+                message.Action = $"{nameof(TasksExecutor)} -> {nameof(ExecuteAsync)}";
 
                 Stopwatch stopwatch = Stopwatch.StartNew();
 
@@ -40,14 +41,15 @@
                 }
                 catch (Exception ex)
                 {
-                    logMessage.HasErrors = true;
-                    logMessage.Response = $"{ex.Message} - {ex.StackTrace}";
+                    message.HasErrors = true;
+                    message.Response = $"{ex.Message} - {ex.StackTrace}";
                 }
                 finally
                 {
-                    logMessage.Duration = stopwatch.Elapsed;
+                    message.Duration = stopwatch.Elapsed;
 
-                    await mediator.Send(logMessage, stoppingToken);
+                    var request = new LogMessageCommand(new List<MessageCommand>() { message });
+                    await mediator.Send(request, stoppingToken);
 
                     await Task.Delay(FIVE_MINUTES_DELAY, stoppingToken);
                 }
