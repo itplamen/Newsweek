@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="0.13.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.3" />
     <PackageReference Include="Moq" Version="4.14.1" />
   </ItemGroup>
@@ -12,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Data\Newsweek.Data\Newsweek.Data.csproj" />
     <ProjectReference Include="..\..\..\Web\Newsweek.Web.ViewModels\Newsweek.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\..\..\Worker\Newsweek.Worker.Core\Newsweek.Worker.Core.csproj" />
   </ItemGroup>
 
 </Project>

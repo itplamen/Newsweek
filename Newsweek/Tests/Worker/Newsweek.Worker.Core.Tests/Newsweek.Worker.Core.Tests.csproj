@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -16,6 +16,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Worker\Newsweek.Worker.Core\Newsweek.Worker.Core.csproj" />
+    <ProjectReference Include="..\..\Common\Newsweek.Tests.Common\Newsweek.Tests.Common.csproj" />
   </ItemGroup>
 
 </Project>
