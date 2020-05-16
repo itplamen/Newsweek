@@ -1,6 +1,5 @@
 ﻿namespace Newsweek.Handlers.Commands.LogMessages
 {
-    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -24,17 +23,19 @@
 
         public async Task<Unit> Handle(LogMessageCommand request, CancellationToken cancellationToken)
         {
-            if (request.LogToFile)
+            foreach (var logMessage in request.LogMessages)
             {
-                logger.LogInformation(
-                    $"{request.Action}, HasErrors - {request.HasErrors}", 
-                    request.Request,
-                    request.Response,
-                    request.Action);
+                if (logMessage.LogToFile)
+                {
+                    logger.LogInformation(
+                        $"{logMessage.Action}, HasErrors - {logMessage.HasErrors}",
+                        logMessage.Request,
+                        logMessage.Response,
+                        logMessage.Action);
+                }
             }
 
-            var logEntities = new List<LogMessageCommand>() { request };
-            await mediator.Send(new CreateEntitiesCommand<LogMessage>(logEntities), cancellationToken);
+            await mediator.Send(new CreateEntitiesCommand<LogMessage>(request.LogMessages), cancellationToken);
 
             return Unit.Value;
         }
