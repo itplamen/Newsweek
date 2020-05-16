@@ -7,6 +7,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
 
     using Newsweek.Common.IoCContainer;
     using Newsweek.Data;
@@ -19,7 +20,12 @@
         public static async Task Main(string[] args)
         {
             IHostBuilder hostBuilder = new HostBuilder()
-                .ConfigureServices(ConfigureServices);
+                .ConfigureServices(ConfigureServices)
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddConsole();
+                });
 
             await hostBuilder.RunConsoleAsync();
         }

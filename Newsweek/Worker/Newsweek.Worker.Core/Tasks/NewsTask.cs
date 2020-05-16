@@ -26,18 +26,7 @@
 
         public async Task DoWork()
         {
-            List<NewsCommand> newsCommands = new List<NewsCommand>();
-
-            foreach (var newsProvider in newsProviders)
-            {
-                IEnumerable<NewsCommand> commands = await newsProvider.Get();
-                newsCommands.AddRange(commands);
-            }
-
-            newsCommands = newsCommands.GroupBy(x => x.RemoteUrl)
-                .Where(x => x.Count() == 1)
-                .SelectMany(x => x)
-                .ToList();
+            IEnumerable<NewsCommand> newsCommands = await GetNewsCommands();
 
             IEnumerable<SubcategoryCommand> subcategoryCommands = newsCommands.Select(x => x.Subcategory)
                 .GroupBy(x => x.Name)
@@ -59,5 +48,20 @@
             IEnumerable<Tag> tags = await mediator.Send(new CreateTagsCommand(newsCommands.SelectMany(x => x.Tags)));
             await mediator.Send(new CreateNewsTagsCommand(newsCommands, news, tags));
         }
+
+        private async Task<IEnumerable<NewsCommand>> GetNewsCommands()
+        {
+            var newsCommands = new List<NewsCommand>();
+
+            foreach (var newsProvider in newsProviders)
+            {
+                IEnumerable<NewsCommand> commands = await newsProvider.Get();
+                newsCommands.AddRange(commands);
+            }
+
+            return newsCommands.GroupBy(x => x.RemoteUrl)
+                .Where(x => x.Count() == 1)
+                .SelectMany(x => x);
+        } 
     }
 }
