@@ -6,19 +6,19 @@
 
     using AngleSharp.Dom;
     
-    using MediatR;
-    
     using Newsweek.Worker.Core.Contracts;
     
     public class SportNewsProvider : BaseNewsProvider
     {
-        public SportNewsProvider(INewsApi newsApi, IMediator mediator)
-            : base(newsApi, mediator)
+        public SportNewsProvider(INewsApi newsApi)
+            : base(newsApi)
         {
-            Source = "talkSPORT";
-            Category = "Sport";
             SubcategoryUrls = new string[] { "/football", "/sport/boxing", "/sport/tennis" };
         }
+
+        public override string Source => "talkSPORT";
+
+        public override string Category => "Sport";
 
         protected override IEnumerable<string> GetArticleUrls(IDocument document)
         {

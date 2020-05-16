@@ -5,23 +5,23 @@
     using System.Linq;
 
     using AngleSharp.Dom;
-    
-    using MediatR;
-    
+        
     using Newsweek.Worker.Core.Contracts;
     
     public class EuropeNewsProvider : BaseNewsProvider
     {
         private readonly IEnumerable<string> excludedSubcategories; 
 
-        public EuropeNewsProvider(INewsApi newsApi, IMediator mediator)
-            : base(newsApi, mediator)
+        public EuropeNewsProvider(INewsApi newsApi)
+            : base(newsApi)
         {
-            Source = "Euronews";
-            Category = "Europe";
             SubcategoryUrls = new string[] { "news/europe" };
             excludedSubcategories = new string[] { "no comment", "world", "sport", "world news", "musica", "outdoor", "view" };
         }
+
+        public override string Source => "Euronews";
+
+        public override string Category => "Europe";
 
         protected override IEnumerable<string> GetArticleUrls(IDocument document)
         {

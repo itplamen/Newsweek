@@ -4,20 +4,20 @@
     using System.Linq;
 
     using AngleSharp.Dom;
-    
-    using MediatR;
-    
+
     using Newsweek.Worker.Core.Contracts;
     
     public class WorldNewsProvider : BaseNewsProvider
     {
-        public WorldNewsProvider(INewsApi newsApi, IMediator mediator)
-            : base(newsApi, mediator)
+        public WorldNewsProvider(INewsApi newsApi)
+            : base(newsApi)
         {
-            Source = "Reuters";
-            Category = "World";
             SubcategoryUrls = new string[] { "/news/us", "/places/china", "/subjects/middle-east" };
         }
+
+        public override string Source => "Reuters";
+
+        public override string Category => "World";
 
         protected override IEnumerable<string> GetArticleUrls(IDocument document)
         {

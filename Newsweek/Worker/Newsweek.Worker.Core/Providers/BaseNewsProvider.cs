@@ -7,48 +7,44 @@
 
     using AngleSharp.Dom;
 
-    using MediatR;
-
     using Newsweek.Data.Models;
-    using Newsweek.Data.Models.Contracts;
     using Newsweek.Handlers.Commands.News;
     using Newsweek.Handlers.Commands.Subcategories;
     using Newsweek.Handlers.Commands.Tags;
-    using Newsweek.Handlers.Queries.Common;
     using Newsweek.Worker.Core.Contracts;
 
     public abstract class BaseNewsProvider : INewsProvider
     {
         private readonly INewsApi newsApi;
-        private readonly IMediator mediator;
 
-        public BaseNewsProvider(INewsApi newsApi, IMediator mediator)
+        public BaseNewsProvider(INewsApi newsApi)
         {
             this.newsApi = newsApi;
-            this.mediator = mediator;
         }
 
-        protected string Source { get; set; }
+        public abstract string Source { get; }
 
-        protected string Category { get; set; }
+        public abstract string Category { get; }
 
-        protected IEnumerable<string> SubcategoryUrls { get; set; }
+        protected IEnumerable<string> SubcategoryUrls { get; set; } 
 
-        public async Task<IEnumerable<NewsCommand>> Get()
+        public async Task<IEnumerable<NewsCommand>> Get(Source source, Category category)
         {
-            var tasks = new List<Task<IEnumerable<NewsCommand>>>();
-
-            IEnumerable<Source> sources = await GetEntities<Source>(Source);
-            IEnumerable<Category> categories = await GetEntities<Category>(Category);
-
-            foreach (var subcategoryUrl in SubcategoryUrls)
+            if (Source == source?.Name && Category == category?.Name)
             {
-                tasks.Add(GetNews(sources.First(), categories.First(), subcategoryUrl));
+                var tasks = new List<Task<IEnumerable<NewsCommand>>>();
+
+                foreach (var subcategoryUrl in SubcategoryUrls)
+                {
+                    tasks.Add(GetNews(source, category, subcategoryUrl));
+                }
+
+                var newsCommands = await Task.WhenAll(tasks);
+
+                return newsCommands.SelectMany(news => news).Where(x => x != null);
             }
 
-            var newsCommands = await Task.WhenAll(tasks);
-
-            return newsCommands.SelectMany(news => news).Where(x => x != null);
+            throw new ArgumentException($"Expected source/category: {Source}/{Category}. Actual: {source?.Name}/{category?.Name}");
         }
 
         protected abstract IEnumerable<string> GetArticleUrls(IDocument document);
@@ -94,17 +90,6 @@
             }
 
             return Enumerable.Empty<string>();
-        }
-
-        private async Task<IEnumerable<TEntity>> GetEntities<TEntity>(string element)
-            where TEntity : BaseModel<int>, INameSearchableEntity
-        {
-            GetEntitiesQuery<TEntity> query = new GetEntitiesQuery<TEntity>()
-            {
-                Predicate = x => Enumerable.Repeat(element, 1).Contains(x.Name)
-            };
-
-            return await mediator.Send(query);
         }
 
         private async Task<IEnumerable<NewsCommand>> GetNews(Source source, Category category, string subcategoryUrl)

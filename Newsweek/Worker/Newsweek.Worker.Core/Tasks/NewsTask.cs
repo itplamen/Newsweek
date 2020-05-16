@@ -11,6 +11,7 @@
     using Newsweek.Handlers.Commands.NewsTags;
     using Newsweek.Handlers.Commands.Subcategories;
     using Newsweek.Handlers.Commands.Tags;
+    using Newsweek.Handlers.Queries.Common;
     using Newsweek.Worker.Core.Contracts;
 
     public class NewsTask : ITask
@@ -51,11 +52,17 @@
 
         private async Task<IEnumerable<NewsCommand>> GetNewsCommands()
         {
+            var sources = await mediator.Send(new GetEntitiesQuery<Source>());
+            var categories = await mediator.Send(new GetEntitiesQuery<Category>());
+
             var newsCommands = new List<NewsCommand>();
 
             foreach (var newsProvider in newsProviders)
             {
-                IEnumerable<NewsCommand> commands = await newsProvider.Get();
+                Source source = sources.FirstOrDefault(x => x.Name == newsProvider.Source);
+                Category category = categories.FirstOrDefault(x => x.Name == newsProvider.Category);
+
+                IEnumerable<NewsCommand> commands = await newsProvider.Get(source, category);
                 newsCommands.AddRange(commands);
             }
 
