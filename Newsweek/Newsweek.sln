@@ -47,7 +47,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C2BE66
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Tests.Common", "Tests\Common\Newsweek.Tests.Common\Newsweek.Tests.Common.csproj", "{05D25960-8DA2-4E39-8545-7F4C89331417}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsweek.Handlers.Commands.Tests", "Tests\Handlers\Newsweek.Handlers.Commands.Tests\Newsweek.Handlers.Commands.Tests.csproj", "{EBDB0DCB-5C97-4684-A076-58564B0A2706}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newsweek.Handlers.Commands.Tests", "Tests\Handlers\Newsweek.Handlers.Commands.Tests\Newsweek.Handlers.Commands.Tests.csproj", "{EBDB0DCB-5C97-4684-A076-58564B0A2706}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Worker", "Worker", "{DD61989F-18BB-4E94-AD29-36900F437783}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsweek.Worker.Core.Tests", "Tests\Worker\Newsweek.Worker.Core.Tests\Newsweek.Worker.Core.Tests.csproj", "{2119399A-4EDE-46FE-9428-4AC1B93B62EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +119,10 @@ Global
 		{EBDB0DCB-5C97-4684-A076-58564B0A2706}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBDB0DCB-5C97-4684-A076-58564B0A2706}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBDB0DCB-5C97-4684-A076-58564B0A2706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2119399A-4EDE-46FE-9428-4AC1B93B62EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2119399A-4EDE-46FE-9428-4AC1B93B62EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2119399A-4EDE-46FE-9428-4AC1B93B62EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2119399A-4EDE-46FE-9428-4AC1B93B62EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +145,8 @@ Global
 		{C2BE6614-6064-48A0-AD0C-A67ADE2E2347} = {E093DBA0-0170-4B2F-BF1A-2F867BBDE7D4}
 		{05D25960-8DA2-4E39-8545-7F4C89331417} = {C2BE6614-6064-48A0-AD0C-A67ADE2E2347}
 		{EBDB0DCB-5C97-4684-A076-58564B0A2706} = {80AE8FAE-87BC-4271-BA52-CFB1EA945E20}
+		{DD61989F-18BB-4E94-AD29-36900F437783} = {E093DBA0-0170-4B2F-BF1A-2F867BBDE7D4}
+		{2119399A-4EDE-46FE-9428-4AC1B93B62EB} = {DD61989F-18BB-4E94-AD29-36900F437783}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B736D035-665E-4F9C-9C04-AEC89AAB9AF6}
