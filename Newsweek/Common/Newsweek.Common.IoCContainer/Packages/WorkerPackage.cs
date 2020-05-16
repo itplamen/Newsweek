@@ -27,19 +27,24 @@
             services.AddTransient<WorldNewsProvider>();
             services.AddTransient<SportNewsProvider>();
             services.AddTransient<ITNewsProvider>();
+
+            RegisterNewsProviderDecorator<EuropeNewsProvider>(services);
+            RegisterNewsProviderDecorator<WorldNewsProvider>(services);
+            RegisterNewsProviderDecorator<SportNewsProvider>(services);
+            RegisterNewsProviderDecorator<ITNewsProvider>(services);
+
             services.AddTransient<ITask, NewsTask>(x =>
-                new NewsTask(
-                    x.GetRequiredService<IMediator>(),
-                    new INewsProvider[]
-                    {
-                        x.GetRequiredService<EuropeNewsProvider>(),
-                        x.GetRequiredService<WorldNewsProvider>(),
-                        x.GetRequiredService<SportNewsProvider>(),
-                        x.GetRequiredService<ITNewsProvider>()
-                    }));
+                new NewsTask(x.GetRequiredService<IMediator>(), x.GetServices<INewsProvider>())); 
 
             AutoMapperConfig.RegisterMappings(Assembly.Load(PublicConstants.COMMANDS_ASSEMBLY));
             services.AddMediatR(Assembly.Load(PublicConstants.COMMANDS_ASSEMBLY), Assembly.Load(PublicConstants.QUERIES_ASSEMBLY));
+        }
+
+        private void RegisterNewsProviderDecorator<TNewsProvider>(IServiceCollection services)
+            where TNewsProvider : INewsProvider
+        {
+            services.AddTransient<INewsProvider, NewsProviderLogging>(x =>
+                new NewsProviderLogging(x.GetRequiredService<IMediator>(), x.GetRequiredService<TNewsProvider>()));
         }
     }
 }
