@@ -9,9 +9,9 @@
 {
     <li class="nav-item">
         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-            @if (User.Identity.Name.Length > 20)
+            @if (User.Identity.Name.Length > 12)
             {
-                @(string.Concat("Hello ", User.Identity.Name.Substring(0, 20), "..."));
+                @(string.Concat("Hello ", User.Identity.Name.Substring(0, 12), "..."));
             }
             else 
             {
