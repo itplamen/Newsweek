@@ -30,8 +30,8 @@
                     Name = "World",
                     Subcategories = new List<Subcategory>()
                     {
-                        new Subcategory() { Name = "USA" },
-                        new Subcategory() { Name = "China" },
+                        new Subcategory() { Name = "US & Canada" },
+                        new Subcategory() { Name = "Asia" },
                         new Subcategory() { Name = "Middle East" }
                     }
                 }

@@ -22,10 +22,10 @@
                 },
                 new Source()
                 {
-                    Name = "Reuters",
-                    Url = "https://www.reuters.com",
-                    Description = @"Reuters.com brings you the latest news from around the world, covering breaking news in markets, 
-                                    business, politics, entertainment, technology, video and pictures."
+                    Name = "Al Jazeera",
+                    Url = "https://www.aljazeera.com",
+                    Description = @"News, analysis from the Middle East & worldwide, multimedia & interactives, opinions, 
+                                    documentaries, podcasts, long reads and broadcast schedule."
                 },
                 new Source()
                 {
@@ -36,10 +36,10 @@
                 },
                 new Source()
                 {
-                    Name = "ITworld",
-                    Url = "https://www.itworld.com",
-                    Description = @"ITworld offers technology decision makers, business leaders and other IT influencers a unique 
-                                    environment for gathering and sharing information that will help them do their jobs with efficiency and authority"
+                    Name = "CIO",
+                    Url = "https://www.cio.com",
+                    Description = @"Find the peer insights and expert advice IT leaders need to create business value with 
+                                    technology, drive innovation and develop their careers."
                 }
             };
 

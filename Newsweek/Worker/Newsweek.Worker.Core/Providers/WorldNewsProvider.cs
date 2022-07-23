@@ -1,6 +1,7 @@
 ﻿namespace Newsweek.Worker.Core.Providers
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
 
     using AngleSharp.Dom;
@@ -12,73 +13,57 @@
         public WorldNewsProvider(INewsApi newsApi)
             : base(newsApi)
         {
-            SubcategoryUrls = new string[] { "/news/us", "/places/china", "/subjects/middle-east" };
+            SubcategoryUrls = new string[] { "us-canada", "asia", "middle-east" };
         }
 
-        public override string Source => "Reuters";
+        public override string Source => "Al Jazeera";
 
         public override string Category => "World";
 
         protected override IEnumerable<string> GetArticleUrls(IDocument document)
         {
-            return document.QuerySelectorAll("div.ImageStoryTemplate_image-story-container")?
-                .Take(10)?
-                .Select(x => x.QuerySelector("h2.FeedItemHeadline_headline.FeedItemHeadline_full")?
-                    .FirstElementChild?
-                    .Attributes["href"]?
-                    .Value);
+            return document.QuerySelectorAll("article.gc--type-post")
+                ?.Select(x => x.QuerySelector("a.u-clickable-card__link")
+                ?.Attributes["href"]
+                ?.Value);
         }
 
         protected override string GetTitle(IDocument document)
         {
-            return document.QuerySelector("h1.ArticleHeader_headline")?.InnerHtml?.Trim();
+            return document.QuerySelector("header.article-header h1")?.InnerHtml?.Trim();
         }
 
         protected override string GetDescription(IDocument document)
         {
-            return document.QuerySelector("div.StandardArticleBody_body p")?.InnerHtml;
+            return document.QuerySelector("header.article-header p.article__subhead.css-1wt8oh6 em")?.InnerHtml;
         }
 
         protected override string GetContent(IDocument document)
         {
-            IEnumerable<string> content = document.QuerySelectorAll("div.StandardArticleBody_body p")?.Select(x => x.OuterHtml);
+            IEnumerable<string> content = document.QuerySelectorAll("main#main-content-area div.wysiwyg.wysiwyg--all-content.css-ibbk12 p")?.Select(x => x.OuterHtml);
             
             return string.Join(" ", content);
         }
 
         protected override string GetMainImageUrl(IDocument document)
         {
-            IElement element = document.QuerySelector("div.LazyImage_container");
-            string src = element?.FirstElementChild?.Attributes["src"]?.Value;
+            string imgUrl = document.QuerySelector("figure.article-featured-image div.responsive-image")?.FirstElementChild?.Attributes["src"]?.Value;
+            string fullUrl = document.QuerySelector("link[rel=canonical]")?.Attributes["href"]?.Value;
+            string[] split = fullUrl.Split("/news/");
 
-            if (!string.IsNullOrEmpty(src))
-            {
-                return src.Substring(0, src.LastIndexOf("&"));
-            }
-
-            return string.Empty;
+            return $"{split.First()}/{imgUrl}";
         }
 
         protected override string GetSubcategory(IDocument document)
         {
-            string keywords = document.QuerySelector("meta[name=keywords]")?.Attributes["content"]?.Value?.ToLower();
+            string subcategory = document.QuerySelector("meta[name=primaryTag]")?.Attributes["content"]?.Value;
 
-            if (string.IsNullOrEmpty(keywords))
+            if (!string.IsNullOrEmpty(subcategory))
             {
-                return string.Empty;
+                return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(subcategory.ToLower());
             }
 
-            if (keywords.Contains("china"))
-            {
-                return "China";
-            }
-
-            if (keywords.Contains("middle east"))
-            {
-                return "Middle East";
-            }
-
-            return "USA";
+            return string.Empty;
         }
     }
 }

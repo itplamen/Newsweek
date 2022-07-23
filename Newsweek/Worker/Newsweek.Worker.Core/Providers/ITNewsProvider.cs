@@ -15,45 +15,45 @@
             SubcategoryUrls = new string[] { "news" };
         }
 
-        public override string Source => "ITworld";
+        public override string Source => "CIO";
 
         public override string Category => "IT";
 
         protected override IEnumerable<string> GetArticleUrls(IDocument document)
         {
-            return document.QuerySelectorAll("div.river-well.article div.post-cont h3 a")?
-                .Select(x => x.Attributes["href"]?.Value);
+            return document.QuerySelectorAll("article.item div.item-image a")?.Select(x => x.Attributes["href"]?.Value);
         }
 
         protected override string GetTitle(IDocument document)
         {
-            return document.QuerySelector("h1[itemprop=headline]")?.InnerHtml?.Trim();
+            return document.QuerySelector("header.entry-header h1.entry-title")?.InnerHtml?.Trim();
         }
 
         protected override string GetDescription(IDocument document)
         {
-            return document.QuerySelector("h3[itemprop=description]")?.InnerHtml?.Trim();
+            return document.QuerySelector("meta[name=description]")?.Attributes["content"]?.Value;
         }
 
         protected override string GetContent(IDocument document)
         {
-            return document.QuerySelector("div#drr-container")?.InnerHtml;
+            IEnumerable<string> content = document.QuerySelectorAll("div.entry-content div#link_wrapped_content p")?.Select(x => x.OuterHtml);
+
+            return string.Join(" ", content);
         }
 
         protected override string GetMainImageUrl(IDocument document)
         {
-            return document.QuerySelector("div.lede-container figure[itemprop=image] img")?.Attributes["data-original"]?.Value;
+            return document.QuerySelector("section.layout--right-rail div.post-thumbnail img")?.Attributes["src"]?.Value;
         }
 
         protected override string GetSubcategory(IDocument document)
         {
-            return document.QuerySelector("nav.breadcrumbs.horiz ul li:nth-child(2) a.edition-link-url span")?.InnerHtml;
+            return SubcategoryUrls.First();
         }
 
         protected override IEnumerable<string> GetTags(IDocument document)
         {
-            return document.QuerySelectorAll("span.primary-cat-name2")?
-                .Select(x => x.InnerHtml.ToLower());
+            return Enumerable.Empty<string>();
         }
     }
 }
