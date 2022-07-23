@@ -5,9 +5,9 @@ Aggregates news from the world’s most popular websites, it displays content in
 ## Sources
 
 * [Euronews](https://www.euronews.com)
-* [Reuters](https://www.reuters.com)
+* [Al Jazeera](https://www.aljazeera.com)
 * [talkSPORT](https://talksport.com)
-* [ITworld](https://www.itworld.com)
+* [CIO](https://www.cio.com)
 
 ## Technologies
 
