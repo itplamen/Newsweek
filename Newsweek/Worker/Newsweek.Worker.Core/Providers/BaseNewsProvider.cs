@@ -95,7 +95,10 @@
         private async Task<IEnumerable<NewsCommand>> GetNews(Source source, Category category, string subcategoryUrl)
         {
             IDocument subcategoryDocument = await newsApi.Get($"{source.Url}/{subcategoryUrl}");
-            IEnumerable<string> articleUrls = GetArticleUrls(subcategoryDocument).Select(x => SelectArticleUrl(x, source.Url));
+            IEnumerable<string> articleUrls = GetArticleUrls(subcategoryDocument)
+                .Select(x => SelectArticleUrl(x, source.Url))
+                .Where(x => !string.IsNullOrEmpty(x))
+                .ToList();
 
             var tasks = new List<Task<NewsCommand>>();
 
@@ -143,12 +146,17 @@
 
         private string SelectArticleUrl(string articleUrl, string sourceUrl)
         {
-            if (!articleUrl.Contains(sourceUrl))
+            if (!string.IsNullOrEmpty(articleUrl) && !string.IsNullOrEmpty(sourceUrl))
             {
-                return $"{sourceUrl}/{articleUrl}";
+                if (!articleUrl.Contains(sourceUrl))
+                {
+                    return $"{sourceUrl}{articleUrl}";
+                }
+
+                return articleUrl;
             }
 
-            return articleUrl;
+            return string.Empty;
         }
 
         private bool IsArticleValid(string title, string description, string content)

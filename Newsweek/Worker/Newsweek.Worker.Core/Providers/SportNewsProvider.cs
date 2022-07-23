@@ -33,7 +33,7 @@
 
         protected override string GetDescription(IDocument document)
         {
-            return document.QuerySelector("p.article__content.article__content--intro")?.TextContent;
+            return document.QuerySelector("div.article__content p")?.TextContent;
         }
 
         protected override string GetContent(IDocument document)

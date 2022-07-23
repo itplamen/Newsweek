@@ -25,9 +25,9 @@
 
         protected override IEnumerable<string> GetArticleUrls(IDocument document)
         {
-            return document.QuerySelectorAll("article.m-object--demi")?
-                .Where(x => !excludedSubcategories.Contains(x.QuerySelector("span.program-name")?.InnerHtml?.ToLower()))?
-                .Select(x => x.QuerySelector("div.m-object__img figure a.media__img__link")?.Attributes["href"]?.Value);
+            return document.QuerySelectorAll("article")
+                ?.Where(x => !excludedSubcategories.Contains(x.QuerySelector("span.program-name")?.InnerHtml?.ToLower()?.Trim()))
+                ?.Select(x => x.QuerySelector("div.m-object__img figure a.media__img__link")?.Attributes["href"]?.Value);
         }
 
         protected override string GetTitle(IDocument document)
